@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>
-            {% block title %}Welcome!{% endblock %}
-        </title>
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        <script src="{{ asset('build/app.js') }}"></script>
-        {% block javascripts %}{% endblock %}
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{{title}}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center">les VallesBaQues </h1>
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-red p-4">
+                    <h5 class="text-green h4">Accueil</h5>
+                    <span class="text-muted"><a href="{# path ('/connexion')#}">Connexion</a> | <a href="{# path('/inscription') #}">inscription</a></span>
+
+                    <ul>
+                        <li>Catégories</li>
+                        <li>Niveaux</li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-green text-green">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+                    aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+    {% block body %}{% endblock %}
+    <script src="{{ asset('build/app.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+
 </html>

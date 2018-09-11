@@ -1,3 +1,9 @@
+$red: #d92139;
+$yellow: #fec748;
+$green: #aec33a;
+$blue: #253f58;
+
+
 $primary: rgb(0, 68, 255);
 $success: #09b417;
 $danger: #ee1010;
@@ -5,5 +11,26 @@ $danger: #ee1010;
 @import "~bootstrap/scss/bootstrap";
 
 body {
-    background-color: blueviolet;
+    background-color: $blue;
+}
+
+.bubble {
+    background-color: $yellow;
+    color: $blue;
+    text-align: center;
+    margin-top: 1em;
+    border-radius: 1em;
+    padding: 0.5em;
+    &-title{
+        color: $red;
+    }
+}
+
+header {
+    background-color: $red;
+    color: $green;
+    .burgger{
+        
+        background-color: $green;
+    }
 }
