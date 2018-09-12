@@ -33,6 +33,10 @@ class Quizz
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $IsPrivate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="quizzs")
@@ -64,6 +68,11 @@ class Quizz
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Crew", inversedBy="quizzs")
+     */
+    private $crew;
 
     public function __construct()
     {
@@ -109,6 +118,18 @@ class Quizz
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIsPrivate() : ? bool
+    {
+        return $this->IsPrivate;
+    }
+
+    public function setIsPrivate(? bool $IsPrivate) : self
+    {
+        $this->IsPrivate = $IsPrivate;
 
         return $this;
     }
@@ -238,6 +259,18 @@ class Quizz
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getCrew(): ?Crew
+    {
+        return $this->crew;
+    }
+
+    public function setCrew(?Crew $crew): self
+    {
+        $this->crew = $crew;
 
         return $this;
     }

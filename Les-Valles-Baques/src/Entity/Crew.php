@@ -43,9 +43,15 @@ class Crew
      */
     private $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Quizz", mappedBy="crew")
+     */
+    private $quizzs;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->quizzs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,6 +132,37 @@ class Crew
             // set the owning side to null (unless already changed)
             if ($member->getCrew() === $this) {
                 $member->setCrew(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quizz[]
+     */
+    public function getQuizzs(): Collection
+    {
+        return $this->quizzs;
+    }
+
+    public function addQuizz(Quizz $quizz): self
+    {
+        if (!$this->quizzs->contains($quizz)) {
+            $this->quizzs[] = $quizz;
+            $quizz->setCrew($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizz(Quizz $quizz): self
+    {
+        if ($this->quizzs->contains($quizz)) {
+            $this->quizzs->removeElement($quizz);
+            // set the owning side to null (unless already changed)
+            if ($quizz->getCrew() === $this) {
+                $quizz->setCrew(null);
             }
         }
 
