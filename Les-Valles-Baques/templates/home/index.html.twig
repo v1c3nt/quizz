@@ -4,29 +4,29 @@
 
 {% block body %}
 
-<div class="wrapper container-fluid">
-    <div class="col">
-        <div class="bubble">
-            <h2 class="bubble-title">Bienvenue</h2>
-            <p>
-                Pour jouer pour apprendre ou pour réviser rien de mieux qu'un petit questionnaire.
-                Créer votre questionnaire en 2 min et défiez vous amis.
-            </p>
-        </div>
-        <div class="bubble">
-            <h2 class="bubble-title">les derniers Quizzs</h2>
-            {% for q in newQuizzes %}
-            <ul>
-                <li><a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}</a></li>
-            </ul>
-            {% endfor %}
-        </div>
-        <div class="bubble">
-            <h2 class="bubble-title">Un Quizz aléatoire ?</h2>
-            <p>
-                <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>
-            </p>
+    <div class="wrapper container-fluid">
+        <div class="col">
+            <div class="bubble">
+                <h2 class="bubble-title">Bienvenue</h2>
+                <p>
+                    Pour jouer pour apprendre ou pour réviser rien de mieux qu'un petit questionnaire. Créer votre questionnaire en 2 min et défiez vous amis.
+                </p>
+            </div>
+            <div class="bubble">
+                <h3 class="bubble-title">les derniers Quizzs</h3>
+                {% for q in newQuizzes %}
+                    <ul>
+                        <li>
+                            <a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}{{ q.id }}</a>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+            <div class="bubble">
+                <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
+                <p>
+                    <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>{{ randomQuizz.title }}
+                </p>
 
-
-        </div>
+            </div>
         {% endblock %}

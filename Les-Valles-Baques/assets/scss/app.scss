@@ -22,7 +22,8 @@ body {
     margin-top: 1em;
     border-radius: 1em;
     padding: 0.5em;
-    &-title{
+
+    &-title {
         color: $red;
     }
 }
@@ -30,8 +31,9 @@ body {
 header {
     background-color: $red;
     color: $green;
-    .burgger{
-        
+
+    .burgger {
+
         background-color: $green;
     }
 }

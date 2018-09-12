@@ -16,9 +16,7 @@ class HomeController extends AbstractController
 
         $quizzes = $quizzes->findAll();
 
-        dump($quizzes);
         $new = count($quizzes);
-        dump($new);
 
         $newQuizzes[] = $quizzes[$new - 3];
         $newQuizzes[] = $quizzes[$new - 2];
@@ -26,7 +24,6 @@ class HomeController extends AbstractController
 
         $randomKey = array_rand($quizzes);
         $randomQuizz = $quizzes[$randomKey];
-        dump($randomQuizz);
 
         return $this->render('home/index.html.twig', [
             'title' => 'Les VallesBaques',
