@@ -1,7 +1,16 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt 
+        
+        # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+        vallesbaques_database:
+            entity:
+                class: App\Entity\User
+                property: email
+        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,6 +18,16 @@ security:
         main:
             anonymous: true
 
+            provider: vallesbaques_database
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+
+            logout:
+                path: security_logout
+                # A modifier pour le nom de la route exacte une fois accueil établi dans le bon Controller
+                target: /
             # activate different ways to authenticate
 
             # http_basic: true
