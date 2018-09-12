@@ -3,12 +3,12 @@
 {% block title %}inscription{% endblock %}
 
 {% block body %}
-<div class="bubble col-6 offset-3">
-    <h2 class="bubble-title">Page connexion</h2>
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    {{ form_widget(form) }}
-    <button class="btn align-center">{{ button_label|default('enregistré') }}</button>
-    {{ form_end(form) }}
-</div>
+    <div class="bubble col-6 offset-3">
+        <h2 class="bubble-title">Inscription</h2>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }}
+        <button class="btn align-center btn btn-success">{{ button_label|default('C\'est parti !') }}</button>
+        {{ form_end(form) }}
+        <div class="bubble col-6 offset-3">
 
-{% endblock %}
+        {% endblock %}
