@@ -15,6 +15,15 @@ body {
     background-color: $blue;
 }
 
+form {
+    text-align: left;
+}
+
+a {
+    color: inherit;
+}
+
+
 .bubble {
     background-color: $yellow;
     color: $blue;
@@ -36,4 +45,12 @@ header {
 
         background-color: $green;
     }
+<<<<<<< HEAD
 }
+=======
+    a:hover{
+        color: $blue;
+        text-decoration: none;
+    }
+}
+>>>>>>> signUp
