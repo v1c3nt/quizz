@@ -5,8 +5,8 @@ $blue: #253f58;
 
 
 $primary: rgb(0, 68, 255);
-$success: #09b417;
-$danger: #ee1010;
+$success: #aec33a;
+$danger: #d92139;
 // the ~ allows you to reference things in node_modules
 
 @import "~bootstrap/scss/bootstrap";
@@ -36,4 +36,10 @@ header {
 
         background-color: $green;
     }
+}
+
+button.btn.btn-success,
+button.btn.btn-danger {
+    border: 2px solid black;
+    box-shadow: 2px 0px 0px 0px black;
 }
