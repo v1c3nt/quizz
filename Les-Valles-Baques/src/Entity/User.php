@@ -325,6 +325,6 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return [$this->role->getCode()];
+        return [$this->appRole->getCode()];
     }
 }
