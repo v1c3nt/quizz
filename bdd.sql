@@ -7,12 +7,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-
-INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'Cinéma'),
-(2, 'Boisson & Nourriture'),
-(3, 'Culture GEEK'),
-(4, 'Animaux');
+INSERT INTO `category` (`id`, `name`,`id_parent`) VALUES
+(1, 'Cinéma', 0),
+(2, 'Boisson & Nourriture', 0),
+(3, 'Culture GEEK', 0),
+(4, 'Animaux', 0),
+(5, 'Comédie', '1');
 
 INSERT INTO `role_crew` (`id`, `name`, `slug`, `code`) VALUES (NULL, 'Créateur', 'dieux', 'ROLE_GROUP_ADMIN'), (NULL, 'Leader', 'leader', 'ROLE_GROUP_LEADER'), (NULL, 'membre', 'membre', 'ROLE_GROUP_MEMBER');
 

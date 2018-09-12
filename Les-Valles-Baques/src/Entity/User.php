@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -20,7 +20,7 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, unique=true)
      */
     private $userName;
 
@@ -30,7 +30,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -86,6 +86,7 @@ class User implements UserInterface, \Serializable
         $this->isLikes = new ArrayCollection();
         $this->statistics = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -314,43 +315,16 @@ class User implements UserInterface, \Serializable
     }
 
     //implémentation de UserInterface => à modifier lorsqu'on mettra en place les différents ROLES
-<<<<<<< HEAD
     public function eraseCredentials()
-=======
-    public function getSalt()
->>>>>>> 3e7a5a3b03f0166756eb8f6cb7de4af78c36ceda
     {
-        return null;
+    }
+
+    public function getSalt()
+    {
     }
 
     public function getRoles()
     {
-        return [$this->role->getCode()];
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    public function unserialize($serialized)
-    {
-        list(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-        ) = unserialize($serialized, array('allowed_classes' => false));
+        return [$this->appRole->getCode()];
     }
 }

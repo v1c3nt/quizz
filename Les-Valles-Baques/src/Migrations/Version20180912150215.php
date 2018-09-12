@@ -8,16 +8,15 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20180912064922 extends AbstractMigration
+final class Version20180912150215 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE quizz ADD crew_id INT DEFAULT NULL, ADD is_private TINYINT(1) DEFAULT NULL');
-        $this->addSql('ALTER TABLE quizz ADD CONSTRAINT FK_7C77973D5FE259F6 FOREIGN KEY (crew_id) REFERENCES crew (id)');
-        $this->addSql('CREATE INDEX IDX_7C77973D5FE259F6 ON quizz (crew_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64924A232CF ON user (user_name)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
     }
 
     public function down(Schema $schema) : void
@@ -25,8 +24,7 @@ final class Version20180912064922 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE quizz DROP FOREIGN KEY FK_7C77973D5FE259F6');
-        $this->addSql('DROP INDEX IDX_7C77973D5FE259F6 ON quizz');
-        $this->addSql('ALTER TABLE quizz DROP crew_id, DROP is_private');
+        $this->addSql('DROP INDEX UNIQ_8D93D64924A232CF ON user');
+        $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
     }
 }

@@ -44,11 +44,6 @@ class Quizz
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Subcategory", inversedBy="quizzs")
-     */
-    private $subcategory;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="quizz", orphanRemoval=true)
      */
     private $questions;
@@ -142,18 +137,6 @@ class Quizz
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getSubcategory(): ?Subcategory
-    {
-        return $this->subcategory;
-    }
-
-    public function setSubcategory(?Subcategory $subcategory): self
-    {
-        $this->subcategory = $subcategory;
 
         return $this;
     }

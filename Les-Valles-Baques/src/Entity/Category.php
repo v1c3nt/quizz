@@ -29,14 +29,13 @@ class Category
     private $quizzs;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Subcategory", mappedBy="category", orphanRemoval=true)
+     * @ORM\Column(type="integer")
      */
-    private $subcategories;
+    private $idParent;
 
     public function __construct()
     {
         $this->quizzs = new ArrayCollection();
-        $this->subcategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,33 +86,15 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection|Subcategory[]
-     */
-    public function getSubcategories(): Collection
+  
+    public function getIdParent(): ?int
     {
-        return $this->subcategories;
+        return $this->idParent;
     }
 
-    public function addSubcategory(Subcategory $subcategory): self
+    public function setIdParent(int $idParent): self
     {
-        if (!$this->subcategories->contains($subcategory)) {
-            $this->subcategories[] = $subcategory;
-            $subcategory->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubcategory(Subcategory $subcategory): self
-    {
-        if ($this->subcategories->contains($subcategory)) {
-            $this->subcategories->removeElement($subcategory);
-            // set the owning side to null (unless already changed)
-            if ($subcategory->getCategory() === $this) {
-                $subcategory->setCategory(null);
-            }
-        }
+        $this->idParent = $idParent;
 
         return $this;
     }
