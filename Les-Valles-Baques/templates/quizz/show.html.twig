@@ -6,38 +6,19 @@
     <div class="wrapper container-fluid">
         <div class="col">
             <div class="bubble">
-                <h2 class="bubble-title">Les Quizz</h2>
-                <div class="container">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">A à Z</li>|
-                        <li class="list-inline-item">Date</li>|
-                        <li class="list-inline-item">Niveau</li>|
-                        <li class="list-inline-item">Like</li>
-                    </ul>
+                <h2 class="bubble-title">{{quizz.title}}</h2>
+                <p>{{quizz.description}}</p>
+            </div>
+            {% for q in quizz.questions %}
+                <div class="bubble">
+                    <h5>{{q.body}}</h5>
                 </div>
-
-                <div class="container-fluid">
-                    <div class="">
-                        <button class="btn btn-danger" type="button">
-                            <a href="#">Proposer Nouveau Quizz</a>
-                        </button>
-                    </div>
-                    <div class="">
-                        {% for q in quizzes %}
-                            <!--Lorsque les Quizz seront associés aux Catégories boucler avec les Catégories-->
-                            <h3>Catégorie</h3>
-                            <p>
-                                <a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{q.title}}</a>
-                                <p>
-                                    <!--Lorsque les Quizz seront associés aux Levels boucler avec les les Levels : système des étoiles Faire de même avec les Likes -->
-                                    <button class="btn btn-success" type="button">
-                                        <a href="#">Go !</a>
-                                    </button>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {% endfor %}
+            <div class="bubble">
+                <h4>Tu veux en voir plus et profiter du jeu alors... Go !</h4>
+                <button class="btn btn-success" type="button">
+                    <a href="#">Inscris-toi !</a>
+                </button>
             </div>
         </div>
     </div>

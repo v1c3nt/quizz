@@ -11,6 +11,15 @@ $danger: #d92139;
 
 @import "~bootstrap/scss/bootstrap";
 
+/* Triangle pour la forme où est encadrée la Catégorie sur la page list Quizz*/
+@mixin triangle ($size, $color) {
+    width: 0;
+    height: 0;
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+}
+
 body {
     background-color: $blue;
 }
@@ -42,4 +51,14 @@ button.btn.btn-success,
 button.btn.btn-danger {
     border: 2px solid black;
     box-shadow: 2px 0px 0px 0px black;
+}
+
+.category {
+    background-color: $primary;
+}
+
+.row:after {
+    content: '';
+    display: inline-block;
+    @include triangle(20px, $primary);
 }
