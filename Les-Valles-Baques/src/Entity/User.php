@@ -314,7 +314,7 @@ class User implements UserInterface
     }
 
     //implémentation de UserInterface => à modifier lorsqu'on mettra en place les différents ROLES
-    public function eraseCredential()
+    public function eraseCredentials()
     {
     }
 

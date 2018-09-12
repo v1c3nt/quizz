@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{title}}{% endblock %}
 
 {% block body %}
 
@@ -17,14 +17,14 @@
             <h2 class="bubble-title">les derniers Quizzs</h2>
             {% for q in newQuizzes %}
             <ul>
-                <li><a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}{{ q.id }}</a></li>
+                <li><a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}</a></li>
             </ul>
             {% endfor %}
         </div>
         <div class="bubble">
             <h2 class="bubble-title">Un Quizz aléatoire ?</h2>
             <p>
-                <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>{{ randomQuizz.title }}
+                <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>
             </p>
 
 

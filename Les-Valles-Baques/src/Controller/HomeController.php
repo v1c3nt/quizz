@@ -28,19 +28,6 @@ class HomeController extends AbstractController
         $randomQuizz = $quizzes[$randomKey];
         dump($randomQuizz);
 
-        /**
-         * ?test avec une seule requete
-         * 
-         * 
-         $newQuizzes = $quizzes->findBy(
-             [],
-             ['id' => 'DESC'],
-             3
-            );
-            
-         */
-
-
         return $this->render('home/index.html.twig', [
             'title' => 'Les VallesBaques',
             'newQuizzes' => $newQuizzes,
