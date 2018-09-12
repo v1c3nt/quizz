@@ -5,9 +5,9 @@
 {% block body %}
 <div class="bubble col-6 offset-3">
     <h2 class="bubble-title">Page connexion</h2>
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id':'signup'}}) }}
     {{ form_widget(form) }}
-    <button class="btn align-center">{{ button_label|default('enregistré') }}</button>
+    <button class="btn">{{ button_label|default('enregistré') }}</button>
     {{ form_end(form) }}
 </div>
 

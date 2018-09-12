@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\FormEvents;
 
 class UserType extends AbstractType
 {
@@ -46,6 +47,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'help' => 'Ce champs peut être modifier dans votre page Profile'
             ])
+            
         ;
     }
 
