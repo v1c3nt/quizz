@@ -19,6 +19,11 @@ form {
     text-align: left;
 }
 
+a {
+    color: inherit;
+}
+
+
 .bubble {
     background-color: $yellow;
     color: $blue;
@@ -37,5 +42,9 @@ header {
     .burgger{
         
         background-color: $green;
+    }
+    a:hover{
+        color: $blue;
+        text-decoration: none;
     }
 }

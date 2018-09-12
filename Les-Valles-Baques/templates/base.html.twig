@@ -12,12 +12,16 @@
 
 <body>
     <header>
-        <h1 class="text-center">les VallesBaQues </h1>
+<a href="{{ path('home') }}">
+            <h1 class="text-center">les VallesBaQues</h1>
+        </a>
         <div class="pos-f-t">
             <div class="collapse" id="navbarToggleExternalContent">
                 <div class="bg-red p-4">
-                    <h5 class="text-green h4">Accueil</h5>
-<span class="text-muted"><a href="{{ path ('security_login')}}">Connexion</a> | <a href="{{ path('security_signUp') }}">inscription</a></span>
+                    <a href="{{ path('home') }}">
+                        <h5 class="text-green h4">Accueil</h5>
+                    </a>
+                    <span class="text-muted"><a href="{{ path ('security_login')}}">Connexion</a> | <a href="{{ path('security_signUp') }}">inscription</a></span>
 
                     <ul>
                         <li>Catégories</li>
