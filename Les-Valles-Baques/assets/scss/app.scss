@@ -8,7 +8,7 @@ $primary: rgb(0, 68, 255);
 $success: #09b417;
 $danger: #ee1010;
 // the ~ allows you to reference things in node_modules
-<<<<<<< HEAD
+
 @import "~bootstrap/scss/bootstrap";
 
 body {
@@ -22,7 +22,8 @@ body {
     margin-top: 1em;
     border-radius: 1em;
     padding: 0.5em;
-    &-title{
+
+    &-title {
         color: $red;
     }
 }
@@ -30,8 +31,9 @@ body {
 header {
     background-color: $red;
     color: $green;
-    .burgger{
-        
+
+    .burgger {
+
         background-color: $green;
     }
 }
