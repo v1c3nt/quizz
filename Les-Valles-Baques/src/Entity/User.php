@@ -36,12 +36,14 @@ class User implements UserInterface
     /**
      * 
      * @ORM\Column(type="string", length=64, unique=true)
-     * 
+     * @Assert\NotBlank()
      */
     private $userName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")
      */
     private $password;
 

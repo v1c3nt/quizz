@@ -17,13 +17,14 @@ class UserType extends AbstractType
     {
         $builder
             ->add('userName', null, [
-                'label' => 'Nom de joueur',
-                'help' => 'c\'est le seul champs visible par les autres joueur',
+                'label' => 'Nom de joueur *',
+                'help' => 'c\'est le seul champs visible par les autres joueurs',
             ])
-            ->add('email', EmailType::class,[
-                'help'=> 'votre adressse ne sera pas visible par les autres Utilisateurs'
+            ->add('email', EmailType::class, [
+                'label' => 'email *',
+                'help' => 'votre adressse ne sera pas visible par les autres Utilisateurs'
             ])
-            ->add('password', RepeatedType::class, array(
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'options' => array(
@@ -31,24 +32,23 @@ class UserType extends AbstractType
                         'class' => 'password-field'
                     )
                 ),
+                'first_options' => [
+                    'required'=>true,
+                    'label' => 'mot de passe *',
+                    'help' => '6 caratères dont 1 majuscule, 1 minuscule et un chiffre, c\'est mais c\'est pour toi',
+                ],
+                'second_options' => [
+                    'label' => 'Encore le mot de passe *(c\'est juste pour être sur dsl)',
+                ]
+            ])
+            ->add('avatar', null, [
                 'required' => false,
-                'first_options' => array(
-                    'label' => 'Password'
-                ),
-                'second_options' => array(
-                    'label' => 'Repeat Password'
-                ),
-            ))
-            ->add('avatar', null ,[
-                'required' => false,
-                'help' => 'Ce champs peut être modifier dans votre page Profile'
+                'help' => 'Si tu es pressé pas de souci tu pourras l\'ajouter dans ton profil plus tard'
             ])
             ->add('presentation', null, [
                 'required' => false,
-                'help' => 'Ce champs peut être modifier dans votre page Profile'
-            ])
-            
-        ;
+                'help' => 'Si tu es pressé pas de souci tu pourras le remplir dans ton profil plus tard'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

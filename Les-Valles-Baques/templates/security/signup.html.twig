@@ -7,7 +7,7 @@
     <h2 class="bubble-title">Page connexion</h2>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id':'signup'}}) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('enregistré') }}</button>
+    <button class="btn" id="btn-signup" type="submit">{{ button_label|default('ayé fini !') }}</button>
     {{ form_end(form) }}
 </div>
 

@@ -15,6 +15,15 @@ $danger:  $red;
     color:$blue !important;
 }
 
+#btn-signup{
+    border-color: $green;
+    margin-left: 1em;
+    &:hover {
+    background-color: $blue;
+    color: $red;
+    }
+}
+
 @import "~bootstrap/scss/bootstrap";
 
 body {

@@ -43,8 +43,6 @@ class SecurityController extends AbstractController
                 //? et le status Actif
                 $user->setIsActif(true);
             }
-            $encodedPassword = $encoder->encodePassword ($user, $user->getPassword());
-            $user->setPassword($encodedPassword);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
