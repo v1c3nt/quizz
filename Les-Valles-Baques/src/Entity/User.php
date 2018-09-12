@@ -86,6 +86,7 @@ class User implements UserInterface
         $this->isLikes = new ArrayCollection();
         $this->statistics = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -324,5 +325,6 @@ class User implements UserInterface
 
     public function getRoles()
     {
+        return [$this->role->getCode()];
     }
 }
