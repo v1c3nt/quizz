@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UserType extends AbstractType
 {
@@ -18,7 +19,9 @@ class UserType extends AbstractType
                 'label' => 'Nom de joueur',
                 'help' => 'c\'est le seul champs visible par les autres joueur',
             ])
-            ->add('email')
+            ->add('email', EmailType::class,[
+                'help'=> 'votre adressse ne sera pas visible par les autres Utilisateurs'
+            ])
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre.',

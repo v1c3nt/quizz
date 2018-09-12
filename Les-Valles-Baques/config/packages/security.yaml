@@ -25,7 +25,7 @@ security:
                 check_path: security_login
 
             logout:
-                path: security_logout
+                path: /logout
                 # A modifier pour le nom de la route exacte une fois accueil établi dans le bon Controller
                 target: /
             # activate different ways to authenticate
