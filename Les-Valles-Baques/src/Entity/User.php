@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis dessu que tu m'es oublié ")
+ * @UniqueEntity(fields="userName", message="Désolé {{ value }} quelqu'un utilise déjà ce Nom ")
+ * 
  */
 class User implements UserInterface
 {
@@ -20,19 +26,27 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string $email
+     * 
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email()
+     */
+    private $email;
+
+    /**
+     * 
      * @ORM\Column(type="string", length=64, unique=true)
+     * @Assert\NotBlank()
      */
     private $userName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")
      */
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -89,101 +103,101 @@ class User implements UserInterface
         $this->createdAt = new \DateTime();
     }
 
-    public function getId(): ?int
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getUserName(): ?string
+    public function getUserName() : ? string
     {
         return $this->userName;
     }
 
-    public function setUserName(string $userName): self
+    public function setUserName(string $userName) : self
     {
         $this->userName = $userName;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword() : ? string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password) : self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail() : ? string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email) : self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar() : ? string
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setAvatar(? string $avatar) : self
     {
         $this->avatar = $avatar;
 
         return $this;
     }
 
-    public function getIsActif(): ?bool
+    public function getIsActif() : ? bool
     {
         return $this->isActif;
     }
 
-    public function setIsActif(bool $isActif): self
+    public function setIsActif(bool $isActif) : self
     {
         $this->isActif = $isActif;
 
         return $this;
     }
 
-    public function getPresentation(): ?string
+    public function getPresentation() : ? string
     {
         return $this->presentation;
     }
 
-    public function setPresentation(?string $presentation): self
+    public function setPresentation(? string $presentation) : self
     {
         $this->presentation = $presentation;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt() : ? \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt) : self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getAppRole(): ?AppRole
+    public function getAppRole() : ? AppRole
     {
         return $this->appRole;
     }
 
-    public function setAppRole(?AppRole $appRole): self
+    public function setAppRole(? AppRole $appRole) : self
     {
         $this->appRole = $appRole;
 
@@ -193,12 +207,12 @@ class User implements UserInterface
     /**
      * @return Collection|UserCrew[]
      */
-    public function getUserCrews(): Collection
+    public function getUserCrews() : Collection
     {
         return $this->userCrews;
     }
 
-    public function addUserCrew(UserCrew $userCrew): self
+    public function addUserCrew(UserCrew $userCrew) : self
     {
         if (!$this->userCrews->contains($userCrew)) {
             $this->userCrews[] = $userCrew;
@@ -208,7 +222,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeUserCrew(UserCrew $userCrew): self
+    public function removeUserCrew(UserCrew $userCrew) : self
     {
         if ($this->userCrews->contains($userCrew)) {
             $this->userCrews->removeElement($userCrew);
@@ -224,12 +238,12 @@ class User implements UserInterface
     /**
      * @return Collection|IsLike[]
      */
-    public function getIsLikes(): Collection
+    public function getIsLikes() : Collection
     {
         return $this->isLikes;
     }
 
-    public function addIsLike(IsLike $isLike): self
+    public function addIsLike(IsLike $isLike) : self
     {
         if (!$this->isLikes->contains($isLike)) {
             $this->isLikes[] = $isLike;
@@ -239,7 +253,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeIsLike(IsLike $isLike): self
+    public function removeIsLike(IsLike $isLike) : self
     {
         if ($this->isLikes->contains($isLike)) {
             $this->isLikes->removeElement($isLike);
@@ -255,12 +269,12 @@ class User implements UserInterface
     /**
      * @return Collection|Statistic[]
      */
-    public function getStatistics(): Collection
+    public function getStatistics() : Collection
     {
         return $this->statistics;
     }
 
-    public function addStatistic(Statistic $statistic): self
+    public function addStatistic(Statistic $statistic) : self
     {
         if (!$this->statistics->contains($statistic)) {
             $this->statistics[] = $statistic;
@@ -270,7 +284,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeStatistic(Statistic $statistic): self
+    public function removeStatistic(Statistic $statistic) : self
     {
         if ($this->statistics->contains($statistic)) {
             $this->statistics->removeElement($statistic);
@@ -286,12 +300,12 @@ class User implements UserInterface
     /**
      * @return Collection|Quizz[]
      */
-    public function getQuizzs(): Collection
+    public function getQuizzs() : Collection
     {
         return $this->quizzs;
     }
 
-    public function addQuizz(Quizz $quizz): self
+    public function addQuizz(Quizz $quizz) : self
     {
         if (!$this->quizzs->contains($quizz)) {
             $this->quizzs[] = $quizz;
@@ -301,7 +315,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeQuizz(Quizz $quizz): self
+    public function removeQuizz(Quizz $quizz) : self
     {
         if ($this->quizzs->contains($quizz)) {
             $this->quizzs->removeElement($quizz);

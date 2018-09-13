@@ -9,6 +9,21 @@ $success: #09b417;
 $danger: #ee1010;
 // the ~ allows you to reference things in node_modules
 
+$danger:  $red;
+
+.badge{
+    color:$blue !important;
+}
+
+#btn-signup{
+    border-color: $green;
+    margin-left: 1em;
+    &:hover {
+    background-color: $blue;
+    color: $red;
+    }
+}
+
 @import "~bootstrap/scss/bootstrap";
 
 body {

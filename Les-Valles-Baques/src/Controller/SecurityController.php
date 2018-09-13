@@ -27,6 +27,7 @@ class SecurityController extends AbstractController
      */
     public function signUp(Request $request, UserPasswordEncoderInterface $encoder, AppRoleRepository $repository): Response
     {
+        dump($this);
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -42,14 +43,12 @@ class SecurityController extends AbstractController
                 //? et le status Actif
                 $user->setIsActif(true);
             }
-            $encodedPassword = $encoder->encodePassword ($user, $user->getPassword());
-            $user->setPassword($encodedPassword);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
+
             $em->flush();
 
-            $user = $user;
             $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
             $this->container->get('security.token_storage')->setToken($token);
             $this->container->get('session')->set('_security_main', serialize($token));
