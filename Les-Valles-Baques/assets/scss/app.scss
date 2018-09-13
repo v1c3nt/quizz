@@ -5,8 +5,8 @@ $blue: #253f58;
 
 
 $primary: rgb(0, 68, 255);
-$success: #09b417;
-$danger: #ee1010;
+$success: #aec33a;
+$danger: #d92139;
 // the ~ allows you to reference things in node_modules
 
 $danger:  $red;
@@ -25,6 +25,15 @@ $danger:  $red;
 }
 
 @import "~bootstrap/scss/bootstrap";
+
+/* Triangle pour la forme où est encadrée la Catégorie sur la page list Quizz*/
+@mixin triangle ($size, $color) {
+    width: 0;
+    height: 0;
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+}
 
 body {
     background-color: $blue;
@@ -60,8 +69,28 @@ header {
 
         background-color: $green;
     }
+<<<<<<< HEAD
     a:hover{
         color: $blue;
         text-decoration: none;
     }
 }
+=======
+}
+
+button.btn.btn-success,
+button.btn.btn-danger {
+    border: 2px solid black;
+    box-shadow: 2px 0px 0px 0px black;
+}
+
+.category {
+    background-color: $primary;
+}
+
+.row:after {
+    content: '';
+    display: inline-block;
+    @include triangle(20px, $primary);
+}
+>>>>>>> list-quizzes
