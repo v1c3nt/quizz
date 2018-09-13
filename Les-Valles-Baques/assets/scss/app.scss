@@ -9,18 +9,19 @@ $success: #aec33a;
 $danger: #d92139;
 // the ~ allows you to reference things in node_modules
 
-$danger:  $red;
+$danger: $red;
 
-.badge{
-    color:$blue !important;
+.badge {
+    color: $blue !important;
 }
 
-#btn-signup{
+#btn-signup {
     border-color: $green;
     margin-left: 1em;
+
     &:hover {
-    background-color: $blue;
-    color: $red;
+        background-color: $blue;
+        color: $red;
     }
 }
 
@@ -69,14 +70,15 @@ header {
 
         background-color: $green;
     }
-<<<<<<< HEAD
-    a:hover{
+
+    a:hover {
         color: $blue;
         text-decoration: none;
     }
 }
-=======
-}
+
+
+
 
 button.btn.btn-success,
 button.btn.btn-danger {
@@ -93,4 +95,24 @@ button.btn.btn-danger {
     display: inline-block;
     @include triangle(20px, $primary);
 }
->>>>>>> list-quizzes
+
+thead.thead {
+    background-color: $blue;
+    color: $green;
+}
+
+.table th {
+    border-top-color: $red;
+}
+
+.table thead th {
+    border-bottom-color: $red;
+}
+
+.table th {
+    border-top-color: $red
+}
+
+.table td {
+    border-top-color: $red
+}

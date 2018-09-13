@@ -8,15 +8,15 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20180912150215 extends AbstractMigration
+final class Version20180913162301 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64924A232CF ON user (user_name)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
+        $this->addSql('DROP INDEX IDX_7C77973D5DC6FE57 ON quizz');
+        $this->addSql('ALTER TABLE quizz DROP subcategory_id');
     }
 
     public function down(Schema $schema) : void
@@ -24,7 +24,7 @@ final class Version20180912150215 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP INDEX UNIQ_8D93D64924A232CF ON user');
-        $this->addSql('DROP INDEX UNIQ_8D93D649E7927C74 ON user');
+        $this->addSql('ALTER TABLE quizz ADD subcategory_id INT DEFAULT NULL');
+        $this->addSql('CREATE INDEX IDX_7C77973D5DC6FE57 ON quizz (subcategory_id)');
     }
 }

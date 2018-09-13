@@ -25,14 +25,14 @@ class QuizzController extends AbstractController
         $categories = $repository->findBy([], ['name'=>'ASC']);
         $quizzs = $repositoryQuizz->findby([], [$sort=>'ASC']);
 
-        return $this->render('quizz/index.html.twig', [
+        return $this->render('quizz/indexbis.html.twig', [
             'categories'=> $categories,
             'quizzs'=>$quizzs,
         ]);
     }
 
     /**
-     * @Route("/quizz/{id}", name="quizz_show")
+     * @Route("/quizz/show/{id}", name="quizz_show")
      */
     public function show(Quizz $quizz): Response
     {
