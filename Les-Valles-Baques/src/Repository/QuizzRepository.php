@@ -22,7 +22,7 @@ class QuizzRepository extends ServiceEntityRepository
     public function findByCategory()
     {
         return $this->createQueryBuilder('q')
-        ->innerJoin('q.category', 'c')
+            ->innerJoin('q.category', 'c')
             ->orderBy('c.name', 'ASC')
             ->getQuery()
             ->getResult();
