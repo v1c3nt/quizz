@@ -36,6 +36,7 @@
                     <tbody>
                         <tr>
                             {% for q in quizzs %}
+                            {% dump(q) %}
                                 <th scope="row">{{q.title}}</th>
                                 <td>{{q.category.name}}</td>
                                 <td>Level</td>
