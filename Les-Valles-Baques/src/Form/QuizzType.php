@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Quizz;
+use Ap\Entity\Question;
+use App\Form\QuestionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class QuizzType extends AbstractType
 {
@@ -13,11 +16,11 @@ class QuizzType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('slug')
             ->add('description')
-            ->add('IsPrivate')
             ->add('category')
-            ->add('author')
+            //->add('slug')
+            //->add('IsPrivate')
+            //->add('author')
             //->add('crew')
         ;
     }

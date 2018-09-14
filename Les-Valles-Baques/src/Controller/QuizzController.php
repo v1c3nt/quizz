@@ -6,6 +6,7 @@ use App\Entity\Quizz;
 use App\Form\QuizzType;
 use App\Entity\Category;
 use App\Entity\Question;
+use App\Form\QuestionType;
 use App\Repository\QuizzRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\QuestionRepository;
@@ -50,19 +51,29 @@ class QuizzController extends AbstractController
     public function new(Request $request, ObjectManager $manager)
     {
         $quizz = new Quizz();
-        
-        $form = $this->createForm(QuizzType::class, $quizz);
+        $question = new Question();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question->setAuthor($this->getAuthor());
+        $form1 = $this->createForm(QuizzType::class, $quizz);
+        $form2 = $this->createForm(QuestionType::class, $question);
 
+
+        $form1->handleRequest($request);
+        $form2->handleRequest($request);
+
+        dump($request);
+        if ($form1->isSubmitted() && $form1->isValid()) {
+            $manager->persist($quizz);
             $manager->persist($question);
+
             $manager->flush();
+
+            return $this->redirectToRoute('quizz_list_show');
         }
-        $form->handleRequest($request);
+        dump($request);
 
         return $this->render('quizz/new.html.twig', [
-            'form'=>$form->createView()
+            'form1'=>$form1->createView(),
+            'form2' => $form2->createView()
         ]);
     }
 }
