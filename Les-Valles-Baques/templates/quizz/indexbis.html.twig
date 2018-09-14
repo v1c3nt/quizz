@@ -9,14 +9,14 @@
                 <h2 class="bubble-title">Les Quizz</h2>
                 <div class="container">
                     <ul class="list-inline">
-                        <!-- li class="list-inline-item"><a href="{{ path ('quizz_list' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
+                        <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
                         <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list' , {'sort' : 'id'}) }}">Date</li>|</a>
+                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
                         <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list' , {'sort' : 'level' }) }}">Niveau</li>|</a>
+                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
                         <!-- TODO modifier id par like quand islike oprérationnel-->
                         <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list' , {'sort' : 'isLike'}) }}">Like</li>
+                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'isLike'}) }}">Like</li>
                         </a>
                     </ul>
                 </div>
@@ -36,15 +36,23 @@
                     <tbody>
                         <tr>
                             {% for q in quizzs %}
-                            {% dump(q) %}
-                                <th scope="row">{{q.title}}</th>
+                                {% dump(q) %}
+                                <th scope="row">
+                                    <a href="{{path ('quizz_list_show', {'id':q.id})}}">{{q.title}}</a>
+                                </th>
                                 <td>{{q.category.name}}</td>
                                 <td>Level</td>
                                 <td>Likes</td>
                                 <td>
-                                    <button class="btn btn-success" type="button">
-                                        <a href="#">Go !</a>
-                                    </button>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <button class="btn btn-success" type="button">
+                                            <a href="{{path ('quizz_list_show', {'id':q.id})}}">Go !</a>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-success" type="button">
+                                            <a href="{{path('security_signup')}}">Inscris-toi pour jouer</a>
+                                        </button>
+                                    {% endif %}
                                 </td>
                             </tr>
                             <tr></tr>

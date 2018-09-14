@@ -15,9 +15,15 @@
     {% endfor %}
     <div class="bubble col-6 offset-3">
         <h4>Tu veux en voir plus et profiter du jeu alors... Go !</h4>
-        <button class="btn btn-success" type="button">
-            <a href="#">Inscris-toi !</a>
-        </button>
+        {% if is_granted('ROLE_USER') %}
+            <button class="btn btn-success" type="button">
+                <a href="#">Jouer !</a>
+            </button>
+        {% else %}
+            <button class="btn btn-success" type="button">
+                <a href="#">Incrist-toi !</a>
+            </button>
+        {% endif %}
     </div>
 </div>
 </div>

@@ -2,26 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Form\UserType;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use App\Form\UserType;
 use App\Repository\AppRoleRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/connexion", name="security_login", methods={"GET","POST"})
-     */
-    public function login()
-    {
-        return $this->render('security/login.html.twig');
-    }
-
     /**
      * @Route("/inscription", name="security_signup", methods={"GET","POST"})
      */
@@ -43,7 +36,8 @@ class SecurityController extends AbstractController
                 //? et le status Actif
                 $user->setIsActif(true);
             }
-
+            $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
 
@@ -57,12 +51,21 @@ class SecurityController extends AbstractController
         }
 
         
-        return $this->render('security/signup.html.twig',
-            ['form' => $form->createView (),
+        return $this->render(
+        
+            'security/signup.html.twig',
+            ['form' => $form->createView(),
             
-            ]);
+            ]
+        
+        );
     }
 
-
-    
+    /**
+     * @Route("/connexion", name="security_login", methods={"GET","POST"})
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig');
+    }
 }

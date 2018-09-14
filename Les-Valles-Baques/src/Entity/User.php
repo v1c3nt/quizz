@@ -342,4 +342,9 @@ class User implements UserInterface
     {
         return [$this->appRole->getCode()];
     }
+
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
 }
