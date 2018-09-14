@@ -5,20 +5,9 @@
 {% block body %}
 
 <div class="example-wrapper">
-    {% for c in categories %}
-    {% if c.idParent == 0 %}
-    {% dump(c) %}
-    <ul>{{ c.name }}
-    
-    {% for subc in categories %}
 
-{% if subc.idParent == c.id %}
-            <li>{{ subc.name }}</li>
-        {% endif %}
-  
-    {% endfor %}
+<ul class="main-menu">
+    {% include "/categoriesTree.html" with {'categorie':categories} only %}
 </ul>
-    {% endif %}
-    {% endfor %}
-</div>
+    
 {% endblock %}

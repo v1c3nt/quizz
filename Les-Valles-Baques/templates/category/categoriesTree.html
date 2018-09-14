@@ -1,0 +1,11 @@
+
+{% for categorie in categories %}
+    <li>
+        <a href="#">{{ categorie.name }}</a>
+        {% if categorie.children %}
+            <ul>
+{% include "includes/categoriesTree" with {'categories': categorie} %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}
