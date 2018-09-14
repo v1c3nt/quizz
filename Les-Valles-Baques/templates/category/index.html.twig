@@ -1,36 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Les catégories !{% endblock %}
 
 {% block body %}
+<div class="wrapper container-fluid">
+    <div class="col">
+        <div class="bubble-cat">
 
-<div class="example-wrapper">
+            {% macro recursiveCategory(category) %}
+            {% import _self as self %}
+            <li>
+                <h4><a href="#">{{ category }}</a></h4>
+                {% if category.children|length %}
+                <ul>
+                    {% for child in category.children %}
+                    {{ self.recursiveCategory(child) }}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </li>
+            {% endmacro %}
 
+            {% from _self import recursiveCategory %}
 
-
-    {% macro recursiveCategory(category) %}
-    {% import _self as self %}
-    <li>
-        <h4><a href="#">{{ category }}</a></h4>
-        {% if category.children|length %}
-        <ul>
-            {% for child in category.children %}
-            {{ self.recursiveCategory(child) }}
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </li>
-    {% endmacro %}
-
-    {% from _self import recursiveCategory %}
-
-    <div id="categories">
-        <ul>
-            {% for c in categories %}
-            {% if null == c.parent %}
-            {{ recursiveCategory(c) }}
-            {% endif %}
-            {% endfor %}
-        </ul>
+            <div id="categories">
+                <ul>
+                    {% for c in categories %}
+                    {% if null == c.parent %}
+                    {{ recursiveCategory(c) }}
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
+
     {% endblock %}
