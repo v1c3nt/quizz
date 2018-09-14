@@ -9,17 +9,35 @@ use App\Repository\CategoryRepository;
 class CategoryController extends AbstractController
 {
 
+    private function categoryTree($parent_id = null, $categories)
+    {
+        $treeCategories = array();
+
+        foreach ($categories as $categorie) {
+            array_push(
+                $treeCategories,
+                array_filter([
+                    $categorie->getId() => $categorie->getName(),
+                    'children' => $this->categoryTree($categorie->getId())
+                ])
+            );
+        }
+        return $treeCategories;
+
+
+    }
+
     /**
      * @Route("/category", name="category")
      */
     public function index(CategoryRepository $category)
     {
-        $treeCategory = [];
+
+        $treeCategories = [];
         $categorys = $category->findAll();
 
-        foreach ($categorys as $category) {
-            dump($category->getChildren());
-        }
+        $this->categoryTree()
+
         /**
          *! teste avec twig
          * foreach ($categorys as $category) {
@@ -42,7 +60,7 @@ class CategoryController extends AbstractController
             }
             while (null !== $parent);
 
-
+           
                 $treeCategory[] = $category;
             }
                 dump('dd');
