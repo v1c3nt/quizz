@@ -34,9 +34,9 @@ class CategoryController extends AbstractController
     {
 
         $treeCategories = [];
-        $categorys = $category->findAll();
+        $categories = $category->findAll();
 
-        $this->categoryTree()
+        $this->categoryTree($parent_id, $categories);
 
         /**
          *! teste avec twig

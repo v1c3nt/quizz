@@ -12,7 +12,9 @@ INSERT INTO `category` (`id`, `name`,`id_parent`) VALUES
 (2, 'Boisson & Nourriture', 0),
 (3, 'Culture GEEK', 0),
 (4, 'Animaux', 0),
-(5, 'Comédie', '1');
+(5, 'boisson', 2),
+(6, 'Biere', 5),
+(7, 'Pizza', 2);
 
 INSERT INTO `role_crew` (`id`, `name`, `slug`, `code`) VALUES (NULL, 'Créateur', 'dieux', 'ROLE_GROUP_ADMIN'), (NULL, 'Leader', 'leader', 'ROLE_GROUP_LEADER'), (NULL, 'membre', 'membre', 'ROLE_GROUP_MEMBER');
 
