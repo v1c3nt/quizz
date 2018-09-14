@@ -5,22 +5,30 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CategoryRepository;
+use App\Entity\Category;
+
 
 class CategoryController extends AbstractController
 {
 
-    private function categoryTree($parent_id = null, $categories)
+    private function categoryTree($parent_id = null)
     {
         $treeCategories = array();
+        $repository = $this->getDoctrine()->getRepository(Category::class);
+        $categories = $repository->findAll();
+        dump($categories);
 
-        foreach ($categories as $categorie) {
+        foreach ($categories as $category) {
+            dump($category);
+            dump($treeCategories);
             array_push(
                 $treeCategories,
                 array_filter([
-                    $categorie->getId() => $categorie->getName(),
-                    'children' => $this->categoryTree($categorie->getId())
+                    $category->getId() => $category->getName(),
+                    'children' => $this->categoryTree($category->getId())
                 ])
             );
+            dump($treeCategories);
         }
         return $treeCategories;
 
@@ -36,41 +44,22 @@ class CategoryController extends AbstractController
         $treeCategories = [];
         $categories = $category->findAll();
 
-        $this->categoryTree($parent_id, $categories);
 
-        /**
-         *! teste avec twig
-         * foreach ($categorys as $category) {
-            dump($category);
-            do {
-                if ( null === $category->getParent() ) {
-                    $parent = null;
-                } else {
-                $parent=1;
-                foreach ($category as $subcategorys ) {
-                    $treeCategory[] = $subcategorys;
-                    dump('while');
-                    dump($subcategorys);die();
 
-                        $parent = $subcategorys->getParent();
-                        $category = $subcategorys;
-                        return $category;
-                    }
-                }
-            }
-            while (null !== $parent);
+        foreach ($categories as $category) {
 
-           
-                $treeCategory[] = $category;
-            }
-                dump('dd');
-        
-        dump($treeCategory);
-        exit;
-         */
+            $xx = $category->getChildren();
+
+
+        }
+
+
+
+
+
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
-            'categories' => $categorys,
+            'categories' => $categories,
         ]);
     }
 
