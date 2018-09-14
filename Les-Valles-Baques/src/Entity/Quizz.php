@@ -69,6 +69,12 @@ class Quizz
      */
     private $crew;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Level", inversedBy="quizzs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $level;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -254,6 +260,18 @@ class Quizz
     public function setCrew(?Crew $crew): self
     {
         $this->crew = $crew;
+
+        return $this;
+    }
+
+    public function getLevel(): ?Level
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?Level $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

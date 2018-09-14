@@ -7,14 +7,26 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-INSERT INTO `category` (`id`, `name`,`id_parent`) VALUES
-(1, 'Cinéma', 0),
-(2, 'Boisson & Nourriture', 0),
-(3, 'Culture GEEK', 0),
-(4, 'Animaux', 0),
+INSERT INTO `category` (`id`, `name`,`parent_id`) VALUES
+(1, 'Cinéma', NULL),
+(2, 'Boisson & Nourriture', NULL),
+(3, 'Culture GEEK', NULL),
+(4, 'Animaux', NULL),
 (5, 'boisson', 2),
 (6, 'Biere', 5),
-(7, 'Pizza', 2);
+(7, 'code', NULL),
+(8, 'php', 7),
+(9, 'Symfony', 8),
+(10, 'WordPress', 7),
+(11, 'JavaScript', 7),
+(12, 'React', 11),
+(13, 'html', 7),
+(14, 'css', 7),
+(15, 'Scss', 14),
+(16, 'OS', 3),
+(17, 'linux', 16),
+(18, 'iOs', 16),
+(19, 'windows', 16);
 
 INSERT INTO `role_crew` (`id`, `name`, `slug`, `code`) VALUES (NULL, 'Créateur', 'dieux', 'ROLE_GROUP_ADMIN'), (NULL, 'Leader', 'leader', 'ROLE_GROUP_LEADER'), (NULL, 'membre', 'membre', 'ROLE_GROUP_MEMBER');
 
@@ -31,30 +43,29 @@ INSERT INTO `level` (`id`, `name`) VALUES
 (2, 'Confirmé'),
 (3, 'Expert');
 
-INSERT INTO `subcategory` (`id`, `category_id`, `name`) VALUES (NULL, '1', 'Science-fiction'), (NULL, '2', 'salé'), (NULL, '2', 'sucré'), (NULL, '2', 'alcool');
 
 INSERT INTO `crew` (`id`, `name`, `slug`, `avatar`, `created_at`) VALUES (NULL, 'ViVi', 'vivi', NULL, '2018-09-09 16:24:50'), (NULL, 'VaVa', 'vava', NULL, '2018-09-02 07:22:43'), (NULL, 'VouVou', 'vouvou', NULL, '2018-09-04 12:19:40');
 
 
-INSERT INTO `quizz` (`id`, `title`, `description`, `author_id`, `slug`) VALUES
-(1, 'Animaux célèbres - I', 'Tantôt effrayants, tantôt drôles.', 1, 'Animaux_célèbres'),
-(2, 'Le chocolat - I', 'Bon pour le moral, un peu moins pour le foie.', 1, 'slug'),
-(3, 'Linux - I', 'Non, ce n\'est pas un pingouin!', 1 ,'slug'),
-(4, 'Star Wars - I', 'La légende continue.', 1,'slug'),
-(5, 'Les bières belges - I', 'Patrimoine exporté dans le monde entier', 2,'slug'),
-(6, 'Les fromages de France - I', 'Près de 1000 fromages différents', 2,'slug'),
-(7, 'Animaux célèbres - II', 'Tantôt effrayants, tantôt drôles.', 1,'slug'),
-(8, 'Animaux célèbres - III', 'Tantôt effrayants, tantôt drôles.', 1,'slug'),
-(9, 'Le chocolat - II', 'Bon pour le moral, un peu moins pour le foie.', 2,'slug'),
-(10, 'Le chocolat - III', 'Bon pour le moral, un peu moins pour le foie.', 1,'slug'),
-(11, 'Linux - II', 'Non, ce n\'est pas un pingouin!', 2,'slug'),
-(12, 'Linux - III', 'Non, ce n\'est pas un pingouin!', 2,'slug'),
-(13, 'Star Wars - II', 'La légende continue.', 1,'slug'),
-(14, 'Star Wars - III', 'La légende continue.', 1,'slug'),
-(15, 'Les bières belges - II', 'Patrimoine exporté dans le monde entier', 2,'slug'),
-(16, 'Les bières belges - III', 'Patrimoine exporté dans le monde entier', 2,'slug'),
-(17, 'Les fromages de France - II', 'Près de 1000 fromages différents', 2,'slug'),
-(18, 'Les fromages de France - III', 'Près de 1000 fromages différents', 2,'slug');
+INSERT INTO `quizz` (`id`, `title`, `description`, `author_id`, `slug`, `level_id`) VALUES
+(1, 'Animaux célèbres - I', 'Tantôt effrayants, tantôt drôles.', 1, 'Animaux_célèbres' ,1),
+(2, 'Le chocolat - I', 'Bon pour le moral, un peu moins pour le foie.', 1, 'slug', 1),
+(3, 'Linux - I', 'Non, ce n\'est pas un pingouin!', 1 ,'slug',1),
+(4, 'Star Wars - I', 'La légende continue.', 1,'slug',1),
+(5, 'Les bières belges - I', 'Patrimoine exporté dans le monde entier', 2,'slug',1),
+(6, 'Les fromages de France - I', 'Près de 1000 fromages différents', 2,'slug',1),
+(7, 'Animaux célèbres - II', 'Tantôt effrayants, tantôt drôles.', 1,'slug',2),
+(8, 'Animaux célèbres - III', 'Tantôt effrayants, tantôt drôles.', 1,'slug',3),
+(9, 'Le chocolat - II', 'Bon pour le moral, un peu moins pour le foie.', 2,'slug',2),
+(10, 'Le chocolat - III', 'Bon pour le moral, un peu moins pour le foie.', 1,'slug',3),
+(11, 'Linux - II', 'Non, ce n\'est pas un pingouin!', 1,'slug',2),
+(12, 'Linux - III', 'Non, ce n\'est pas un pingouin!', 1,'slug',3),
+(13, 'Star Wars - II', 'La légende continue.', 1,'slug',2),
+(14, 'Star Wars - III', 'La légende continue.', 1,'slug',3),
+(15, 'Les bières belges - II', 'Patrimoine exporté dans le monde entier', 2,'slug',2),
+(16, 'Les bières belges - III', 'Patrimoine exporté dans le monde entier', 2,'slug',3),
+(17, 'Les fromages de France - II', 'Près de 1000 fromages différents', 2,'slug',2),
+(18, 'Les fromages de France - III', 'Près de 1000 fromages différents', 2,'slug',3);
 
 INSERT INTO `question` (`id`, `quizz_id`, `body`, `prop1`, `prop2`, `prop3`, `prop4`, `level_id`, `anecdote`, `source`) VALUES
 (1, 1, 'Dans le film d\'animation L\'Âge de glace, qu\'est-ce qui échappe à l\'écureuil Scrat ?', 'Un gland', 'Une pierre', 'Un os', 'Une bille', 1, 'À l\'occasion de la sortie de L\'Âge de glace 4, Scrat a eu son double de cire au Musée Grévin le 20 juin 2012.', 'Scrat'),
