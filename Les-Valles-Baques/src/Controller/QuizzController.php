@@ -32,7 +32,7 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/quizz/show/{id}", name="quizz_show")
+     * @Route("/quizz/show/{id}", name="quizz_list_show")
      */
     public function show(Quizz $quizz): Response
     {

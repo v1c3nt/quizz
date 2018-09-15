@@ -36,18 +36,24 @@
                     <tbody>
                         <tr>
                             {% for q in quizzs %}
-                            {% dump(q) %}
                                 <th scope="row">{{q.title}}</th>
-                                <td>{{q.category.name}}</td>
-                                <td>Level</td>
+                                <td>
+                                    {{q.category.name}}
+                                </td>
+                                <td>{{q.level.name}}</td>
                                 <td>Likes</td>
                                 <td>
-                                    <button class="btn btn-success" type="button">
-                                        <a href="#">Go !</a>
-                                    </button>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <button class="btn btn-success" type="button">
+                                            <a href="{{path('quizz_list_show',{'id':q.id})}}">Go !</a>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-success" type="button">
+                                            <a href="{{path('security_signup')}}">Inscris-toi pour jouer</a>
+                                        </button>
+                                    {% endif %}
                                 </td>
                             </tr>
-                            <tr></tr>
                         {% endfor %}
 
                     </tbody>
