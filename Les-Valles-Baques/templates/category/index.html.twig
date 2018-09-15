@@ -10,7 +10,7 @@
             {% macro recursiveCategory(category) %}
             {% import _self as self %}
             <li>
-                <h4><a href="#">{{ category }}</a></h4>
+<h4><a href="#"> <img src="{{ asset('images/q-xs.svg') }}" alt=""> {{ category }}</a></h4>
                 {% if category.children|length %}
                 <ul>
                     {% for child in category.children %}
@@ -24,14 +24,16 @@
             {% from _self import recursiveCategory %}
 
             <div id="categories">
-                <ul>
+<div id="id="accordion"">
+                <div>
                     {% for c in categories %}
                     {% if null == c.parent %}
                     {{ recursiveCategory(c) }}
                     {% endif %}
                     {% endfor %}
-                </ul>
+                </div>
             </div>
+</div>
         </div>
     </div>
 
