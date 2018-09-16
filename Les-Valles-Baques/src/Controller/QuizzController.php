@@ -51,19 +51,15 @@ class QuizzController extends AbstractController
     public function new(Request $request, ObjectManager $manager)
     {
         $quizz = new Quizz();
-        $question = new Question();
 
-        $form1 = $this->createForm(QuizzType::class, $quizz);
-        $form2 = $this->createForm(QuestionType::class, $question);
+        $form = $this->createForm(QuizzType::class, $quizz);
 
-
-        $form1->handleRequest($request);
-        $form2->handleRequest($request);
+        $form->handleRequest($request);
 
         dump($request);
-        if ($form1->isSubmitted() && $form1->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($quizz);
-            $manager->persist($question);
+            $manager->persist($quizz);
 
             $manager->flush();
 
@@ -72,8 +68,7 @@ class QuizzController extends AbstractController
         dump($request);
 
         return $this->render('quizz/new.html.twig', [
-            'form1'=>$form1->createView(),
-            'form2' => $form2->createView()
+            'form'=>$form->createView()
         ]);
     }
 }
