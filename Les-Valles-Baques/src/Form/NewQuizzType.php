@@ -7,23 +7,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuizzType extends AbstractType
+class NewQuizzType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, [
-                'label'=>'titre'
-            ])
+            ->add('title')
+            ->add('slug')
             ->add('description')
-            ->add('IsPrivate', null, [
-                'label' => 'privé',
-                'help' => 'Si vous cochez cette option le questionaire ne sera visible que dans votre groupe actuel.'
+            ->add('IsPrivate', null,[
+                'label'=>'privé',
+                'help'=>'Si vous cochez cette option le questionaire ne sera visible que dans votre groupe actuel.'
             ])
-            ->add('category', null, [
-                'label'=>'catégorie'
-            ])
-            //? on pourrait le calculé a partir des difficultés des questions ?->add('level')
+            ->add('category')
+            ->add('author')
+            ->add('crew')
+            ->add('level')
         ;
     }
 
