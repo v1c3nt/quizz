@@ -37,12 +37,14 @@
                             <ul>
                                 {% for q in quizzs %}
                                     {% if q.category.id == c.id %}
-                                        <li>{{ q.title }}</li>
+                                        <li>
+                                            <a href="{{path ('quizz_show', {'id':q.id})}}">{{ q.title }}</a>
+                                        </li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>
                             <button class="btn btn-success" type="button">
-                                <a href="#">Go !</a>
+                                <a href="{{path ('quizz_show', {'id':q.id})}}">Go !</a>
                             </button>
                         </div>
                     {% endfor %}
