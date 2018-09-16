@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Webmozart\Assert\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,7 +58,7 @@ class Question
     private $errore;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Quizz", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Quizz", inversedBy="questions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $quizz;

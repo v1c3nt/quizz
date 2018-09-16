@@ -264,7 +264,6 @@ class Quizz
 
         return $this;
     }
-<<<<<<< HEAD
 
     public function getLevel(): ?Level
     {
@@ -276,11 +275,10 @@ class Quizz
         $this->level = $level;
 
         return $this;
-=======
-    
+    }
+
     public function __toString()
     {
-        return $this->title;
->>>>>>> form-new-question
+        return $this->getTitle();
     }
 }
