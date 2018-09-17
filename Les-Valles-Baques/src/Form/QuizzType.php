@@ -13,11 +13,11 @@ class QuizzType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('slug')
+            //->add('slug')
             ->add('description')
             ->add('IsPrivate')
             ->add('category')
-            ->add('author')
+            //->add('author')
             ->add('crew')
             ->add('level')
         ;

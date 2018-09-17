@@ -2,19 +2,22 @@
 
 namespace App\Form;
 
+use App\Form\QuizzType;
 use App\Entity\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\QuizzType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quizz', QuizzType::class)
-            ->add('body')
+            ->add('quizz', QuizzType::class, [
+                'label' => false
+            ])
+            ->add('body', CollectionType::class)
             ->add('prop1')
             ->add('prop2')
             ->add('prop3')

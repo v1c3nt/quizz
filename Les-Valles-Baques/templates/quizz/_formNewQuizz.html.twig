@@ -1,5 +1,14 @@
 {{ form_start(form)}}
-{{ form_widget(form) }}
+{{ form_row(form.quizz.title, { 'label': 'Titre du Quizz' } ) }}
+{{ form_row(form.quizz.category, { 'label': 'Choisir la Catégorie' }) }}
+{{ form_row(form.quizz.description, { 'label': 'Tu peux faire une courte description de ton Quizz' }) }}
+{{ form_row(form.quizz.level, { 'label': 'Niveau du Quizz' }) }}
+{{ form_row(form.quizz.crew, { 'label': 'Choisir une équipe' }) }}
+{{ form_row(form.quizz.IsPrivate, { 'label': 'Quizz public ou privé ?' }) }}
+
+{{ form_row(form.body, { 'label': 'Titre de la Question' }) }}
+
 <button class="btn btn-success" type="submit">
-    C'est parti pour ton nouveau Quizz !
-</button {{ form_end(form) }}
+    C'est parti pour ton nouveau Quizz!
+</button>
+{{ form_end(form) }}

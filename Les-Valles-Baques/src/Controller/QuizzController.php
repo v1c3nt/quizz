@@ -50,23 +50,26 @@ class QuizzController extends AbstractController
      */
     public function new(Request $request, ObjectManager $manager)
     {
+        $quizz = new Quizz();
         $question = new Question();
-
+        
         $form = $this->createForm(QuestionType::class, $question);
-
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($question);
-            $manager->persist($question);
+            $manager->persist($quizz);
 
             $manager->flush();
 
-            return $this->redirectToRoute('quizz_list_show');
+            return $this->redirectToRoute('quizz_list_show', ['id'=>$quizz->getId()]);
         }
 
         return $this->render('quizz/new.html.twig', [
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'question'=>$question,
+            'quizz'=>$quizz,
         ]);
     }
 }
