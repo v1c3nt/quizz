@@ -19,7 +19,7 @@ class QuestionType extends AbstractType
             ->add('body', TextareaType::class, [
                 'label'=>'votre Question',
                 'help'=>'soyez pressi'
-            ] )
+            ])
             ->add('level', null, [
                 'expanded'=>true,
             ])
@@ -35,11 +35,11 @@ class QuestionType extends AbstractType
             ->add('prop4', null, [
                 'label'=>'fause réponse n°3'
             ])
-            ->add('anecdote', null,[
+            ->add('anecdote', null, [
                 'required' => false,
                 'help'=> 'Une petite sur cette réponse ?'
-            ] )
-            ->add('source', UrlType::class,[
+            ])
+            ->add('source', UrlType::class, [
                 'required'=>false,
                 'label'=>'source',
                 'help'=>'pensez à mettre un lien vers un article au cas ou on voudrait en savoir plus.'
