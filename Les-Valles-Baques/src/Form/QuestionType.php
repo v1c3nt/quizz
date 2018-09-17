@@ -17,7 +17,7 @@ class QuestionType extends AbstractType
             ->add('quizz', QuizzType::class, [
                 'label' => false
             ])
-            ->add('body', CollectionType::class)
+            ->add('body')
             ->add('prop1')
             ->add('prop2')
             ->add('prop3')
