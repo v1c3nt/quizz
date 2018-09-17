@@ -39,7 +39,7 @@
                         <th scope="row">{{q.title}}</th>
                         <td>
                             {#TODO a effacer le temps de régler les sql#}
-                            {% if null != q.category.name %}
+                            {% if q.category.name is defined %}
                             {{q.category.name}}
                             {% endif %}
 
