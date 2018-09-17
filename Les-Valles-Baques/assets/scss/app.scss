@@ -4,7 +4,7 @@ $green: #aec33a;
 $blue: #253f58;
 
 
-$primary: rgb(0, 68, 255);
+$primary: #253f58;
 $success: #aec33a;
 $danger: #d92139;
 // the ~ allows you to reference things in node_modules
@@ -70,6 +70,11 @@ a {
     }
 }
 
+.bigSize {
+    font-size: 6em;
+    position: absolute;
+}
+
 header {
     background-color: $red;
     color: $green;
@@ -110,17 +115,34 @@ thead.thead {
 }
 
 .table th {
+    color: $red;
+    background-color: #253f58;
     border-top-color: $red;
 }
 
 .table thead th {
+    color: $red;
+    background-color: $blue;
     border-bottom-color: $red;
+
 }
 
 .table th {
-    border-top-color: $red
+    color: $red;
+    background-color: $blue;
+    border-top-color: $red;
+
 }
 
+
 .table td {
-    border-top-color: $red
+    color: $red;
+    background-color: $blue;
+    border-top-color: $red;
+    
 }
+
+.table tr:hover {
+        background-color: #0d1e2e;
+    }
+

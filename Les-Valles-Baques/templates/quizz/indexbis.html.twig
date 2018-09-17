@@ -20,7 +20,6 @@
                     </a>
                 </ul>
             </div>
-<<<<<<< HEAD
 
 <button class="btn btn-danger" type="button"><a href="{{ path('new_quizz') }}">
                 Propose ton Quizz</a>
@@ -43,31 +42,6 @@
                             {#TODO a effacer le temps de régler les sql#}
 
                             {#q.category.name#}
-=======
-            <button class="btn btn-danger" type="button">
-                <a href="#">Propose ton Quizz</a>
-            </button>
-            <table class="table mt-5">
-                <thead class="thead">
-                    <tr>
-                        <th scope="col">Quizz</th>
-                        <th scope="col">Catégories</th>
-                        <th scope="col">Niveaux</th>
-                        <th scope="col">Like</th>
-                        <th scope="col">Jouer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for q in quizzs %}
-                        <th scope="row">{{q.title}}</th>
-                        <td>
-                            {#TODO a effacer le temps de régler les sql#}
-                            {% if null != q.category.name %}
-                            {{q.category.name}}
-                            {% endif %}
-
->>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9
                         </td>
                         <td>{{q.level.name}}</td>
                         <td>Likes</td>
