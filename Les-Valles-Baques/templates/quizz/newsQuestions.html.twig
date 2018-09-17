@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 <div class="bubble col-8 offset-2">
     <h2 class="bubble-title">Super aux Questions maintenant</h2>
     <p>Ton questionnaire se sent tout vide sans ses questions.<br />
@@ -29,3 +30,25 @@
         {% dump(quizz) %}
         question suivante !
     </button {{ form_end(form) }} </div> {% endblock %}
+=======
+    <div class="bubble col-8 offset-2">
+        <h2 class="bubble-title">Super aux Questions maintenant</h2>
+        <p>Ton questionnaire se sent tout vide sans ses questions.<br/>
+        <h4>titre du questionnaire :{{ quizz.title }}</h4>      
+    </div>
+    
+<div class="bubble col-8 offset-2" >
+        <h3>Question N°{{ nbr }}</h3>
+        </div>
+<div class="bubble col-8 offset-2">
+{{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr} )} ) }}
+{{ form_widget(form) }}
+<button class="btn btn-success" type="submit">
+    {% dump(quizz) %}
+    allé question suivante !
+</button {{ form_end(form) }}
+            </div>
+        
+
+{% endblock %}
+>>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9

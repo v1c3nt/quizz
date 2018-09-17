@@ -27,7 +27,11 @@ class QuizzController extends AbstractController
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
 
         $categories = $repository->findBy([], ['name' => 'ASC']);
+<<<<<<< HEAD
         $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
+=======
+        $quizzs = $repositoryQuizz->findby([], [$sort => 'ASC']);
+>>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
@@ -60,7 +64,11 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //? j'ajoute le User connecté comme auteur du quizz
             $quizz->setAuthor($user);
+<<<<<<< HEAD
             // TODO ajouter un slugger
+=======
+            // TODO qjouter un slugger
+>>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
             dump($user); 
