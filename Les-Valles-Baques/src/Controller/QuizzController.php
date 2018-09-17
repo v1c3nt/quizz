@@ -51,6 +51,7 @@ class QuizzController extends AbstractController
     public function new(Request $request, ObjectManager $manager)
     {
         $quizz = new Quizz();
+        $question = new Question();
     
         $form = $this->createForm(QuizzType::class, $quizz);
         
@@ -66,7 +67,7 @@ class QuizzController extends AbstractController
 
         return $this->render('quizz/new.html.twig', [
             'form'=>$form->createView(),
-            
+            'questions'=>$questions,
             'quizz'=>$quizz,
         ]);
     }
