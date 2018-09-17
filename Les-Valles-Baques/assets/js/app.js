@@ -34,7 +34,7 @@ var app = {
             method: 'POST',
             data: dataToSend,
             success: function () {
-
+                nbr = nbr
                 console.log('ajax')
             }
         });

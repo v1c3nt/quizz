@@ -68,8 +68,7 @@ class QuizzController extends AbstractController
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
-            dump($quizz);
-            exit;
+            
 
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
@@ -106,8 +105,7 @@ class QuizzController extends AbstractController
             $question->setErrore(0);
 
             $manager->persist($question);
-            dump($request);
-            exit;
+            
             
             //$manager->flush();
 
