@@ -16,7 +16,6 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quizz', QuizzType::class)
             ->add('body', TextareaType::class, [
                 'label'=>'votre Question',
                 'help'=>'soyez pressi'

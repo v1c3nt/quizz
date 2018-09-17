@@ -23,7 +23,8 @@ class QuizzType extends AbstractType
             ->add('category', null, [
                 'label'=>'catégorie'
             ])
-            //? on pourrait le calculé a partir des difficultés des questions ?->add('level')
+            //? on pourrait le calculé a partir des difficultés des questions ?
+            ->add('level')
         ;
     }
 

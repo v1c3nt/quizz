@@ -1,0 +1,6 @@
+{{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id} )} ) }}
+{{ form_widget(form) }}
+<button class="btn btn-success" type="submit">
+    {% dump(quizz) %}
+    allé question suivante !
+</button {{ form_end(form) }}
