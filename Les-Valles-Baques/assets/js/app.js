@@ -19,9 +19,15 @@ var app = {
         console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
         $('#nextQuestion').on('submit', app.nextQuestion);
+        $('#reset').on('click', app.nextQuestionReset);
     },
 
-    nextQuestion: function (event) {
+    nextQuestionReset: function () {
+        $('#nextQuestion')[0].reset();
+    },
+
+
+    /*nextQuestion: function (event) {
         event.preventDefault();
         console.log('submit blocked');
         var dataToSend = $(this).serialize();
@@ -38,6 +44,6 @@ var app = {
                 console.log('ajax')
             }
         });
-    }
+}*/
 }
 $(app.init);

@@ -64,10 +64,11 @@ class QuizzController extends AbstractController
             // TODO ajouter un slugger
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-            dump($user); 
+            dump($user);
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
+            dump($request);
             
 
             //? après la création du questionnaire j'oriente vers la  création des questions.
@@ -100,36 +101,31 @@ class QuizzController extends AbstractController
         dump($nbr);
         $nbr++;
         if ($form->isSubmitted() && $form->isValid()) {
-
             $question->setQuizz($quizz);
             $question->setErrore(0);
 
             $manager->persist($question);
+            dump($request);
             
-            
-            //$manager->flush();
+            $manager->flush();
 
             if ($nbr < 10) {
-
-
                 return $this->render('quizz/newsQuestions.html.twig', [
                     'form' => $form->createView(),
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                 ]);
-
             }
 
             return $this->redirectToRoute('quizz_list_sort', [
                 'sort ' => 'id'
             ]);
         }
-
+        
         return $this->render('quizz/newsQuestions.html.twig', [
             'form' => $form->createView(),
             'quizz' => $quizz,
             'nbr' => $nbr,
         ]);
-
     }
 }
