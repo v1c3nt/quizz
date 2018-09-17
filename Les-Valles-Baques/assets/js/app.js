@@ -12,45 +12,32 @@ require('../scss/app.scss');
 require('bootstrap');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
-/*var app = {
+var app = {
 
-        init: function () {
-            //! TODO à effacer 
-            console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+    init: function () {
 
-            $('#signup').on('submit', app.signup);
-        },
+        console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
-        signup: function(evt){
-            evt.preventDefault();
-            console.log('submit ok');
-            var dataToSend = $(this).serialize();
+        $('#nextQuestion').on('submit', app.nextQuestion);
+    },
 
-            console.log(dataToSend);
-            
-            var jqXHR =$.ajax({
-                url: '/inscription',
-                method: 'POST',
-                dataType:'json',
-                data: dataToSend
-            }).done(function (response) {
+    nextQuestion: function (event) {
+        event.preventDefault();
+        console.log('submit blocked');
+        var dataToSend = $(this).serialize();
 
-                if (response.code == 0) {
+        var $form = $(this).closest('form');
+        console.log(dataToSend);
 
-                    // Pas AJAX donc à ne pas privilegier mais plus rapide pour nous ;-)
-                   alert('Cool on y est');
-                } else {
+        var jqXHR = $.ajax({
+            url: '',
+            method: 'POST',
+            data: dataToSend,
+            success: function () {
 
-                    alert('response.errorMsg');
-                }
-            }).fail(function () {
-
-                alert('Une erreur est survenue...');
-            });
-
-        }
-
-
-    };
-
-$(app.init);*/
+                console.log('ajax')
+            }
+        });
+    }
+}
+$(app.init);

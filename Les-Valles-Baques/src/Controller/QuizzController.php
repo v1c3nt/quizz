@@ -27,11 +27,8 @@ class QuizzController extends AbstractController
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
 
         $categories = $repository->findBy([], ['name' => 'ASC']);
-<<<<<<< HEAD
         $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
-=======
-        $quizzs = $repositoryQuizz->findby([], [$sort => 'ASC']);
->>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9
+
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
@@ -64,22 +61,21 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //? j'ajoute le User connecté comme auteur du quizz
             $quizz->setAuthor($user);
-<<<<<<< HEAD
             // TODO ajouter un slugger
-=======
-            // TODO qjouter un slugger
->>>>>>> 14007bf7e00e38a05ae7505762003498b1d168d9
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
             dump($user); 
-            //$quizz->setCrew('user.crew')
+            //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
+            dump($quizz);
+            exit;
 
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
                 'id' => $quizz->getId(),
                 'quizz' => $quizz,
+                'nbr' => 0,
             ]);
         }
 
@@ -89,11 +85,12 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", defaults={"nbr"=0})
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz")
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
     {
-
+        dump($id);
+        dump($nbr);
         $question = new Question();
         //? je récupere l'id du quizz créer
         $quizz = $qr->findOneById($id);
@@ -102,30 +99,31 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
         dump($nbr);
-        $nbr ++;
-        if ($form->isSubmitted() && $form->isValid()) { 
+        $nbr++;
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            $question->setBody('');
-            $question->setProp1('');
             $question->setQuizz($quizz);
             $question->setErrore(0);
-            dump($nbr);
+
             $manager->persist($question);
+            dump($request);
+            exit;
             
-            $manager->flush();
-            
+            //$manager->flush();
+
             if ($nbr < 10) {
+
 
                 return $this->render('quizz/newsQuestions.html.twig', [
                     'form' => $form->createView(),
                     'quizz' => $quizz,
-                    'nbr'=>$nbr,
+                    'nbr' => $nbr,
                 ]);
 
             }
 
             return $this->redirectToRoute('quizz_list_sort', [
-                'sort' => 'id'
+                'sort ' => 'id'
             ]);
         }
 

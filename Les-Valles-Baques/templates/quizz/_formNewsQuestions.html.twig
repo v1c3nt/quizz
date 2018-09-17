@@ -1,4 +1,4 @@
-{{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id} )} ) }}
+{{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr': nbr } ) } ) }}
 {{ form_widget(form) }}
 <button class="btn btn-success" type="submit">
     {% dump(quizz) %}
