@@ -4,51 +4,36 @@
 {% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
     <div class="bubble col-8 offset-2">
         <h2 class="bubble-title">Super aux Questions maintenant</h2>
         <p>Ton questionnaire se sent tout vide sans ses questions.<br/>
-            <h4>titre du questionnaire :{{ quizz.title }}</h4>
+            <h4>titre du questionnaire :
+                {{ quizz.title }}</h4>
         </div>
 
         <div class="bubble col-8 offset-2">
             <h3>Question N°{{ nbr }}</h3>
+            {% dump('début') %}
+            {% dump(nbr) %}
+            <h5>courage plus que
+                {{10 - nbr}}
+                questions
+            </h5>
+            <p>
+                {% if 3 > nbr %}
+                    c'est un bon début !
+                {% elseif 5 > nbr %}
+                    c'est une moyenne
+                {% elseif 7 > nbr %}
+                    tu y es presque un dernier effort
+                {% endif %}
+            </p>
         </div>
         <div class="bubble col-8 offset-2">
             {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr} )} ) }}
-            {{ form_widget(form, { 'value': '' }) }}
-            <button class="btn btn-success" id="next" type="submit">
+            {{ form_widget(form) }}
+            <button class="btn btn-success" id="reset" value="Reset" type="submit">
                 {% dump(quizz) %}
-                allé question suivante !
+                question suivante !
             </button {{ form_end(form) }} </div>
-
         {% endblock %}
-=======
-<div class="bubble col-8 offset-2">
-    <h2 class="bubble-title">Super aux Questions maintenant</h2>
-    <p>Ton questionnaire se sent tout vide sans ses questions.<br />
-        <h4>titre du questionnaire : {{ quizz.title }}</h4>
-</div>
-
-<div class="bubble col-8 offset-2">
-    <h3>Question N°{{ nbr }}</h3>
-    {% dump('début') %}
-    {% dump(nbr) %}
-    <h5>courage plus que {{10 - nbr}} questions </h5>
-    <p> {% if 3 > nbr %}
-        c'est un bon début !
-        {% elseif 5 > nbr %}
-        c'est une moyenne
-        {% elseif 7 > nbr %}
-        tu y es presque un dernier effort
-        {% endif %}
-    </p>
-</div>
-<div class="bubble col-8 offset-2">
-    {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr} )} ) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success" type="submit">
-        {% dump(quizz) %}
-        question suivante !
-    </button {{ form_end(form) }} </div> {% endblock %}
->>>>>>> 376eb16cd7b2c0aab0459f11fb181f0077be56a2

@@ -64,17 +64,12 @@ class QuizzController extends AbstractController
             // TODO ajouter un slugger
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-<<<<<<< HEAD
             dump($user);
-            //$quizz->setCrew('user.crew')
-=======
-            dump($user); 
             //  $quizz->setCrew('user.crew')
->>>>>>> 376eb16cd7b2c0aab0459f11fb181f0077be56a2
             $manager->persist($quizz);
             $manager->flush();
-            dump($quizz);
-            exit;
+            dump($request);
+            
 
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
@@ -94,11 +89,8 @@ class QuizzController extends AbstractController
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
     {
-<<<<<<< HEAD
-=======
         dump($id);
         dump($nbr);
->>>>>>> 376eb16cd7b2c0aab0459f11fb181f0077be56a2
         $question = new Question();
         //? je récupere l'id du quizz créer
         $quizz = $qr->findOneById($id);
@@ -107,34 +99,17 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
         dump($nbr);
-<<<<<<< HEAD
-        $nbr ++;
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question->setBody('');
-            $question->setProp1('');
-=======
         $nbr++;
         if ($form->isSubmitted() && $form->isValid()) {
-
->>>>>>> 376eb16cd7b2c0aab0459f11fb181f0077be56a2
             $question->setQuizz($quizz);
             $question->setErrore(0);
 
             $manager->persist($question);
             dump($request);
-            exit;
             
-<<<<<<< HEAD
             $manager->flush();
 
             if ($nbr < 10) {
-=======
-            //$manager->flush();
-
-            if ($nbr < 10) {
-
-
->>>>>>> 376eb16cd7b2c0aab0459f11fb181f0077be56a2
                 return $this->render('quizz/newsQuestions.html.twig', [
                     'form' => $form->createView(),
                     'quizz' => $quizz,
@@ -146,7 +121,7 @@ class QuizzController extends AbstractController
                 'sort ' => 'id'
             ]);
         }
-
+        
         return $this->render('quizz/newsQuestions.html.twig', [
             'form' => $form->createView(),
             'quizz' => $quizz,
