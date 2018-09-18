@@ -1,56 +1,123 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>
-        {% block title %}{% endblock %}
-    </title>
-    {% block stylesheets %}
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-    crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-    {% endblock %}
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+        {% endblock %}
+    </head>
 
-<body>
-    <header>
-        <a href="{{ path('home') }}">
-<h1 class="text-center"><a href="{{ path('home') }}">les VallesBaQues</a>
-            </h1>
-        </a>
-        <div class="pos-f-t">
-            <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-red p-4">
-                    <a href="{{ path('home') }}">
-                        <h5 class="text-green h4">Accueil</h5>
-                    </a>
+    <body>
+        <header>
+            <div class="d-flex flex-nowrap">
+                <div class="col-6 offset-3 my-3 mt-5">
+                    <h1 class="text-center">
+                        <a href="{{ path('home') }}">les VallesBaQues</a>
+                    </h1>
+                </div>
+                <div class="d-none d-md-block col-3 log-menu text-center ">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h5 mr-3">Profil
+                            <i class="fas fa-user"></i>
+                        </a>
 
-                    <span class="text-muted">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Profil</a>
-                        |
-                        <a href="{{ path('logout') }}">déconnexion</a>
-                        {% else %}
-                        <a href="{{ path('security_signup') }}">inscription</a>
-                        |
-                        <a href="{{ path ('security_login')}}">Connexion</a>
-                        {% endif %}
-                    </span>
+                        <a href="{{ path('logout') }}" class="h5 mr-3">Déconnexion
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('security_signup') }}" class="h5 mr-3">Inscription
+                            <i class="fas fa-user-plus"></i>
+                        </a>
 
-                    <ul>
-                        <li><a href="{{ path('category') }}">Catégories</a></li>
-                        <li>Niveaux</li>
-                    </ul>
+                        <a href="{{ path ('security_login')}}" class="h5 mr-3">Connexion
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
-            <nav class="navbar navbar-dark bg-green text-green">
+            {# burger #}
+            <div class="pos-f-t d-md-none">
+                <div class="collapse" id="navbarToggleExternalContent">
+                    <div class="bg-red p-4">
+                    <div class="dflex">
+<img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de {{ user.username }}" class="rounded-circle">
+                        <a href="{{ path('home') }}" class="ml-2 pt-2">
+                            <h5 class="text-green h4">Accueil </h5>
+                        </a>
+</div>
+                        <span class="text-muted ml-2">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Profil</a>
+                                |
+                                <a href="{{ path('logout') }}">déconnexion</a>
+                            {% else %}
+                                <a href="{{ path('security_signup') }}">inscription</a>
+                                |
+                                <a href="{{ path ('security_login')}}">Connexion</a>
+                            {% endif %}
+                        </span>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-                    aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
+                        <ul>
+                            <li>
+                                <a href="{{ path('category') }}">Catégories</a>
+                            </li>
+                            <li>Niveaux</li>
+                        </ul>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-green text-green">
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+            </div>
+
+            {# fin burger #}
+            <div class="d-none d-md-block header-menu">
+
+                <ul class="nav nav-tabs h5 col-6 offset-3">
+                    <li class="nav-item">
+                        <a class="nav-link {% block categories %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
+                    </li>
+                    {#<li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                        aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item " href="#">Les Quizzs</a>
+                        <a class="dropdown-item " href="#">Another action</a>
+                        <a class="dropdown-item " href="#">Something else here</a>
+                        <div class="dropdown-divider "></div>
+                        <a class="dropdown-item " href="#">Separated link</a>
+                    </div>#}
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link {% block level %}{% endblock %}" href="#">les Niveaux</a>
+                </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item ">
+                        <a class="nav-link {% block quizz %}{% endblock %}" href="#">les Quizzs</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link {% block new_quizz %}{% endblock %}" href="#">Poster un Quizz</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link {% block statistics %}{% endblock %}" href="#">Mes Stats</a>
+                    </li>
+
+                    {% dump(app.user.userCrews) %}
+                    <li class="nav-item ">
+                        <a class="nav-link {% block crews %}{% endblock %}" href="#">Mes groupes</a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
         </div>
     </header>
     {% block body %}{% endblock %}

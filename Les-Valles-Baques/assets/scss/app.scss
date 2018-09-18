@@ -1,12 +1,12 @@
 $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
-$blue: #253f58;
+$blue: #002547;
 
 
 $primary: #253f58;
 $success: #aec33a;
-$danger: #d92139;
+$danger: #002547;
 // the ~ allows you to reference things in node_modules
 
 $danger: $red;
@@ -48,12 +48,23 @@ a {
     color: inherit;
 }
 
+.brad {
+    border-radius: 1rem;
+}
+
+
+.dflex{
+    display:flex;
+    align-items: center;
+    
+
+}
 .bubble {
     background-color: $yellow;
     color: $blue;
     text-align: center;
     margin-top: 1em;
-    border-radius: 1em;
+    border-radius: 1rem;
     padding: 0.5em;
 
     &-title {
@@ -103,12 +114,14 @@ button.btn.btn-danger {
     background-color: $primary;
 }
 
+/**
+* TODO je ne sais pas à quoi ça sert ?
 .row:after {
     content: '';
     display: inline-block;
     @include triangle(20px, $primary);
 }
-
+*/
 thead.thead {
     background-color: $blue;
     color: $green;
@@ -139,10 +152,67 @@ thead.thead {
     color: $red;
     background-color: $blue;
     border-top-color: $red;
-    
+
 }
 
 .table tr:hover {
-        background-color: #0d1e2e;
-    }
+    background-color: #0d1e2e;
+}
 
+
+
+header {
+    border-bottom: solid 3px #7ace60;
+}
+
+//? header navigation
+header .nav-tabs {
+    border: none
+}
+
+header .nav .nav-item .nav-link {
+    background-color: $red;
+    border: solid 2px $green;
+    border-bottom: solid 1px $red;
+    margin-left: 2em;
+    //margin-bottom: -2px;
+    color: $blue;
+
+}
+
+header .nav .nav-item .active {
+    z-index: 50;
+    margin-bottom: -2px;
+    background-color: #002547;
+    color: $green;
+    border: solid 2px $green;
+    border-bottom: solid 4px #002547;
+}
+
+header .nav .nav-item:focus {
+    margin-bottom: 1px;
+    z-index: 50;
+    background-color: #002547;
+    color: $green;
+    border: solid 2px $green;
+    border-bottom: solid 4px #002547;
+}
+
+header .nav .nav-item .disabled {
+    background-color: $red;
+    margin: 0 1em;
+    border: $green;
+    color: #1F1C1E;
+}
+
+//? Log menu
+.log-menu {
+    line-height: 2em;
+    padding-top: 1em;
+    color: $blue;
+
+}
+
+//? profil page
+
+.info-profil {}
