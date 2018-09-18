@@ -97,7 +97,6 @@ class QuizzController extends AbstractController
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
-     
         //? je crée une variable pour compter le nombre de question créées
         $nbr++;
         //c'est la avant le if
