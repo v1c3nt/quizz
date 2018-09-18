@@ -85,24 +85,24 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET")
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
     {
-        dump($id);
         dump($nbr);
+        dump($id);
         $question = new Question();
         //? je récupere l'id du quizz créer
         $quizz = $qr->findOneById($id);
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
+     
         //? je crée une variable pour compter le nombre de question créées
-        dump($nbr);
         $nbr++;
-//c'est la avant le if
-
+        //c'est la avant le if
         if ($form->isSubmitted() && $form->isValid()) {
+
             $question->setQuizz($quizz);
             $question->setErrore(0);
 
@@ -110,9 +110,8 @@ class QuizzController extends AbstractController
 
             $manager->flush();
 
-            dump('new Question');
             if ($nbr < 10) {
-                dump('dans le if 10');
+
                 $question = new Question();
                 $form = $this->createForm(QuestionType::class, $question);
 
@@ -135,3 +134,4 @@ class QuizzController extends AbstractController
         ]);
     }
 }
+

@@ -19,31 +19,28 @@ var app = {
         console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
         $('#nextQuestion').on('submit', app.nextQuestion);
-        $('#reset').on('click', app.nextQuestionReset);
+
     },
 
     nextQuestion: function (event) {
         event.preventDefault();
-        console.log('submit blocked');
+
         $form = $('#nextQuestion');
         var dataToSend = $(this).serialize();
 
         $.ajax({
-            url: $form.attr('action'),
+            url: '',
 
             method: 'POST',
             cache: false,
             data: dataToSend,
             success: function (html) {
                 console.log('success')
-                $('#nextQuestion').remove(
-                    // ... with the returned one from the AJAX response.
-                    // $(html).find('#nextquestion')
-                    //$('#nextquestion').remove;
-                );
+                $('#nextQuestion').remove();
 
                 var newQuestion = $(html).find('#nextQuestion')
                 $('#formDiv').html(newQuestion);
+
                 $('#nextQuestion').on('submit', app.nextQuestion);
             }
         })
