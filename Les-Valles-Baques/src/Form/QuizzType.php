@@ -14,6 +14,7 @@ class QuizzType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+<<<<<<< HEAD
             ->add('title')
             //->add('slug')
             ->add('description')
@@ -21,6 +22,20 @@ class QuizzType extends AbstractType
             ->add('category')
             //->add('author')
             ->add('crew')
+=======
+            ->add('title', null, [
+                'label'=>'titre'
+            ])
+            ->add('description')
+            ->add('IsPrivate', null, [
+                'label' => 'privé',
+                'help' => 'Si vous cochez cette option le questionaire ne sera visible que dans votre groupe actuel.'
+            ])
+            ->add('category', null, [
+                'label'=>'catégorie'
+            ])
+            //? on pourrait le calculé a partir des difficultés des questions ?
+>>>>>>> a4bbf86912ba4f2262580a673faa7b324eab670c
             ->add('level')
             ->add('questions', QuestionType::class)
         ;

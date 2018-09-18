@@ -25,31 +25,33 @@ class QuizzController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
-        
-        $categories = $repository->findBy([], ['name'=>'ASC']);
-        $quizzs = $repositoryQuizz->findby([], [$sort=>'ASC']);
+
+        $categories = $repository->findBy([], ['name' => 'ASC']);
+        $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
+
 
         return $this->render('quizz/indexbis.html.twig', [
-            'categories'=> $categories,
-            'quizzs'=>$quizzs,
+            'categories' => $categories,
+            'quizzs' => $quizzs,
         ]);
     }
 
     /**
      * @Route("/quizz/show/{id}", name="quizz_list_show")
      */
-    public function show(Quizz $quizz): Response
+    public function show(Quizz $quizz) : Response
     {
         return $this->render('quizz/show.html.twig', [
-            'quizz'=>$quizz,
+            'quizz' => $quizz,
         ]);
     }
 
     /**
-     * @Route("/quizz/propose/nouveau", name="quizz_list_new")
+     * @Route("/quizz/propose/nouveau", name="new_quizz")
      */
     public function new(Request $request, ObjectManager $manager)
     {
+<<<<<<< HEAD
         $quizz = new Quizz();
         $question = new Question();
     
@@ -59,16 +61,96 @@ class QuizzController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($quizz);
+=======
+        $user = $this->getUser();
+        $quizz = new Quizz();
+
+        $form = $this->createForm(QuizzType::class, $quizz);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //? j'ajoute le User connecté comme auteur du quizz
+            $quizz->setAuthor($user);
+            // TODO ajouter un slugger
+            $quizz->setSlug('test');
+            // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
+            dump($user);
+            //  $quizz->setCrew('user.crew')
+            $manager->persist($quizz);
+            $manager->flush();
+            dump($request);
+            
+
+            //? après la création du questionnaire j'oriente vers la  création des questions.
+            return $this->redirectToRoute('questions_quizz', [
+                'id' => $quizz->getId(),
+                'quizz' => $quizz,
+                'nbr' => 0,
+            ]);
+        }
+
+        return $this->render('quizz/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
+     */
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
+    {
+        dump($nbr);
+        dump($id);
+        $question = new Question();
+        //? je récupere l'id du quizz créer
+        $quizz = $qr->findOneById($id);
+
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->handleRequest($request);
+     
+        //? je crée une variable pour compter le nombre de question créées
+        $nbr++;
+        //c'est la avant le if
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $question->setQuizz($quizz);
+            $question->setErrore(0);
+
+            $manager->persist($question);
+>>>>>>> a4bbf86912ba4f2262580a673faa7b324eab670c
 
             $manager->flush();
 
-            return $this->redirectToRoute('quizz_list_show');
+            if ($nbr < 10) {
+
+                $question = new Question();
+                $form = $this->createForm(QuestionType::class, $question);
+
+                return $this->render('quizz/newsQuestions.html.twig', [
+                    'nbr' => $nbr,
+                    'form' => $form->createView(),
+                    'quizz' => $quizz,
+                ]);
+            }
+
+            return $this->redirectToRoute('quizz_list_sort', [
+                'sort ' => 'id'
+            ]);
         }
 
+<<<<<<< HEAD
         return $this->render('quizz/new.html.twig', [
             'form'=>$form->createView(),
             'questions'=>$questions,
             'quizz'=>$quizz,
+=======
+        return $this->render('quizz/newsQuestions.html.twig', [
+            'form' => $form->createView(),
+            'quizz' => $quizz,
+            'nbr' => $nbr,
+>>>>>>> a4bbf86912ba4f2262580a673faa7b324eab670c
         ]);
     }
 }
+

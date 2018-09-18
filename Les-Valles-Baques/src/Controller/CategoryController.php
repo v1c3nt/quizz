@@ -16,21 +16,7 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $category)
     {
 
-        $treeCategories = [];
         $categories = $category->findAll();
-
-
-
-        foreach ($categories as $category) {
-
-            $xx = $category->getChildren();
-
-
-        }
-
-
-
-
 
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
@@ -38,8 +24,4 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    public function deepdown($cat)
-    {
-
-    }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace DoctrineMigrations;
 
@@ -8,15 +8,15 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20180914072956 extends AbstractMigration
+final class Version20180918093636 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP INDEX IDX_7C77973D5DC6FE57 ON quizz');
-        $this->addSql('ALTER TABLE quizz DROP subcategory_id');
+        $this->addSql('ALTER TABLE question ADD nbr INT NOT NULL');
+
     }
 
     public function down(Schema $schema) : void
@@ -24,7 +24,7 @@ final class Version20180914072956 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE quizz ADD subcategory_id INT DEFAULT NULL');
-        $this->addSql('CREATE INDEX IDX_7C77973D5DC6FE57 ON quizz (subcategory_id)');
+
+        $this->addSql('ALTER TABLE question DROP nbr');
     }
 }

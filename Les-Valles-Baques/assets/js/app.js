@@ -12,45 +12,38 @@ require('../scss/app.scss');
 require('bootstrap');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
-/*var app = {
+var app = {
 
-        init: function () {
-            //! TODO à effacer 
-            console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+    init: function () {
 
-            $('#signup').on('submit', app.signup);
-        },
+        console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
-        signup: function(evt){
-            evt.preventDefault();
-            console.log('submit ok');
-            var dataToSend = $(this).serialize();
+        $('#nextQuestion').on('submit', app.nextQuestion);
 
-            console.log(dataToSend);
-            
-            var jqXHR =$.ajax({
-                url: '/inscription',
-                method: 'POST',
-                dataType:'json',
-                data: dataToSend
-            }).done(function (response) {
+    },
 
-                if (response.code == 0) {
+    nextQuestion: function (event) {
+        event.preventDefault();
 
-                    // Pas AJAX donc à ne pas privilegier mais plus rapide pour nous ;-)
-                   alert('Cool on y est');
-                } else {
+        $form = $('#nextQuestion');
+        var dataToSend = $(this).serialize();
 
-                    alert('response.errorMsg');
-                }
-            }).fail(function () {
+        $.ajax({
+            url: '',
 
-                alert('Une erreur est survenue...');
-            });
+            method: 'POST',
+            cache: false,
+            data: dataToSend,
+            success: function (html) {
+                console.log('success')
+                $('#nextQuestion').remove();
 
-        }
+                var newQuestion = $(html).find('#nextQuestion')
+                $('#formDiv').html(newQuestion);
 
-
-    };
-
-$(app.init);*/
+                $('#nextQuestion').on('submit', app.nextQuestion);
+            }
+        })
+    },
+}
+$(app.init);

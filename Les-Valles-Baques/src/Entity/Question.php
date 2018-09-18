@@ -69,128 +69,129 @@ class Question
      */
     private $level;
 
-    public function getId(): ?int
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getBody(): ?string
+    public function getBody() : ? string
     {
         return $this->body;
     }
 
-    public function setBody(string $body): self
+    public function setBody(string $body) : self
     {
         $this->body = $body;
 
         return $this;
     }
 
-    public function getProp1(): ?string
+    public function getProp1() : ? string
     {
         return $this->prop1;
     }
 
-    public function setProp1(string $prop1): self
+    public function setProp1(string $prop1) : self
     {
         $this->prop1 = $prop1;
 
         return $this;
     }
 
-    public function getProp2(): ?string
+    public function getProp2() : ? string
     {
         return $this->prop2;
     }
 
-    public function setProp2(string $prop2): self
+    public function setProp2(string $prop2) : self
     {
         $this->prop2 = $prop2;
 
         return $this;
     }
 
-    public function getProp3(): ?string
+    public function getProp3() : ? string
     {
         return $this->prop3;
     }
 
-    public function setProp3(string $prop3): self
+    public function setProp3(string $prop3) : self
     {
         $this->prop3 = $prop3;
 
         return $this;
     }
 
-    public function getProp4(): ?string
+    public function getProp4() : ? string
     {
         return $this->prop4;
     }
 
-    public function setProp4(string $prop4): self
+    public function setProp4(string $prop4) : self
     {
         $this->prop4 = $prop4;
 
         return $this;
     }
 
-    public function getAnecdote(): ?string
+    public function getAnecdote() : ? string
     {
         return $this->anecdote;
     }
 
-    public function setAnecdote(?string $anecdote): self
+    public function setAnecdote(? string $anecdote) : self
     {
         $this->anecdote = $anecdote;
 
         return $this;
     }
 
-    public function getSource(): ?string
+    public function getSource() : ? string
     {
         return $this->source;
     }
 
-    public function setSource(?string $source): self
+    public function setSource(? string $source) : self
     {
         $this->source = $source;
 
         return $this;
     }
 
-    public function getErrore(): ?bool
+    public function getErrore() : ? bool
     {
         return $this->errore;
     }
 
-    public function setErrore(bool $errore): self
+    public function setErrore(bool $errore) : self
     {
         $this->errore = $errore;
 
         return $this;
     }
 
-    public function getQuizz(): ?Quizz
+    public function getQuizz() : ? Quizz
     {
         return $this->quizz;
     }
 
-    public function setQuizz(?Quizz $quizz): self
+    public function setQuizz(? Quizz $quizz) : self
     {
         $this->quizz = $quizz;
 
         return $this;
     }
 
-    public function getLevel(): ?Level
+    public function getLevel() : ? Level
     {
         return $this->level;
     }
 
-    public function setLevel(?Level $level): self
+    public function setLevel(? Level $level) : self
     {
         $this->level = $level;
 
         return $this;
     }
+
 }

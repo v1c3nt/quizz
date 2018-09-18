@@ -3,64 +3,68 @@
 {% block title %}Les Quizz{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="col-10 offset-1">
-            <div class="bubble">
-                <h2 class="bubble-title">Les Quizz</h2>
-                <div class="container">
-                    <ul class="list-inline">
-                        <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
-                        <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
-                        <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
-                        <!-- TODO modifier id par like quand islike oprérationnel-->
-                        <li class="list-inline-item">
-                            <a href="{{ path ('quizz_list_sort' , {'sort' : 'isLike'}) }}">Like</li>
-                        </a>
-                    </ul>
-                </div>
-                <button class="btn btn-danger" type="button">
-                    <a href="#">Propose ton Quizz</a>
-                </button>
-                <table class="table mt-5">
-                    <thead class="thead">
-                        <tr>
-                            <th scope="col">Quizz</th>
-                            <th scope="col">Catégories</th>
-                            <th scope="col">Niveaux</th>
-                            <th scope="col">Like</th>
-                            <th scope="col">Jouer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {% for q in quizzs %}
-                                <th scope="row">{{q.title}}</th>
-                                <td>
-                                    {{q.category.name}}
-                                </td>
-                                <td>{{q.level.name}}</td>
-                                <td>Likes</td>
-                                <td>
-                                    {% if is_granted('ROLE_USER') %}
-                                        <button class="btn btn-success" type="button">
-                                            <a href="{{path('quizz_list_show',{'id':q.id})}}">Go !</a>
-                                        </button>
-                                    {% else %}
-                                        <button class="btn btn-success" type="button">
-                                            <a href="{{path('security_signup')}}">Inscris-toi pour jouer</a>
-                                        </button>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
-
+<div class="container-fluid">
+    <div class="col-10 offset-1">
+        <div class="bubble">
+            <h2 class="bubble-title">Les Quizz</h2>
+            <div class="container">
+                <ul class="list-inline">
+                    <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
+                    <!-- TODO modifier id par like quand islike oprérationnel-->
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'isLike'}) }}">Like</li>
+                    </a>
+                </ul>
             </div>
+            
+<a href="{{ path('new_quizz') }}"><button class="btn btn-danger" type="button">Propose ton Quizz </button></a>
+           
+            <table class="table mt-5">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">Quizz</th>
+                        <th scope="col">Catégories</th>
+                        <th scope="col">Niveaux</th>
+                        <th scope="col">Like</th>
+                        <th scope="col">Jouer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for q in quizzs %}
+                        <th scope="row">{{q.title}}</th>
+                        <td>
+                            {#TODO a effacer le temps de régler les sql#}
+                            {% if q.category.name is defined %}
+                            {{q.category.name}}
+                            {% endif %}
+
+                        </td>
+                        <td>{{q.level.name}}</td>
+                        <td>Likes</td>
+                        <td>
+                            {% if is_granted('ROLE_USER') %}
+                            <button class="btn btn-success" type="button">
+                                <a href="{{path('quizz_list_show',{'id':q.id})}}">Go !</a>
+                            </button>
+                            {% else %}
+                            <button class="btn btn-success" type="button">
+                                <a href="{{path('security_signup')}}">Inscris-toi pour jouer</a>
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
         </div>
     </div>
+</div>
 
 {% endblock %}
