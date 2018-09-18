@@ -25,24 +25,28 @@ var app = {
     nextQuestion: function (event) {
         event.preventDefault();
         console.log('submit blocked');
-        var $this = $(this);
+        $form = $('#nextQuestion');
         var dataToSend = $(this).serialize();
 
-        var $form = $(this).closest('form');
-        console.log(dataToSend);
-
         $.ajax({
-            url: $this.attr('action'),
-            
+            url: $form.attr('action'),
+
             method: 'POST',
             cache: false,
             data: dataToSend,
             success: function (html) {
-                console.log(html)
-                
-                window.location.href = url
-            },
-        })}
+                console.log('success')
+                $('#nextQuestion').remove(
+                    // ... with the returned one from the AJAX response.
+                    // $(html).find('#nextquestion')
+                    //$('#nextquestion').remove;
+                );
 
+                var newQuestion = $(html).find('#nextQuestion')
+                $('#formDiv').html(newQuestion);
+                $('#nextQuestion').on('submit', app.nextQuestion);
+            }
+        })
+    },
 }
 $(app.init);

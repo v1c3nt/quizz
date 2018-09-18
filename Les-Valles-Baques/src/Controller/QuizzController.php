@@ -100,18 +100,21 @@ class QuizzController extends AbstractController
         //? je crée une variable pour compter le nombre de question créées
         dump($nbr);
         $nbr++;
+//c'est la avant le if
+
         if ($form->isSubmitted() && $form->isValid()) {
             $question->setQuizz($quizz);
             $question->setErrore(0);
 
             $manager->persist($question);
 
-            //! TODO $manager->flush();
+            $manager->flush();
 
+            dump('new Question');
             if ($nbr < 10) {
+                dump('dans le if 10');
                 $question = new Question();
                 $form = $this->createForm(QuestionType::class, $question);
-
 
                 return $this->render('quizz/newsQuestions.html.twig', [
                     'nbr' => $nbr,
