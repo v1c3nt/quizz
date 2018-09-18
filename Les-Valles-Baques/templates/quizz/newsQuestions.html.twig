@@ -29,11 +29,11 @@
                 {% endif %}
             </p>
         </div>
-        <div class="bubble col-8 offset-2">
-            {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr} )} ) }}
+        <div class="bubble col-8 offset-2" id="formDiv">
+            {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
+            {% dump('form') %}
             {{ form_widget(form) }}
-            <button class="btn btn-success" id="reset" value="Reset" type="submit">
-                {% dump(quizz) %}
+            <button class="btn btn-success" type="submit">
                 question suivante !
             </button {{ form_end(form) }} </div>
         {% endblock %}

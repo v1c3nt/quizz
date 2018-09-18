@@ -85,7 +85,7 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz")
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET")
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
     {
@@ -105,15 +105,18 @@ class QuizzController extends AbstractController
             $question->setErrore(0);
 
             $manager->persist($question);
-            dump($request);
-            
-            $manager->flush();
+
+            //! TODO $manager->flush();
 
             if ($nbr < 10) {
+                $question = new Question();
+                $form = $this->createForm(QuestionType::class, $question);
+
+
                 return $this->render('quizz/newsQuestions.html.twig', [
+                    'nbr' => $nbr,
                     'form' => $form->createView(),
                     'quizz' => $quizz,
-                    'nbr' => $nbr,
                 ]);
             }
 
@@ -121,7 +124,7 @@ class QuizzController extends AbstractController
                 'sort ' => 'id'
             ]);
         }
-        
+
         return $this->render('quizz/newsQuestions.html.twig', [
             'form' => $form->createView(),
             'quizz' => $quizz,

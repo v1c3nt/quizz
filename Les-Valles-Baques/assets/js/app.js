@@ -22,28 +22,27 @@ var app = {
         $('#reset').on('click', app.nextQuestionReset);
     },
 
-    nextQuestionReset: function () {
-        $('#nextQuestion')[0].reset();
-    },
-
-
-    /*nextQuestion: function (event) {
+    nextQuestion: function (event) {
         event.preventDefault();
         console.log('submit blocked');
+        var $this = $(this);
         var dataToSend = $(this).serialize();
 
         var $form = $(this).closest('form');
         console.log(dataToSend);
 
-        var jqXHR = $.ajax({
-            url: '',
+        $.ajax({
+            url: $this.attr('action'),
+            
             method: 'POST',
+            cache: false,
             data: dataToSend,
-            success: function () {
-                nbr = nbr
-                console.log('ajax')
-            }
-        });
-}*/
+            success: function (html) {
+                console.log(html)
+                
+                window.location.href = url
+            },
+        })}
+
 }
 $(app.init);

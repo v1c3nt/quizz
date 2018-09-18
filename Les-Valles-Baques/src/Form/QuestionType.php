@@ -50,7 +50,8 @@ class QuestionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Question::class,
-            'attr' => ['id' => 'nextQuestion']
+            'attr' => ['id' => 'nextQuestion'],
+            'method'=> 'POST'
         ]);
     }
 }
