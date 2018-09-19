@@ -15,7 +15,7 @@
     <body>
         <header>
             <div class="d-flex flex-nowrap">
-                <div class="col-6 offset-3 my-3 mt-5">
+                <div class="col-6 offset-3 my-2 mt-3">
                     <h1 class="text-center">
                         <a href="{{ path('home') }}">les VallesBaQues</a>
                     </h1>
@@ -107,7 +107,7 @@
                         <a class="nav-link {% block quizz %}{% endblock %}" href="#">les Quizzs</a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link {% block new_quizz %}{% endblock %}" href="#">Poster un Quizz</a>
+                        <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link {% block statistics %}{% endblock %}" href="#">Mes Stats</a>

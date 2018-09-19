@@ -50,6 +50,7 @@ a {
 
 .brad {
     border-radius: 1rem;
+    overflow : hidden;
 }
 
 
@@ -127,21 +128,22 @@ thead.thead {
     color: $green;
 }
 
+.table {
+    color: $yellow;
+}
+
 .table th {
-    color: $red;
     background-color: #253f58;
     border-top-color: $red;
 }
 
 .table thead th {
-    color: $red;
     background-color: $blue;
     border-bottom-color: $red;
 
 }
 
 .table th {
-    color: $red;
     background-color: $blue;
     border-top-color: $red;
 
@@ -149,7 +151,6 @@ thead.thead {
 
 
 .table td {
-    color: $red;
     background-color: $blue;
     border-top-color: $red;
 

@@ -281,4 +281,6 @@ class Quizz
     {
         return $this->getTitle();
     }
+
+
 }

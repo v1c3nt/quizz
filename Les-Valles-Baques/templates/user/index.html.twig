@@ -54,8 +54,8 @@
             </div>
         </div>
 
-        <h3 class="m-1 border border-primary brad p-2">tes Stats</h3>
-        <div class="brad">
+        <h3 class="m-1 my-2 border border-primary brad p-2">tes Stats</h3>
+        <div class="brad m-1">
             <table class="table">
                 <thead>
                     <tr>
@@ -68,21 +68,22 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <th scope="row">les pubs d'hier et d'aujourd'hui</th>
+                        <td>culture G</td>
+                        <td>débutant</td>
+                        <td>8/10</td>
                     </tr>
                     <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                        <th scope="row">les prof d'Oclock</th>
+                        <td>code</td>
+                        <td>expert</td>
+                        <td>10/10</td>
                     </tr>
                     <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
+                        <th scope="row">les super heros</th>
+                        <td>cinéma</td>
+                        <td>confirmé</td>
+                        <td>5/10</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,15 +109,32 @@
 
         <h3 class="m-1 border border-primary brad p-2">tes Quizzs</h3>
         <div>
-            <ul>
-                <li>dsqfdsfsqfd</li>
-                <li>aagtfag</li>
-                <li>ggrzegaeq</li>
-                <li>grananretn eathge</li>
-                <li>
-                    eragyegqegaeq
-                </li>
-            </ul>
+<div class="brad m-1">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Quizz</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col">Niveaux</th>
+                <th scope="col">Like</th>
+                <th scope="col">résultats moyen</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for mq in myQuizzes %}  
+            <tr>
+                <th scope="row">{{ mq.title }}</th>
+                <td>{{ mq.category }}</td>
+                <td>{{ mq.level }}</td>
+{# TODO codé en dur a modifier #}
+                <td>{{ random(30) }}</td>
+{# TODO codé en dur a modifier #}
+<td>{{ random(10) }}/10</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
         </div>
     </main>
 {% endblock %}
