@@ -5,14 +5,25 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\QuizzRepository;
+use App\Repository\UserCrewRepository;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
      */
-    public function index(QuizzRepository $quizzes)
+    public function index(QuizzRepository $quizzes, UserCrewRepository $uCrews )
     {
+        /**
+         * 
+         * TODO preparation pour les acces a faire quand role OK
+         $login = $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+         $user = $this->getUser();
+         dump($login);
+         $userCrews = $uCrews->findByUser($user->getId());
+         dump($userCrews)
+         dump($user);
+         */
 
         $quizzes = $quizzes->findAll();
 

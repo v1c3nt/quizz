@@ -26,8 +26,13 @@ class QuizzType extends AbstractType
                 'label'=>'catégorie'
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
+<<<<<<< HEAD
             //->add('level')
             //->add('questions')
+=======
+            ->add('level')
+            ->add('questions', QuestionType::class)
+>>>>>>> 17b2d5a7706395fab959c947233bd9ef9974120a
         ;
     }
 

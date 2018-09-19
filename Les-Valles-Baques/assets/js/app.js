@@ -10,6 +10,10 @@ const $ = require('jquery');
 require('../css/app.css');
 require('../scss/app.scss');
 require('bootstrap');
+require('jquery-ui')
+  $(function () {
+      $("#accordion").accordion();
+  });
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // var $ = require('jquery');
 var app = {
