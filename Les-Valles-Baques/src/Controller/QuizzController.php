@@ -28,7 +28,10 @@ class QuizzController extends AbstractController
 
         $categories = $repository->findBy([], ['name' => 'ASC']);
         $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
+<<<<<<< HEAD
 
+=======
+>>>>>>> menu
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,

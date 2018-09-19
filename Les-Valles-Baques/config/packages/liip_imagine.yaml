@@ -1,0 +1,63 @@
+# app/config/config.yml
+
+liip_imagine :
+
+    # configure resolvers
+    resolvers :
+
+        # setup the default resolver
+        default :
+
+            # use the default web path
+            web_path : ~
+
+    # your filter sets are defined here
+    filter_sets :
+
+        # use the default cache configuration
+        cache : ~
+
+        # the name of the "filter set"
+        medium_square :
+
+            # adjust the image quality to 75%
+            quality : 85
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                thumbnail  : { size : [180, 180], mode : outbound }
+
+                background : { size : [180, 180], position : center, color : '#000000' }
+
+        small_square :
+
+            # adjust the image quality to 75%
+            quality : 85
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                # create a thumbnail: set size to 128x128 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [128, 128], mode : outbound }
+
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                background : { size : [128, 128], position : center, color : '#000000' }
+
+        mini_square :
+
+            # adjust the image quality to 75%
+            quality : 85
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                # create a thumbnail: set size to 64x64 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [64, 64], mode : outbound }
+
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                background : { size : [64, 64], position : center, color : '#000000' }
