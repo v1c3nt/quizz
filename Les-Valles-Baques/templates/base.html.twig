@@ -13,17 +13,17 @@
     </head>
 
     <body>
-      
+
         <header>
             <div class="d-flex flex-nowrap">
                 <div class="col-6 offset-3 my-2 mt-3">
                     <h1 class="text-center">
-                        <a href="{{ path('home') }}">les VallesBaQues</a>
+                        <a href="{{ path('home') }}">Les VallesBaQues</a>
                     </h1>
                 </div>
                 <div class="d-none d-md-block col-3 log-menu text-center ">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h5 mr-3">Profil
+                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h5 mr-3">Mon Profil
                             <i class="fas fa-user"></i>
                         </a>
 
@@ -56,11 +56,11 @@
                         </div>
                         <span class="text-muted ml-2">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Profil</a>
+                                <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Mon Profil</a>
                                 |
-                                <a href="{{ path('logout') }}">déconnexion</a>
+                                <a href="{{ path('logout') }}">Déconnexion</a>
                             {% else %}
-                                <a href="{{ path('security_signup') }}">inscription</a>
+                                <a href="{{ path('security_signup') }}">Inscription</a>
                                 |
                                 <a href="{{ path ('security_login')}}">Connexion</a>
                             {% endif %}
@@ -102,12 +102,12 @@
                 </li>
                 {# TODO es que l'on fait une catégorie Niveau ?
                 <li class="nav-item ">
-                    <a class="nav-link {% block level %}{% endblock %}" href="#">les Niveaux</a>
+                    <a class="nav-link {% block level %}{% endblock %}" href="#">Les Niveaux</a>
                 </li>
                 #}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item ">
-<a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">les Quizzs</a>
+                        <a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">Les Quizzes</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>
@@ -119,9 +119,14 @@
         </div>
     </header>
 
-<div class="subheader"></div>
+    <div class="subheader"></div>
 
     {% block body %}{% endblock %}
+
+    <footer class="container text-center">
+        <p id="footer">Made with &hearts; by La Team ViVi -
+            {{ "now"|date("Y") }}</p>
+    </footer>
     <script src="{{ asset('build/app.js') }}"></script>
     {% block javascripts %}{% endblock %}
 </body>

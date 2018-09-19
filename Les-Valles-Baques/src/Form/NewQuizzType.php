@@ -15,9 +15,9 @@ class NewQuizzType extends AbstractType
             ->add('title')
             ->add('slug')
             ->add('description')
-            ->add('IsPrivate', null,[
-                'label'=>'privé',
-                'help'=>'Si vous cochez cette option le questionaire ne sera visible que dans votre groupe actuel.'
+            ->add('IsPrivate', null, [
+                'label'=>'Privé',
+                'help'=>'Si tu coches cette option, le questionaire ne sera visible que dans ton groupe actuel'
             ])
             ->add('category')
             ->add('author')

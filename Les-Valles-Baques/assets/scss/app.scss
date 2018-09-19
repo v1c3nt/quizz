@@ -15,6 +15,7 @@ $danger: $red;
     color: $blue !important;
 }
 
+<<<<<<< HEAD
 
 //TODO classe de test pour les div
 .test {
@@ -22,11 +23,26 @@ $danger: $red;
 
 }
 #btn-signup {
+=======
+#btn-signup,
+#btn-login,
+button.btn.btn-success {
+>>>>>>> 36a6b81f3191c7002d618a532f76edb5ce8f0d4b
     border-color: $green;
     margin-left: 1em;
 
     &:hover {
         background-color: $blue;
+        color: $red;
+    }
+}
+
+button.btn.btn-danger {
+    border-color: $green;
+    margin-left: 1em;
+
+    &:hover {
+        background-color: $green;
         color: $red;
     }
 }
@@ -199,6 +215,19 @@ header {
     height: 7.25rem;
 }
 
+<<<<<<< HEAD
+=======
+.shortQuestion {
+    text-overflow: ellipsis;
+    height: 2em;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 3em;
+
+}
+
+
+>>>>>>> 36a6b81f3191c7002d618a532f76edb5ce8f0d4b
 //? header navigation
 
 header .nav-tabs {
@@ -259,4 +288,9 @@ header .nav .nav-item .disabled {
     border: solid 2px $blue;
     margin: auto;
     height: 1.5em;
+}
+
+//? footer
+#footer {
+    color: $green;
 }

@@ -18,7 +18,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_signup", methods={"GET","POST"})
      */
-    public function signUp(Request $request, UserPasswordEncoderInterface $encoder, AppRoleRepository $repository): Response
+    public function signUp(Request $request, UserPasswordEncoderInterface $encoder, AppRoleRepository $repository, \Swift_Mailer $mailer): Response
     {
         dump($this);
         $user = new User();
@@ -47,17 +47,30 @@ class SecurityController extends AbstractController
             $this->container->get('security.token_storage')->setToken($token);
             $this->container->get('session')->set('_security_main', serialize($token));
 
+            // Mail signup here
+            $message = (new \Swift_Message('Validation de l\'inscription'.' '.$user->getUserName()))
+                    ->setFrom(array('vivioclock@gmail.com'=> 'Les VallesBaques'))
+                    ->setTo($user->getEmail())
+                    ->setCharset('utf-8')
+                    ->setBody(
+                    $this->renderView(
+                        'security/emails/registration.html.twig',
+                        [
+                            'user'=>$user
+                        ]
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
             return $this->redirectToRoute('home');
         }
 
-        
         return $this->render(
         
             'security/signup.html.twig',
-            ['form' => $form->createView(),
-            
+            [
+                'form' => $form->createView(),
             ]
-        
         );
     }
 
