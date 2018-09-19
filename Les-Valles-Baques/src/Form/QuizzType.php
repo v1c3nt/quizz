@@ -17,15 +17,15 @@ class QuizzType extends AbstractType
             ->add('title', null, [
                 'label'=>'Titre du questionnaire'
             ])
-            ->add('description', null,[
+            ->add('description', null, [
                 'required'=> false,
-            ] )
+            ])
             ->add('IsPrivate', null, [
-                'label' => 'privé',
-                'help' => 'Si vous cochez cette option le questionaire ne sera visible que dans votre groupe actuel.'
+                'label' => 'Privé',
+                'help' => 'Si tu coches cette option le questionaire ne sera visible que dans ton groupe actuel'
             ])
             ->add('category', null, [
-                'label'=>'catégorie'
+                'label'=>'Catégorie'
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
             ->add('level')

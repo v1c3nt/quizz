@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\QuizzRepository;
 use App\Repository\UserCrewRepository;
+
 class UserController extends AbstractController
 {
     /**
@@ -24,7 +25,6 @@ class UserController extends AbstractController
             'user' => $user,
             'myQuizzes' => $myQuizzes,
             'myCrews' => $myCrews,
-            
         ]);
     }
 }

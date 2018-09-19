@@ -17,12 +17,12 @@ class HomeController extends AbstractController
         /**
          * 
          * TODO preparation pour les acces a faire quand role OK
-         $login = $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-         $user = $this->getUser();
-         dump($login);
-         $userCrews = $uCrews->findByUser($user->getId());
-         dump($userCrews)
-         dump($user);
+        $login = $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        dump($login);
+        $userCrews = $uCrews->findByUser($user->getId());
+        dump($userCrews)
+        dump($user);
          */
 
         $quizzes = $quizzes->findAll();

@@ -47,14 +47,13 @@ class SecurityController extends AbstractController
             $this->container->get('security.token_storage')->setToken($token);
             $this->container->get('session')->set('_security_main', serialize($token));
 
-            //Ici mettre mail validation inscription
-            $message = (new \Swift_Message('Validation de l\'inscription'.' '.$user->getUserName())) // ajout de $user->getUserName
-                    ->setFrom(array('vivioclock@gmail.com'=> 'Les VallesBaques')) //provenance du mail
-                    ->setTo($user->getEmail()) //destinataire email
+            // Mail signup here
+            $message = (new \Swift_Message('Validation de l\'inscription'.' '.$user->getUserName()))
+                    ->setFrom(array('vivioclock@gmail.com'=> 'Les VallesBaques'))
+                    ->setTo($user->getEmail())
                     ->setCharset('utf-8')
                     ->setBody(
                     $this->renderView(
-                // templates/emails/registration.html.twig
                         'security/emails/registration.html.twig',
                         [
                             'user'=>$user
@@ -63,20 +62,15 @@ class SecurityController extends AbstractController
                     'text/html'
                 );
             $mailer->send($message);
-
-
-
             return $this->redirectToRoute('home');
         }
 
-        
         return $this->render(
         
             'security/signup.html.twig',
-            ['form' => $form->createView(),
-            
+            [
+                'form' => $form->createView(),
             ]
-        
         );
     }
 

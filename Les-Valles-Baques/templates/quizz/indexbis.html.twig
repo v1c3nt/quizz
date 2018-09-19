@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Les Quizz{% endblock %}
+{% block title %}Les Quizzes{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="col-10 offset-1">
             <div class="bubble">
-                <h2 class="bubble-title">Les Quizz</h2>
+                <h2 class="bubble-title">Les Quizzes</h2>
                 <div class="container">
                     <ul class="list-inline">
                         <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
@@ -22,14 +22,14 @@
                 </div>
 
                 <a href="{{ path('new_quizz') }}">
-                    <button class="btn btn-danger" type="button">Propose ton Quizz
+                    <button class="btn btn-danger" type="button">Propose ton Nouveau Quizz
                     </button>
                 </a>
 
                 <table class="table mt-5">
                     <thead class="thead">
                         <tr>
-                            <th scope="col">Quizz</th>
+                            <th scope="col">Quizzes</th>
                             <th scope="col">Catégories</th>
                             <th scope="col">Niveaux</th>
                             <th scope="col">Like</th>
@@ -39,7 +39,9 @@
                     <tbody>
                         <tr>
                             {% for q in quizzs %}
-                                <th scope="row">{{q.title}}</th>
+                                <th scope="row">
+                                    {{q.title}}
+                                </th>
                                 <td>
                                     {#TODO a effacer le temps de régler les sql#}
                                     {% if q.category.name is defined %}

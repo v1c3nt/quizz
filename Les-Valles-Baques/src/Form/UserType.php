@@ -18,15 +18,15 @@ class UserType extends AbstractType
         $builder
             ->add('userName', null, [
                 'label' => 'Nom de joueur *',
-                'help' => 'c\'est le seul champs visible par les autres joueurs',
+                'help' => 'C\'est le seul champs visible par les autres joueurs',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'email *',
-                'help' => 'votre adressse ne sera pas visible par les autres Utilisateurs'
+                'label' => 'Email *',
+                'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'options' => array(
                     'attr' => array(
                         'class' => 'password-field'
@@ -34,20 +34,20 @@ class UserType extends AbstractType
                 ),
                 'first_options' => [
                     'required'=>true,
-                    'label' => 'mot de passe *',
-                    'help' => '6 caratères dont 1 majuscule, 1 minuscule et un chiffre, c\'est mais c\'est pour toi',
+                    'label' => 'Mot de passe *',
+                    'help' => '6 caratères dont 1 majuscule, 1 minuscule et 1 chiffre, c\'est long mais c\'est pour toi',
                 ],
                 'second_options' => [
-                    'label' => 'Encore le mot de passe *(c\'est juste pour être sur dsl)',
+                    'label' => 'Encore le mot de passe *(c\'est juste pour être sûr !)',
                 ]
             ])
             ->add('avatar', null, [
                 'required' => false,
-                'help' => 'Si tu es pressé pas de souci tu pourras l\'ajouter dans ton profil plus tard'
+                'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
             ])
             ->add('presentation', null, [
                 'required' => false,
-                'help' => 'Si tu es pressé pas de souci tu pourras le remplir dans ton profil plus tard'
+                'help' => 'Si tu es pressé(e), pas de souci tu pourras le remplir plus tard dans ton profil'
             ]);
     }
 
