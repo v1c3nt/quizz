@@ -44,12 +44,15 @@
             <div class="pos-f-t d-md-none">
                 <div class="collapse" id="navbarToggleExternalContent">
                     <div class="bg-red p-4">
-                    <div class="dflex">
-<img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de {{ user.username }}" class="rounded-circle">
-                        <a href="{{ path('home') }}" class="ml-2 pt-2">
-                            <h5 class="text-green h4">Accueil </h5>
-                        </a>
-</div>
+                        <div class="dflex">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de " class="rounded-circle">
+                            {% endif %}
+                            <a href="{{ path('home') }}" class="ml-2 pt-2">
+                                <h5 class="text-green h4">Accueil
+                                </h5>
+                            </a>
+                        </div>
                         <span class="text-muted ml-2">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Profil</a>
@@ -81,7 +84,7 @@
             {# fin burger #}
             <div class="d-none d-md-block header-menu">
 
-                <ul class="nav nav-tabs h5 col-6 offset-3">
+                <ul class="nav nav-tabs h5 col-12">
                     <li class="nav-item">
                         <a class="nav-link {% block categories %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
                     </li>
