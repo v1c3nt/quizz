@@ -14,15 +14,6 @@ class QuizzType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-<<<<<<< HEAD
-            ->add('title')
-            //->add('slug')
-            ->add('description')
-            ->add('IsPrivate')
-            ->add('category')
-            //->add('author')
-            ->add('crew')
-=======
             ->add('title', null, [
                 'label'=>'titre'
             ])
@@ -35,7 +26,6 @@ class QuizzType extends AbstractType
                 'label'=>'catégorie'
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
->>>>>>> a4bbf86912ba4f2262580a673faa7b324eab670c
             ->add('level')
             ->add('questions', QuestionType::class)
         ;
