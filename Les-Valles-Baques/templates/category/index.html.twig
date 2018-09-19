@@ -1,38 +1,45 @@
 {% extends 'base.html.twig' %}
-{% block categories %}active{% endblock %}
+{% block category %}active{% endblock %}
 {% block title %}Les catégories !{% endblock %}
 
 {% block body %}
-<div class="wrapper container-fluid">
-    <div class="col">
-        <div class="bubble-cat">
+<div class="container-fluid">
+    <div class="col-10 offset-1">
+        <div class="bubble">
+            <h2 class="bubble-title">les catégories</h2>
+            <div class="bubble-cat">
 
-            {% macro recursiveCategory(category) %}
-            {% import _self as self %}
-            <li>
-                <h4><a href="#">{{ category }}</a></h4>
-                {% if category.children|length %}
-                <ul>
-                    {% for child in category.children %}
-                    {{ self.recursiveCategory(child) }}
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </li>
-            {% endmacro %}
+                {% macro recursiveCategory(category) %}
+                {% dump(category) %}
+                {% import _self as self %}
 
-            {% from _self import recursiveCategory %}
+                <div>
+                    <h4>{% if null != category.Parent %}<a href="#">{{ category }}{% endif %}</a></h4>
+                    {% if category.children|length %}
+                    <ul>
+                        {% for child in category.children %}
+                        {{ self.recursiveCategory(child) }}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
 
-            <div id="categories">
-                <ul>
+                </div>
+                {% endmacro %}
+
+                {% from _self import recursiveCategory %}
+
+                <div id="accordion">
+
                     {% for c in categories %}
                     {% if null == c.parent %}
-                    {{ recursiveCategory(c) }}
-                    {% endif %}
-                    {% endfor %}
-                </ul>
+                    <h3 class="test"><a href="#">{{ c.name }}</a>
+                        {{ recursiveCategory(c) }}
+                        <h3>
+                            {% endif %}
+                            {% endfor %}
+
+                </div>
             </div>
         </div>
-    </div>
 
-    {% endblock %}
+        {% endblock %}

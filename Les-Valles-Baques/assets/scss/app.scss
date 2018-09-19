@@ -15,6 +15,12 @@ $danger: $red;
     color: $blue !important;
 }
 
+
+//TODO classe de test pour les div
+.test {
+    border: solid 3px red;
+
+}
 #btn-signup {
     border-color: $green;
     margin-left: 1em;
@@ -40,7 +46,12 @@ body {
     background-color: $blue;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     text-transform: capitalize;
 }
 
@@ -52,17 +63,15 @@ a {
     color: inherit;
 }
 
+//? border radius 1rem
 .brad {
     border-radius: 1rem;
     overflow: hidden;
 }
 
-
 .dflex {
     display: flex;
     align-items: center;
-
-
 }
 
 .bubble {
@@ -106,8 +115,6 @@ header {
         text-decoration: none;
     }
 }
-
-
 
 
 button.btn.btn-success,
@@ -167,6 +174,18 @@ thead.thead {
 
 
 
+.shortQuestion {
+    text-overflow: ellipsis;
+    height: 2em;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 3em;
+
+}
+
+
+//? header
+
 header {
     border-bottom: solid 0.5rem $blue;
     position: fixed;
@@ -177,43 +196,33 @@ header {
 
 .subheader {
     position: relative;
-    height: 140px;
+    height: 7.25rem;
 }
 
-.shortQuestion {
-    text-overflow: ellipsis;
-    height: 2em;
-    overflow-x: scroll;
-    white-space: nowrap;
-    height: 3em;
-   
-    }
-
-
 //? header navigation
+
 header .nav-tabs {
     border: none;
-    width: 90%;
-    margin: auto;
+    justify-content: center;
+    border-bottom: solid 1px $blue;
+    
 }
 
 header .nav .nav-item .nav-link {
     background-color: $red;
     border: solid 2px $blue;
     border-bottom: solid 1px $red;
-    margin-left: 2em;
+    margin: 0 1em;
     //margin-bottom: -2px;
     color: $blue;
 
 }
 
 header .nav .nav-item .active {
-    z-index: 50;
-    margin-bottom: -2px;
+   
     background-color: #002547;
     color: $green;
     border: solid 2px $blue;
-    border-bottom: solid 4px #002547;
 }
 
 header .nav .nav-item:focus {
@@ -222,7 +231,6 @@ header .nav .nav-item:focus {
     background-color: #002547;
     color: $green;
     border: solid 2px $blue;
-    border-bottom: solid 4px #002547;
 }
 
 header .nav .nav-item .disabled {

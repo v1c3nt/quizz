@@ -83,11 +83,11 @@
             </div>
 
             {# fin burger #}
-            <div class="d-none d-lg-block header-menu">
+<div class="d-none d-lg-block header-menu">
 
-                <ul class="nav nav-tabs h5 col-12">
+                <ul class="nav nav-tabs h5 ">
                     <li class="nav-item">
-                        <a class="nav-link {% block categories %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
+<a class="nav-link {% block category %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
                     </li>
                     {#<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
@@ -100,25 +100,19 @@
                         <a class="dropdown-item " href="#">Separated link</a>
                     </div>#}
                 </li>
+                {# TODO es que l'on fait une catégorie Niveau ?
                 <li class="nav-item ">
                     <a class="nav-link {% block level %}{% endblock %}" href="#">les Niveaux</a>
                 </li>
+                #}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item ">
-                        <a class="nav-link {% block quizz %}{% endblock %}" href="#">les Quizzs</a>
+<a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">les Quizzs</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link {% block statistics %}{% endblock %}" href="#">Mes Stats</a>
-                    </li>
-
-                    {% dump(app.user.userCrews) %}
-                    <li class="nav-item ">
-                        <a class="nav-link {% block crews %}{% endblock %}" href="#">Mes groupes</a>
-                    </li>
-
+             
                 {% endif %}
 
             </ul>

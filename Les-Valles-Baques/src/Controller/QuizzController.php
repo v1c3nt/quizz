@@ -19,9 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class QuizzController extends AbstractController
 {
     /**
-     * @Route("/quizz/{sort}", name="quizz_list_sort")
+     * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
-    public function index($sort = 'title')
+    public function index($sort)
     {
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
@@ -36,7 +36,7 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/quizz/show/{id}", name="quizz_list_show")
+     * @Route("/quizz/show/{id}", name="quizz_show")
      */
     public function show(Quizz $quizz) : Response
     {

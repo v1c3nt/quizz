@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block quizz %}active{% endblock %}
 {% block title %}{{quizz.title}}
 {% endblock %}
 
@@ -10,7 +10,7 @@
     </div>
     {% for q in quizz.questions %}
         <div class="bubble col-6 offset-3">
-            <h5>{{q.body}}</h5>
+            <p class="h5">{{q.body}}</p>
         </div>
     {% endfor %}
     <div class="bubble col-6 offset-3">
