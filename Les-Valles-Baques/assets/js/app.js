@@ -11,21 +11,31 @@ require('../css/app.css');
 require('../scss/app.scss');
 require('bootstrap');
 require('jquery-ui')
-  $(function () {
-      $("#accordion").accordion();
-  });
+require('../../node_modules/jquery-ui/ui/widgets/accordion')
+//var $ = require('jquery');
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// var $ = require('jquery');
 var app = {
 
     init: function () {
+
+        $(function () {
+            var icons = {
+                header: "fa fa-arrow-circle-down mr-2",
+                activeHeader: "fa fa-arrow-circle-right mr-2"
+            };
+            $("#accordion").accordion({
+                heightStyle: "content",
+                icons: icons
+            });
+
+        });
 
         console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
         /**
          * ! en standby de l'ajax pour l'ajout de question.
          * $('#nextQuestion').on('submit', app.nextQuestion);
-        */
+         */
     },
 
     nextQuestion: function (event) {

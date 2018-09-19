@@ -13,33 +13,37 @@
                 {% dump(category) %}
                 {% import _self as self %}
 
-                <div>
-                    <h4>{% if null != category.Parent %}<a href="#">{{ category }}{% endif %}</a></h4>
-                    {% if category.children|length %}
-                    <ul>
-                        {% for child in category.children %}
-                        {{ self.recursiveCategory(child) }}
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
 
-                </div>
+<p>
+    {% if null == category.Parent %}<a href="#">Toute la catégorie : {{ category }}{% endif %} </a>
+    {% if null != category.Parent %}<a href="#">{{ category }}{% endif %} </a>
+
+              </p>
+                {% if category.children|length %}
+                <ul>
+                    {% for child in category.children %}
+                    {{ self.recursiveCategory(child) }}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+
                 {% endmacro %}
 
                 {% from _self import recursiveCategory %}
 
-                <div id="accordion">
+                <div class="col-6 offset-3" id="accordion">
 
                     {% for c in categories %}
                     {% if null == c.parent %}
-                    <h3 class="test"><a href="#">{{ c.name }}</a>
-                        {{ recursiveCategory(c) }}
-                        <h3>
+                    <h4>{{ c.name }}<h4>
+                            <div>
+                                {{ recursiveCategory(c) }}
+                            </div>
                             {% endif %}
                             {% endfor %}
 
                 </div>
             </div>
         </div>
-
         {% endblock %}
