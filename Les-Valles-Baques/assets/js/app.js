@@ -22,8 +22,10 @@ var app = {
 
         console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
-        $('#nextQuestion').on('submit', app.nextQuestion);
-
+        /**
+         * ! en standby de l'ajax pour l'ajout de question.
+         * $('#nextQuestion').on('submit', app.nextQuestion);
+        */
     },
 
     nextQuestion: function (event) {

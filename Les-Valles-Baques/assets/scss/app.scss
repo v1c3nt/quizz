@@ -50,16 +50,17 @@ a {
 
 .brad {
     border-radius: 1rem;
-    overflow : hidden;
+    overflow: hidden;
 }
 
 
-.dflex{
-    display:flex;
+.dflex {
+    display: flex;
     align-items: center;
-    
+
 
 }
+
 .bubble {
     background-color: $yellow;
     color: $blue;
@@ -163,17 +164,38 @@ thead.thead {
 
 
 header {
-    border-bottom: solid 3px #7ace60;
+    border-bottom: solid 0.5rem $blue;
+    position: fixed;
+    width: 100%;
+    z-index: 250;
+
 }
+
+.subheader {
+    position: relative;
+    height: 140px;
+}
+
+.shortQuestion {
+    text-overflow: ellipsis;
+    height: 2em;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 3em;
+   
+    }
+
 
 //? header navigation
 header .nav-tabs {
-    border: none
+    border: none;
+    width: 90%;
+    margin: auto;
 }
 
 header .nav .nav-item .nav-link {
     background-color: $red;
-    border: solid 2px $green;
+    border: solid 2px $blue;
     border-bottom: solid 1px $red;
     margin-left: 2em;
     //margin-bottom: -2px;
@@ -186,7 +208,7 @@ header .nav .nav-item .active {
     margin-bottom: -2px;
     background-color: #002547;
     color: $green;
-    border: solid 2px $green;
+    border: solid 2px $blue;
     border-bottom: solid 4px #002547;
 }
 
@@ -195,14 +217,14 @@ header .nav .nav-item:focus {
     z-index: 50;
     background-color: #002547;
     color: $green;
-    border: solid 2px $green;
+    border: solid 2px $blue;
     border-bottom: solid 4px #002547;
 }
 
 header .nav .nav-item .disabled {
     background-color: $red;
     margin: 0 1em;
-    border: $green;
+    border: $blue;
     color: #1F1C1E;
 }
 
@@ -217,3 +239,12 @@ header .nav .nav-item .disabled {
 //? profil page
 
 .info-profil {}
+
+.progress {
+
+    width: 90%;
+    background-color: $red;
+    border: solid 2px $blue;
+    margin: auto;
+    height: 1.5em;
+}

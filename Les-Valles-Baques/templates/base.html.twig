@@ -13,6 +13,7 @@
     </head>
 
     <body>
+      
         <header>
             <div class="d-flex flex-nowrap">
                 <div class="col-6 offset-3 my-2 mt-3">
@@ -82,7 +83,7 @@
             </div>
 
             {# fin burger #}
-            <div class="d-none d-md-block header-menu">
+            <div class="d-none d-lg-block header-menu">
 
                 <ul class="nav nav-tabs h5 col-12">
                     <li class="nav-item">
@@ -123,6 +124,9 @@
             </ul>
         </div>
     </header>
+
+<div class="subheader"></div>
+
     {% block body %}{% endblock %}
     <script src="{{ asset('build/app.js') }}"></script>
     {% block javascripts %}{% endblock %}

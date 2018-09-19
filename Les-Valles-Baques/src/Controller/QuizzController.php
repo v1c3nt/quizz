@@ -53,8 +53,9 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $quizz = new Quizz();
 
+        
         $form = $this->createForm(QuizzType::class, $quizz);
-
+    
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -86,35 +87,38 @@ class QuizzController extends AbstractController
     /**
      * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuizzRepository $qr, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo ,QuizzRepository $qr, $nbr) : Response
     {
-        dump($nbr);
-        dump($id);
+
         $question = new Question();
+
         //? je récupere l'id du quizz créer
         $quizz = $qr->findOneById($id);
 
+        dump($question);
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
         $nbr++;
-        //c'est la avant le if
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $question->setQuizz($quizz);
             $question->setErrore(0);
-
             $manager->persist($question);
-
+            
             $manager->flush();
-
+            
+            $questions = $questionRepo->findBy(['quizz' => $id]);
+            
             if ($nbr < 10) {
                 $question = new Question();
+                dump($questions);
                 $form = $this->createForm(QuestionType::class, $question);
-
                 return $this->render('quizz/newsQuestions.html.twig', [
                     'nbr' => $nbr,
                     'form' => $form->createView(),
                     'quizz' => $quizz,
+                    'questions' => $questions,
                 ]);
             }
 

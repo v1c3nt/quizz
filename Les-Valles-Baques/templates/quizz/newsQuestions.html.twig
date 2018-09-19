@@ -4,32 +4,55 @@
 {% endblock %}
 
 {% block body %}
-<div class="bubble col-8 offset-2">
-    <h2 class="bubble-title">Super aux Questions maintenant</h2>
-    <p>Ton questionnaire se sent tout vide sans ses questions.<br />
-        <h4>titre du questionnaire :
-            {{ quizz.title }}</h4>
-</div>
+<div class="row col-10 offset-1">
+    {#
+    <div class="bubble col-8 offset-2">
+        TODO a mettre dans u flash message
+        <h2 class="bubble-title">Super aux Questions maintenant</h2>
+        <p>Ton questionnaire se sent tout vide sans ses questions.<br />
+            <h4>titre du questionnaire :
+                {{ quizz.title }}</h4>
+    </div>
+    #}
 
-<div class="bubble col-8 offset-2" id="ici">
-    <h3>Question {{ nbr }}</span></h3>
-    <h5>courage plus que
-        {{10 - nbr}}
-        questions
-    </h5>
-    <p>
-        {% if 3 > nbr %}
-        c'est un bon début !
-        {% elseif 5 > nbr %}
-        c'est une moyenne
-        {% elseif 7 > nbr %}
-        tu y es presque un dernier effort
-        {% endif %}
-    </p>
+    <div class="bubble col-8" id="formDiv">
+        {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success" type="submit">
+            question suivante !
+        </button> {{ form_end(form) }}
+    </div>
+    <aside class="bubble ml-2 col-3">
+        <h4> Tu es à la Question {{ nbr }}</span></h4>
+        {#TODO a mettre dans un flash
+        <h5>courage plus que
+            {{10 - nbr}}
+            questions
+        </h5>
+        <p>
+            {% if 3 > nbr %}
+            c'est un bon début !
+            {% elseif 5 > nbr %}
+            c'est une moyenne
+            {% elseif 7 > nbr %}
+            tu y es presque un dernier effort
+            {% endif %}
+        </p>
+        #}
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr -1 }}" style="width: {{ (nbr - 1) * 10 }}%"
+                aria-valuemax="9">{{ nbr -1 }} / 10</div>
+        </div>
+        <div>
+            {% if questions is defined %}
+            {% for q in questions %}
+            <span class="text-left ">Question {{ nbr }}:</span>
+            <p class="shortQuestion">{{ q.body }}</p>
+        
+            {% endfor %}
+            {% endif %}
+        </div>
+    </aside>
+
 </div>
-<div class="bubble col-8 offset-2" id="formDiv">
-    {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success" type="submit">
-        question suivante !
-    </button {{ form_end(form) }} </div> {% endblock %}
+{% endblock %}
