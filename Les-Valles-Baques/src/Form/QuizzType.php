@@ -15,14 +15,14 @@ class QuizzType extends AbstractType
     {
         $builder
             ->add('title', null, [
-                'label'=>'Titre du questionnaire'
+                'label'=>'Titre du Quizz'
             ])
             ->add('description', null, [
                 'required'=> false,
             ])
             ->add('IsPrivate', null, [
                 'label' => 'Privé',
-                'help' => 'Si tu coches cette option le questionaire ne sera visible que dans ton groupe actuel'
+                'help' => 'Si tu coches cette option, le Quizz ne sera visible que dans ton groupe actuel'
             ])
             ->add('category', null, [
                 'label'=>'Catégorie'
