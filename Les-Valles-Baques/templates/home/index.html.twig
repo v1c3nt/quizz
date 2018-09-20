@@ -6,7 +6,7 @@
 {% block body %}
 
     <div class="wrapper container-fluid">
-        <div class="col">
+        <div class="col-8 offset-2">
             <div class="bubble">
                 <h2 class="bubble-title">Bienvenue</h2>
                 <p>
@@ -26,7 +26,7 @@
             <div class="bubble">
                 <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
                 <p>
-                    <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>{{ randomQuizz.title }}
+                    <a href="{# path('/quizz/play', {'username' : , 'slug': q.slug}) #}">{{ randomQuizz.title }}</a>
                 </p>
 
             </div>
