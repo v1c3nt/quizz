@@ -88,36 +88,21 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", defaults={"nbr"=0}, methods={"GET"} )
-     */
-    public function recordQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
-    {
-        return $this->redirectToRoute('quizz_list_sort', [
-                
-                'Request'=>$request,
-                'ObjectManager' => $manager, 
-                'id' => $id,
-                'QuestionRepository' => $questionRepo ,
-                'Quizz' => $quizz, 
-                'nbr' => $nbr
-                ]);
-    }
-
-    /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST"}, defaults={"nbr"=0})
+     * TODO {id} a changer par slug.
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
     {
    
         $question = new Question();
 
-        //? je récupere l'id du quizz créer
-
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
-        //? je crée une variable pour compter le nombre de question créées
         
+        $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //? je crée une variable pour compter le nombre de questions créées
             $nbr++;
             $question->setQuizz($quizz);
             $question->setErrore(0);
@@ -126,18 +111,16 @@ class QuizzController extends AbstractController
             
             $manager->flush();
             
-            $questions = $questionRepo->findBy(['quizz' => $id]);
             
             if ($nbr < 10) {
-                $question = new Question();
-                dump($questions);
-                $form = $this->createForm(QuestionType::class, $question);
-                return $this->render('quizz/newsQuestions.html.twig', [
-                    'nbr' => $nbr,
-                    'form' => $form->createView(),
+
+                return $this->redirectToRoute('questions_quizz', [
+                    'id' => $quizz->getId(),
                     'quizz' => $quizz,
+                    'nbr' => $nbr,
                     'questions' => $questions,
                 ]);
+
             }
 
             return $this->redirectToRoute('quizz_list_sort', [
@@ -149,6 +132,7 @@ class QuizzController extends AbstractController
             'form' => $form->createView(),
             'quizz' => $quizz,
             'nbr' => $nbr,
+            'questions' => $questions,
         ]);
     }
 
