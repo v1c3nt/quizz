@@ -29,27 +29,28 @@ class User implements UserInterface
      * @var string $email
      * 
      * @ORM\Column(name="email", type="string", length=255, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     *? @Assert\NotBlank()
+     *? @Assert\Email()
      */
     private $email;
 
     /**
      * 
      * @ORM\Column(type="string", length=64, unique=true)
-     * @Assert\NotBlank()
+     *? @Assert\NotBlank()
      */
     private $userName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Regex("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")
+     *? @Assert\NotBlank()
+     *? @Assert\Regex("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")
      */
     private $password;
 
 
     /**
+     * @Assert\Url(),
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;

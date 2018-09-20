@@ -88,7 +88,23 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", defaults={"nbr"=0}, methods={"GET"} )
+     */
+    public function recordQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
+    {
+        return $this->redirectToRoute('quizz_list_sort', [
+                
+                'Request'=>$request,
+                'ObjectManager' => $manager, 
+                'id' => $id,
+                'QuestionRepository' => $questionRepo ,
+                'Quizz' => $quizz, 
+                'nbr' => $nbr
+                ]);
+    }
+
+    /**
+     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST"}, defaults={"nbr"=0})
      */
     public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
     {

@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Webmozart\Assert\Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
@@ -18,21 +18,49 @@ class Question
     private $id;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 15,
+     *      max = 255,
+     *      minMessage = "Une question en moins de {{ limit }} caractère ? je suis pas sur ... ",
+     *      maxMessage = "C'est plus une question c'est un roman ?",
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $body;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = "Une réponse vide c'est ... vide  ",
+     *      maxMessage = "désolé ta réponse et trop longue",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $prop1;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = "Une réponse vide c'est ... vide ",
+     *      maxMessage = "désolé ta réponse et trop longue",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $prop2;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = "Une réponse vide c'est ... vide  ",
+     *      maxMessage = "désolé ta réponse et trop longue",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $prop3;
@@ -48,6 +76,7 @@ class Question
     private $anecdote;
 
     /**
+     * 
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $source;

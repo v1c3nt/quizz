@@ -45,7 +45,7 @@
                     </p>
                     #}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr -1 }}" style="width: {{ (nbr - 1) * 10 }}%" aria-valuemax="9">{{ nbr -1 }}
+                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr }}" style="width: {{ ( nbr ) * 10 }}%" aria-valuemax="9">{{ nbr }}
                             / 10</div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
             {% if questions is defined %}
                 {% for q in questions %}
                     <span class="text-left ">Question
-                        {{ nbr }}:</span>
+                        {{ q.nbr }}:</span>
                     <p class="shortQuestion">{{ q.body }}</p>
 
                 {% endfor %}

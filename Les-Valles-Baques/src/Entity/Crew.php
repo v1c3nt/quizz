@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CrewRepository")
@@ -24,11 +25,19 @@ class Crew
     private $name;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = " ' ' c''est pas nom ça c'est ... vide  ",
+     *      maxMessage = "Un nom de groupe de plus de {{ limit }} caractères c'est Heuuu ... trop long",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $slug;
 
     /**
+     *? @Assert\Url()
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuizzRepository")
@@ -20,6 +21,13 @@ class Quizz
     private $id;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = "Tu manques d'instiration ... ok mais la c'est trop court ",
+     *      maxMessage = "C'est pas la taille l'important. La c'est trop long ",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $title;
@@ -40,6 +48,7 @@ class Quizz
     private $IsPrivate;
 
     /**
+     *? @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="quizzs")
      */
     private $category;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoleCrewRepository")
@@ -19,6 +20,13 @@ class RoleCrew
     private $id;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 5,
+     *      max = 64,
+     *      minMessage = "la limite c'est {{ limit }} caractères",
+     *      maxMessage = "max {{ limit }} caractères",
+     *)
      * @ORM\Column(type="string", length=64)
      */
     private $name;

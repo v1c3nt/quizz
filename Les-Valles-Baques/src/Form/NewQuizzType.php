@@ -23,6 +23,9 @@ class NewQuizzType extends AbstractType
             ->add('author')
             ->add('crew')
             ->add('level')
+             ->setAttributes([
+            'novalidate'=>'novalidate',
+            ])
         ;
     }
 

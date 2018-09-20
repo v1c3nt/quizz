@@ -48,6 +48,9 @@ class UserType extends AbstractType
             ->add('presentation', null, [
                 'required' => false,
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras le remplir plus tard dans ton profil'
+            ])
+             ->setAttributes([
+            'novalidate'=>'novalidate',
             ]);
     }
 

@@ -43,6 +43,9 @@ class QuestionType extends AbstractType
                 'required' => false,
                 'label' => 'Source',
                 'help' => 'Pense à mettre un lien vers un article au cas ou on voudrait en savoir plus'
+            ])
+            ->setAttributes([
+            'novalidate'=>'novalidate',
             ]);
     }
 
