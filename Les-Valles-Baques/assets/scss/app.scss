@@ -59,12 +59,8 @@ body {
     background-color: $blue;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+u {
+    text-decoration: none;
     text-transform: capitalize;
 }
 
@@ -277,4 +273,10 @@ header .nav .nav-item .disabled {
 //? footer
 #footer {
     color: $green;
+}
+
+//? question page
+.aside-overflow {
+    height: 56.68rem;
+    overflow-y: scroll;
 }

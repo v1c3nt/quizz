@@ -95,7 +95,6 @@ class QuizzController extends AbstractController
         //? je récupere l'id du quizz créer
         $quizz = $qr->findOneById($id);
 
-        dump($question);
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
@@ -104,6 +103,7 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $question->setQuizz($quizz);
             $question->setErrore(0);
+            $question->setNbr($nbr);
             $manager->persist($question);
             
             $manager->flush();

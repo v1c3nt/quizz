@@ -25,29 +25,32 @@
         </div>
 
         <aside class="bubble ml-2 col-3">
-            <h4>
-                Tu es à la Question
-                {{ nbr }}</span></h4>
-        {#TODO a mettre dans un flash
-        <h5>courage plus que
-            {{10 - nbr}}
-            questions
-        </h5>
-        <p>
-            {% if 3 > nbr %}
-            c'est un bon début !
-            {% elseif 5 > nbr %}
-            c'est une moyenne
-            {% elseif 7 > nbr %}
-            tu y es presque un dernier effort
-            {% endif %}
-        </p>
-        #}
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr -1 }}" style="width: {{ (nbr - 1) * 10 }}%" aria-valuemax="9">{{ nbr -1 }}
-                / 10</div>
-        </div>
-        <div>
+<div class=" ">
+<h4><u>dans</u> le Quizz : <br/> {{ quizz.title }} <br/>
+                Tu en es à la Question
+                {{ nbr }}</h4>
+                {#TODO a mettre dans un flash
+                    <h5>courage plus que
+                        {{10 - nbr}}
+                        questions
+                    </h5>
+                    <p>
+                        {% if 3 > nbr %}
+                        c'est un bon début !
+                        {% elseif 5 > nbr %}
+                        c'est une moyenne
+                        {% elseif 7 > nbr %}
+                        tu y es presque un dernier effort
+                        {% endif %}
+                    </p>
+                    #}
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr -1 }}" style="width: {{ (nbr - 1) * 10 }}%" aria-valuemax="9">{{ nbr -1 }}
+                            / 10</div>
+                        </div>
+                    </div>
+                    
+        <div class="aside-overflow mt-3">
             {% if questions is defined %}
                 {% for q in questions %}
                     <span class="text-left ">Question
@@ -60,4 +63,4 @@
     </aside>
 
 </div>
-{% endblock %}²
+{% endblock %}

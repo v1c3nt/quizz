@@ -69,6 +69,11 @@ class Question
      */
     private $level;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbr;
+
     public function getId() : ? int
     {
         return $this->id;
@@ -190,6 +195,18 @@ class Question
     public function setLevel(? Level $level) : self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getNbr(): ?int
+    {
+        return $this->nbr;
+    }
+
+    public function setNbr(int $nbr): self
+    {
+        $this->nbr = $nbr;
 
         return $this;
     }
