@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="row col-10 offset-1">
-    {#
+    <div class="row col-10 offset-1">
+        {#
     <div class="bubble col-8 offset-2">
         TODO a mettre dans u flash message
         <h2 class="bubble-title">Super aux Questions maintenant</h2>
@@ -19,7 +19,7 @@
             {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
             {{ form_widget(form) }}
             <button class="btn btn-success" type="submit">
-                question suivante !
+                Question suivante !
             </button>
             {{ form_end(form) }}
         </div>
@@ -57,7 +57,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        </aside>
+    </aside>
 
 </div>
 {% endblock %}
