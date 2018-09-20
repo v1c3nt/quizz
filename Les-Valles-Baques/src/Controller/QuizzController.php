@@ -38,10 +38,13 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/show/{id}", name="quizz_show")
      */
-    public function show(Quizz $quizz) : Response
+    public function show(Quizz $quizz ) : Response
     {
+        $question = $quizz->getQuestions();
+
         return $this->render('quizz/show.html.twig', [
             'quizz' => $quizz,
+            'questions' => $question
         ]);
     }
 
@@ -133,4 +136,5 @@ class QuizzController extends AbstractController
             'nbr' => $nbr,
         ]);
     }
+
 }
