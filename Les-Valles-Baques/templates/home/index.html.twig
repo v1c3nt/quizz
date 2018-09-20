@@ -14,11 +14,11 @@
                 </p>
             </div>
             <div class="bubble">
-                <h3 class="bubble-title">Les Derniers Quizzes</h3>
+                <h3 class="bubble-title">Les Derniers Quizzs</h3>
                 {% for q in newQuizzes %}
                     <ul>
                         <li>
-                            <a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}{{ q.id }}</a>
+                            <a href="{# path ('/quizz/play', {'username': , 'slug': q.slug}) #}">{{ q.title }}</a>
                         </li>
                     </ul>
                 {% endfor %}

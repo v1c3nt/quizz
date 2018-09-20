@@ -26,13 +26,16 @@ class CategoryController extends AbstractController
     /**
      * @Route("/category/{id}", name="category_show")
      */
-    public function categoryShow(CategoryRepository $category)
+    public function categoryShow(QuizzRepository $quizzRepo, CategoryRepository $category, $id)
     {
+        dump($id);
+        $category = $category->findOneBy(['id' => $id]);
+        $quizzs = $quizzRepo->findBy(['category' => $id]);
 
-        $categories = $category->findAll();
-
-        return $this->render('category/index.html.twig', [
-            'categories' => $categories,
+        dump($category);
+        return $this->render('category/category.html.twig', [
+            'category' => $category,
+            'quizzs' => $quizzs,
         ]);
     }
 

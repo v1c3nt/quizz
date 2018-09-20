@@ -16,35 +16,35 @@
 
         <header>
             <div class="d-flex flex-nowrap">
-                <div class="col-6 offset-3 my-2 mt-3">
+                <div class="col-3 col-md-6 offset-3 my-2 mt-3">
                     <h1 class="text-center">
                         <a href="{{ path('home') }}">Les VallesBaQues</a>
                     </h1>
                 </div>
-                <div class="d-none d-md-block col-3 log-menu text-center ">
+                <div class="d-none d-lg-block col-3 log-menu text-center ">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h5 mr-3">Mon Profil
+                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
                             <i class="fas fa-user"></i>
                         </a>
 
-                        <a href="{{ path('logout') }}" class="h5 mr-3">Déconnexion
+                        <a href="{{ path('logout') }}" class="h6 mr-3">Déconnexion
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     {% else %}
-                        <a href="{{ path('security_signup') }}" class="h5 mr-3">Inscription
+                        <a href="{{ path('security_signup') }}" class="h6 mr-3">Inscription
                             <i class="fas fa-user-plus"></i>
                         </a>
 
-                        <a href="{{ path ('security_login')}}" class="h5 mr-3">Connexion
+                        <a href="{{ path ('security_login')}}" class="h6 mr-3">Connexion
                             <i class="fas fa-sign-in-alt"></i>
                         </a>
                     {% endif %}
                 </div>
             </div>
             {# burger #}
-            <div class="pos-f-t d-md-none">
+            <div class="pos-f-t d-lg-none">
                 <div class="collapse" id="navbarToggleExternalContent">
-                    <div class="bg-red p-4">
+                    <div class="bg-red p-3">
                         <div class="dflex">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de " class="rounded-circle">
@@ -85,7 +85,7 @@
             {# fin burger #}
 <div class="d-none d-lg-block header-menu">
 
-                <ul class="nav nav-tabs h5 ">
+                <ul class="nav nav-tabs h5 pt-3 ">
                     <li class="nav-item">
 <a class="nav-link {% block category %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
                     </li>
@@ -107,7 +107,7 @@
                 #}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item ">
-                        <a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">Les Quizzes</a>
+                        <a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">Les Quizzs</a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>

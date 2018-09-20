@@ -14,7 +14,7 @@
                 {% import _self as self %}
 
 
-                <li><a href="#">
+<li><a href="{{ path('category_show', { 'id': category.id }) }}">
                         {% if null == category.Parent %}Toute la catégorie : {{ category }} {% else %}
                         {{ category }} <span class="h6"> (
                             {% if 0 == category.quizzs|length %}
