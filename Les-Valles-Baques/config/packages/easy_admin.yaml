@@ -1,0 +1,17 @@
+easy_admin:
+    entities:
+        # List the entity class name you want to manage
+        - App\Entity\AppRole
+        - App\Entity\Category
+        - App\Entity\Crew
+#        - App\Entity\IsLike // Single id is not allowed on composite primary key in entity App\Entity\IsLike
+        - App\Entity\Level
+        - App\Entity\Question
+        - App\Entity\Quizz
+        - App\Entity\RoleCrew
+        - App\Entity\Statistic
+        - App\Entity\User
+#        - App\Entity\UserCrew // Single id is not allowed on composite primary key in entity App\Entity\UserCrew
+
+framework:
+    translator: { fallbacks: [ "fr" ] }
