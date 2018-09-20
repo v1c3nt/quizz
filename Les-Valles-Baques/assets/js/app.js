@@ -20,8 +20,8 @@ var app = {
 
         $(function () {
             var icons = {
-                header: "fa fa-arrow-circle-down mr-2",
-                activeHeader: "fa fa-arrow-circle-right mr-2"
+                header: "fas fa-plus-circle mr-2",
+                activeHeader: "fas fa-minus-circle mr-2"
             };
             $("#accordion").accordion({
                 heightStyle: "content",
