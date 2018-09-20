@@ -90,20 +90,19 @@ class QuizzController extends AbstractController
     /**
      * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo ,QuizzRepository $qr, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
     {
-
+   
         $question = new Question();
 
         //? je récupere l'id du quizz créer
-        $quizz = $qr->findOneById($id);
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
-        $nbr++;
         
         if ($form->isSubmitted() && $form->isValid()) {
+            $nbr++;
             $question->setQuizz($quizz);
             $question->setErrore(0);
             $question->setNbr($nbr);
@@ -137,4 +136,27 @@ class QuizzController extends AbstractController
         ]);
     }
 
+  /**
+     * TODO replacer id par slug
+     * a voir pour bloqué l
+     * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
+     * 
+     */
+    public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
+    {
+
+        $question = $questionRepo->findBy(['quizz'=>$id, 'nbr'=> $nbr]);
+        dump($question);
+        $user = $this->getUser();
+        $question = new Question();
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->handleRequest($request);
+
+        $questions =$quizz->getQuestions();
+        dump($questions);
+        $play = $question->getNbr();
+
+        dump($play);exit;
+        if ($form->isSubmitted() && $form->isValid()) { }
+    }
 }
