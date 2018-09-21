@@ -1,0 +1,472 @@
+easy_admin:
+    entities:
+        # List the entity class name you want to manage
+        AppRole:
+            class: App\Entity\AppRole
+            help: 'Voici la liste des différents Rôles dans le site'
+            label: Role
+            # La view de la liste des Rôles
+            list:
+                title: 'Les Rôles de chaque Membre'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'users', label: 'Membres'} 
+                    - { property: 'code', label: 'Code'} 
+            # La view d'un Rôle
+            show: 
+                title: 'Un Rôle'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'users', label: 'Membres'} 
+                    - { property: 'code', label: 'Code'}
+            # La view d'une modification d'un Rôle  
+            edit:
+                title: 'Mise à jour d''un Rôle'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'users', label: 'Membres'} 
+                    - { property: 'code', label: 'Code'}
+            # La view d'un ajout d'un Rôle
+            new:
+                title: 'Nouveau Rôle'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'users', label: 'Membres'} 
+                    - { property: 'code', label: 'Code'}
+        Category:
+            class: App\Entity\Category
+            help: 'Voici la liste des Catégories et Sous-Catégories associées' 
+            label: Catégories
+            # La view de la liste des Catégories
+            list:
+                title: 'Les Catégories'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'parent', label: 'Catégorie Principale'} 
+                    - { property: 'children', label: 'Sous-catégorie'}
+            # La view d'une Catégorie 
+            show: 
+                title: 'Une Catégorie'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'parent', label: 'Catégorie Principale'} 
+                    - { property: 'children', label: 'Sous-catégorie'}
+            # La view d'une modification de Catégorie 
+            edit:
+                title: 'Mise à jour d''une Catégorie'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'parent', label: 'Catégorie Principale'} 
+                    - { property: 'children', label: 'Sous-catégorie'}
+            # La view d'un ajout d'une Catégorie
+            new:
+                title: 'Nouvelle Catégorie'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'parent', label: 'Catégorie Principale'} 
+                    - { property: 'children', label: 'Sous-catégorie'}
+        Crew:
+            class: App\Entity\Crew
+            help: 'Voici la liste des Teams'
+            label: Team
+            # La view de la liste des Teams
+            list:
+                title: 'Les Teams'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin 
+                fields: 
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'avatar', label: 'Photo', type: 'image', base_path: '/img/'}
+                    - { property: 'members', label: 'Membres'}
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'createdAt', label: 'Création le :'}
+            # La view d'une Team
+            show: 
+                title: 'Une Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'avatar', label: 'Photo', type: 'image', base_path: '/img/'}
+                    - { property: 'members', label: 'Membres'}
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'createdAt', label: 'Création le :'}
+            # La view d'une modification de la Team 
+            edit:
+                title: 'Mise à jour de la Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'members', label: 'Membres'}
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'createdAt', label: 'Création le :'}
+            # La view d'un ajout d'une Team
+            new:
+                title: 'Nouvelle Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'members', label: 'Membres'}
+                    - { property: 'quizzs', label: 'Quizzes'} 
+                    - { property: 'createdAt', label: 'Création le :'}
+        #IsLike:
+        #    class: App\Entity\IsLike
+        #Single id is not allowed on composite primary key in entity App\Entity\IsLike
+        Level:
+            class: App\Entity\Level
+            help: 'Voici la liste des Niveaux de difficulté de jeu'
+            label: Niveaux
+            # La view de la liste des Niveaux
+            list:
+                title: 'Les Niveaux'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'}
+                    - { property: 'questions', label: 'Questions'}
+            # La view d'un Niveau
+            show: 
+                title: 'Une Niveau'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'}
+                    - { property: 'questions', label: 'Questions'}
+            # La view d'une modification d'un Niveau
+            edit:
+                title: 'Mise à jour d''un Niveau'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'}
+                    - { property: 'questions', label: 'Questions'}
+            # La view d'un ajout d'un Niveau
+            new:
+                title: 'Nouveau Niveau'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'} 
+                    - { property: 'quizzs', label: 'Quizzes'}
+                    - { property: 'questions', label: 'Questions'}
+        Question:
+            class: App\Entity\Question
+            help: 'Voici la liste de toutes les Questions'
+            label: Questions
+            # La view de la liste des Questions
+            list: 
+                title: 'Les Questions'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'body', label: 'Intitulé de la Question'}
+                    - { property: 'prop1', label : 'Réponse 1'}
+                    - { property: 'prop2', label : 'Réponse 2'}
+                    - { property: 'prop3', label : 'Réponse 3'}
+                    - { property: 'prop4', label : 'Réponse 4'}
+                    - { property: 'anecdote', label: 'Anecdote'}
+                    - { property: 'source', type: 'url'}
+            # La view d'une Question
+            show: 
+                title: 'Une Question'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'body', label: 'Intitulé de la Question'}
+                    - { property: 'prop1', label : 'Réponse 1'}
+                    - { property: 'prop2', label : 'Réponse 2'}
+                    - { property: 'prop3', label : 'Réponse 3'}
+                    - { property: 'prop4', label : 'Réponse 4'}
+                    - { property: 'anecdote', label: 'Anecdote'}
+                    - { property: 'source', type: 'url'}
+            # La view d'une modification d'une Question 
+            edit:
+                title: 'Mise à jour d''une Question'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'body', label: 'Intitulé de la Question'}
+                    - { property: 'prop1', label : 'Réponse 1'}
+                    - { property: 'prop2', label : 'Réponse 2'}
+                    - { property: 'prop3', label : 'Réponse 3'}
+                    - { property: 'prop4', label : 'Réponse 4'}
+                    - { property: 'anecdote', label: 'Anecdote'}
+                    - { property: 'source', type: 'url'}
+            # La view d'un ajout d'une Question
+            new:
+                title: 'Nouvelle Qeustion'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'body', label: 'Intitulé de la Question'}
+                    - { property: 'prop1', label : 'Réponse 1'}
+                    - { property: 'prop2', label : 'Réponse 2'}
+                    - { property: 'prop3', label : 'Réponse 3'}
+                    - { property: 'prop4', label : 'Réponse 4'}
+                    - { property: 'anecdote', label: 'Anecdote'}
+                    - { property: 'source', type: 'url'}
+        Quizz:
+            class: App\Entity\Quizz
+            help: 'Voici la liste de tous les Quizzes'
+            label: Quizzes
+            # La view de la liste des Quizzes
+            list:
+                title : 'Les Quizzes'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'title', label: 'Titre du Quizz'}
+                    - { property: 'category', label: 'Catégorie'}
+                    - { property: 'questions', label: 'Questions'}
+                    - { property: 'IsPrivate', label: 'Privée'}
+                    - { property : 'isLikes', label: 'Likes'}
+                    - { property: 'statistics', label: 'Résultats'}
+            # La view d'un Quizz
+            show: 
+                title: 'Un Quizz'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'title', label: 'Titre du Quizz'}
+                    - { property: 'category', label: 'Catégorie'}
+                    - { property: 'questions', label: 'Questions'}
+                    - { property: 'IsPrivate', label: 'Privée'}
+                    - { property : 'isLikes', label: 'Likes'}
+                    - { property: 'statistics', label: 'Résultats'}
+            # La view d'une modification d'un Quizz 
+            edit:
+                title: 'Mise à jour d''un Quizz'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'title', label: 'Titre du Quizz'}
+                    - { property: 'category', label: 'Catégorie'}
+                    - { property: 'questions', label: 'Questions'}
+                    - { property: 'IsPrivate', label: 'Privée'}
+                    - { property : 'isLikes', label: 'Likes'}
+                    - { property: 'statistics', label: 'Résultats'}
+            # La view d'un ajout d'un Quizz
+            new:
+                title: 'Nouveay Quizz'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'title', label: 'Titre du Quizz'}
+                    - { property: 'category', label: 'Catégorie'}
+                    - { property: 'questions', label: 'Questions'}
+                    - { property: 'IsPrivate', label: 'Privée'}
+                    - { property : 'isLikes', label: 'Likes'}
+                    - { property: 'statistics', label: 'Résultats'}
+        RoleCrew:
+            class: App\Entity\RoleCrew
+            help: 'Voici la liste des Rôles dans la Team'
+            label: Roles dans la Team
+            # La view de la liste des Rôles
+            list:
+                title: 'Les Rôles dans la Team'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'userCrews', label: 'Membres Team'}
+                    - { property: 'code', label: 'Code'}
+            # La view d'un Rôle dans la Team
+            show: 
+                title: 'Un Rôle dans la Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'userCrews', label: 'Membres Team'}
+                    - { property: 'code', label: 'Code'}
+            # La view d'une modification d'un Rôle
+            edit:
+                title: 'Mise à jour d''un Rôle dans la Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'userCrews', label: 'Membres Team'}
+                    - { property: 'code', label: 'Code'}
+            # La view d'un ajout d'un Quizz
+            new:
+                title: 'Nouveau Rôle dans la Team'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'}
+                    - { property: 'name', label: 'Nom'}
+                    - { property: 'userCrews', label: 'Membres Team'}
+                    - { property: 'code', label: 'Code'}
+        Statistic: 
+            class: App\Entity\Statistic
+            help: 'Voici la liste des Résultats (statistiques)'
+            label: Résultats
+            # La view de la liste des Résultats
+            list: 
+                title : 'Les Résultats'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'user', label: 'Membre'}
+                    - { property: 'result', label: 'Résultat'}
+                    - { property: 'createdAt', label: 'Création le'}
+            # La view des Résultats
+            show: 
+                title: 'Un Résultat'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'user', label: 'Membre'}
+                    - { property: 'result', label: 'Résultat'}
+                    - { property: 'createdAt', label: 'Création le'}
+            # La view d'une modification d'un Résultat
+            edit:
+                title: 'Mise à jour d''un Résultat'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'user', label: 'Membre'}
+                    - { property: 'result', label: 'Résultat'}
+                    - { property: 'createdAt', label: 'Création le'}
+            # La view d'un ajout d'un Quizz
+            new:
+                title: 'Nouveau Résultat'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'user', label: 'Membre'}
+                    - { property: 'result', label: 'Résultat'}
+                    - { property: 'createdAt', label: 'Création le'}
+        User:
+            class: App\Entity\User
+            help: 'Voici la liste de tous les Utlisateurs inscrits'
+            label: Membres
+            # La view de la liste des Membres
+            list: 
+                title: 'Les Membres'
+                # Choix de la valeur (le type) des propriétes + 
+                # les propriétés à afficher sur interface Admin
+                fields: 
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'userName', label: 'Nom'}
+                    - { property: 'email', label: 'Email', type: 'email'}
+                    - { property: 'avatar', label : 'Photo', type: image, base_path: '/img/'}
+                    - { property: 'presentation', label: 'Présentation'} 
+                    - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'isActif', label: 'Activer'}
+            # La view des Membres
+            show: 
+                title: 'Un Membre'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'userName', label: 'Nom'}
+                    - { property: 'email', lable: 'Email', type: 'email'}
+                    - { property: 'avatar', label: 'Photo', type: image, base_path: '/img/'}
+                    - { property: 'presentation', label: 'Présentation'} 
+                    - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'isActif', label: 'Activer'}
+            # La view d'une modification d'un Membre
+            edit:
+                title: 'Mise à jour d''un Membre'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'userName', label: 'Nom'}
+                    - { property: 'email', lable: 'Email', type: 'email'}
+                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'presentation', label: 'Présentation'} 
+                    - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'isActif', label: 'Activer'}
+            # La view d'un ajout d'un Quizz
+            new:
+                title: 'Nouveau Membre'
+                help: null
+                fields:
+                    - { property: 'id', label: 'Id'} 
+                    - { property: 'userName', label: 'Nom'}
+                    - { property: 'email', lable: 'Email', type: 'email'}
+                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'presentation', label: 'Présentation'} 
+                    - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'isActif', label: 'Activer'}
+        
+        #UserCrew:
+        #    class: App\Entity\UserCrew
+        # Single id is not allowed on composite primary key in entity App\Entity\UserCrew
+
+    # Apparence générale de l'interface Admin     
+    site_name: '<img src="" /><u style="font-size: 120%;">Les VallesBaques</u>'
+    design:
+        brand_color: '#002547'
+        # Ici on peut ajouter un CSS + JS custom
+        assets:
+            css:
+                - build/appAdmin.css
+        
+        menu:
+            - {entity: 'AppRole', icon: 'check'}
+            - {entity: 'RoleCrew', icon: 'check'}
+            - {entity: 'User', icon: 'user'}
+            - {entity: 'Crew', icon: 'users'}
+            - {entity: 'Statistic', icon: 'bullhorn'}
+            - {entity: 'Quizz', icon: 'question'}
+            - {entity: 'Question', icon: 'question'}
+            - {entity: 'Category', icon: 'tags'}
+            - {entity: 'Level', icon: 'signal'}
+            # Permet le retour vers la l'Accueil du site
+            - {label: 'Accueil du site', route: 'home', icon: 'home' }
+            - {label: 'Page inscription', route: 'security_signup', icon: 'sign-in' }
+            - {label: 'Page connexion', route: 'security_login', icon: 'sign-in' }
+
+    list:
+        #title: 'Liste %%entity_label%%'
+        max_results: 20
+        
+        actions: 
+            - { name: 'show', icon: 'eye', label: '', title: 'Show'}
+            - { name: 'edit', icon: 'edit', label: '', title: 'Edit'}
+            - { name: 'delete', icon: 'trash', label: '', title: 'Delete'}
+
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i:s'
+
+framework:
+    translator: { fallbacks: [ "fr" ] }

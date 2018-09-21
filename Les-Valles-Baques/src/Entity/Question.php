@@ -239,6 +239,7 @@ class Question
         return $this;
     }
 
+<<<<<<< HEAD
     public function getNbr(): ?int
     {
         return $this->nbr;
@@ -250,4 +251,11 @@ class Question
 
         return $this;
     }
+=======
+    public function __toString()
+    {
+        return $this->getBody();
+    }
+
+>>>>>>> easyadmin
 }
