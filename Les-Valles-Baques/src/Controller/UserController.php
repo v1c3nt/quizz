@@ -15,15 +15,17 @@ class UserController extends AbstractController
     public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews)
     {
         $user = $this->getUser();
+        $crews = $user->getUserCrews();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
         dump($user);
-        dump($myQuizzes);
+        dump($crews);
         dump($myCrews);
 
         return $this->render('user/index.html.twig', [
             'user' => $user,
             'myQuizzes' => $myQuizzes,
+            'crews' => $crews,
             'myCrews' => $myCrews,
         ]);
     }
