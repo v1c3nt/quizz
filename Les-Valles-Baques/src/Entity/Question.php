@@ -22,7 +22,7 @@ class Question
      *? @Assert\Length(
      *      min = 15,
      *      max = 255,
-     *      minMessage = "Une question en moins de {{ limit }} caractère ? je suis pas sur ... ",
+     *      minMessage = "Une question en moins de {{ limit }} caractères ? Je suis pas sûr ... ",
      *      maxMessage = "C'est plus une question c'est un roman ?",
      * )
      * @ORM\Column(type="string", length=255)
@@ -35,7 +35,7 @@ class Question
      *      min = 1,
      *      max = 128,
      *      minMessage = "Une réponse vide c'est ... vide  ",
-     *      maxMessage = "désolé ta réponse et trop longue",
+     *      maxMessage = "Désolé ta réponse et trop longue",
      * )
      * @ORM\Column(type="string", length=128)
      */
@@ -47,7 +47,7 @@ class Question
      *      min = 1,
      *      max = 128,
      *      minMessage = "Une réponse vide c'est ... vide ",
-     *      maxMessage = "désolé ta réponse et trop longue",
+     *      maxMessage = "Désolé ta réponse et trop longue",
      * )
      * @ORM\Column(type="string", length=128)
      */
@@ -59,24 +59,35 @@ class Question
      *      min = 1,
      *      max = 128,
      *      minMessage = "Une réponse vide c'est ... vide  ",
-     *      maxMessage = "désolé ta réponse et trop longue",
+     *      maxMessage = "Désolé ta réponse et trop longue",
      * )
      * @ORM\Column(type="string", length=128)
      */
     private $prop3;
 
     /**
+     *? @Assert\NotBlank()
+     *? @Assert\Length(
+     *      min = 1,
+     *      max = 128,
+     *      minMessage = "Une réponse vide c'est ... vide  ",
+     *      maxMessage = "Désolé ta réponse et trop longue",
+     * )
      * @ORM\Column(type="string", length=128)
      */
     private $prop4;
 
     /**
+     *? @Assert\Length(
+     *      max = 255,
+     *      maxMessage = "Sois plus concis (max {{ limit }} caratères",
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $anecdote;
 
     /**
-     * 
+     * ? @Assert\Url(),
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $source;
@@ -239,5 +250,4 @@ class Question
 
         return $this;
     }
-
 }

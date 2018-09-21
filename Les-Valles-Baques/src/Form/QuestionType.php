@@ -42,7 +42,7 @@ class QuestionType extends AbstractType
             ->add('source', UrlType::class, [
                 'required' => false,
                 'label' => 'Source',
-                'help' => 'Pense à mettre un lien vers un article au cas ou on voudrait en savoir plus'
+                'help' => 'Pense à mettre un lien vers un article au cas où on voudrait en savoir plus'
             ])
             ->setAttributes([
             'novalidate'=>'novalidate',
