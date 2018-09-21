@@ -110,7 +110,22 @@ class QuizzController extends AbstractController
             $manager->persist($question);
             
             $manager->flush();
+            $this->addFlash('success', 'Question ajoutée');
+            if ( $question->getNbr() > 8) {
+                $this->addFlash('success', 'plus que 2!'); 
+            } elseif ($question->getNbr() > 6) {
+                $this->addFlash('success', 'plus que 4!');
             
+            } elseif ($question->getNbr() > 4) {
+                $this->addFlash('success', 'plus que 6!');
+            
+            } elseif ($question->getNbr() > 2) {
+                $this->addFlash('success', 'plus que 8!');
+            
+            }
+
+
+            $questions = $questionRepo->findBy(['quizz' => $id]);
             
             if ($nbr < 10) {
 

@@ -17,6 +17,8 @@ require('../../node_modules/jquery-ui/ui/widgets/accordion')
 var app = {
 
     init: function () {
+        setTimeout(app.hideFlashNote, 2000);
+      
 
         $(function () {
             var icons = {
@@ -36,6 +38,11 @@ var app = {
          * ! en standby de l'ajax pour l'ajout de question.
          * $('#nextQuestion').on('submit', app.nextQuestion);
          */
+    },
+    hideFlashNote: function () {
+
+        console.log('yep', $('.m-flash'))
+        $('.m-flash').alert('close');
     },
 
     nextQuestion: function (event) {
