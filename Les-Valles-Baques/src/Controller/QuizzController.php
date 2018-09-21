@@ -151,22 +151,40 @@ class QuizzController extends AbstractController
         //exit;
         $user = $this->getUser();
 
+        $responses = [
+        $question->getProp1() => 'reponse 1',
+        $question->getProp2() => 'reponse 2',
+        $question->getProp3() => 'reponse 3',
+        $question->getProp4() => 'reponse 4'
+        ];
+
+
+        dump($responses);
+        shuffle($responses);
+        dump($responses);
         
         $form = $this->createFormBuilder()
-        ->add('question', ChoiceType::class, [
-            'choices'=>[
-                $question->getProp1() => 1,
-                $question->getProp2() => 0,
-                $question->getProp3() => 0,
-                $question->getProp4() => 0
-            ],
+        ->add('response', ChoiceType::class, [
+            'label'=>$question->getBody(),
+            'choices'=> $responses,
             'expanded' => true,
             'multiple' => false,
             
             ])
             ->getForm();
-            
-        //$form->handleRequest($request);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $result = $form->getData();
+            dump($result);
+            exit;
+
+            return $this->redirectToRoute('quizz_play', [
+                'form' => $form->createView(),
+                'question' => $question
+            ]);
+        }
+        
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
             'question' => $question
