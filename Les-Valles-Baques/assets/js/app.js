@@ -17,14 +17,26 @@ require('../../node_modules/jquery-ui/ui/widgets/accordion')
 var app = {
 
     init: function () {
-        setTimeout(app.hideFlashNote, 2000);
-      
+        setTimeout(app.hideFlashNote, 4000);
+
 
         $(function () {
             var icons = {
                 header: "fas fa-plus-circle mr-2",
                 activeHeader: "fas fa-minus-circle mr-2"
             };
+
+            
+            $('.resum')
+                  .hover(function () {
+                    $(this)
+                    .children('.divDetails')
+                    .toggleClass("actived")
+                    .next()
+                      .stop(true, true)
+                      .slideToggle();
+                });
+
             $("#accordion").accordion({
                 heightStyle: "content",
                 icons: icons
@@ -39,10 +51,13 @@ var app = {
          * $('#nextQuestion').on('submit', app.nextQuestion);
          */
     },
+
+
     hideFlashNote: function () {
 
         console.log('yep', $('.m-flash'))
         $('.m-flash').alert('close');
+        $('#newQuestion-title').show();
     },
 
     nextQuestion: function (event) {

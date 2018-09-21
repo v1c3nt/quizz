@@ -110,17 +110,27 @@ class QuizzController extends AbstractController
             $manager->persist($question);
             
             $manager->flush();
-            $this->addFlash('success', 'Question ajoutée');
-            if ( $question->getNbr() > 8) {
-                $this->addFlash('success', 'plus que 2!'); 
+            $this->addFlash('success', 'Question '.$nbr.' ajoutée');
+            if ( $question->getNbr() > 9) {
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 1 !'); 
+            } elseif ($question->getNbr() > 8) {
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! La dernière ligne droite!');
+            } elseif ($question->getNbr() > 7) {
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 3!');
             } elseif ($question->getNbr() > 6) {
-                $this->addFlash('success', 'plus que 4!');
-            
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! Tu as fait la moitié du travail !');
+            } elseif ($question->getNbr() > 5) {
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 5!');
             } elseif ($question->getNbr() > 4) {
-                $this->addFlash('success', 'plus que 6!');
-            
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! encore une et tu es à la moitiée');
+            } elseif ($question->getNbr() > 3) {
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 7!');
             } elseif ($question->getNbr() > 2) {
-                $this->addFlash('success', 'plus que 8!');
+                $this->addFlash('primary', 'Question ' .( $nbr - 1 ) . ' ajoutée! Encore 8 ça va aller vite courage');
+            } elseif ($question->getNbr() > 1) {
+                $this->addFlash('primary', 'Question ' . $nbr . ' ajoutée! plus que 9!');
+            
+            
             
             }
 
