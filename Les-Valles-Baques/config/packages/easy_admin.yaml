@@ -435,20 +435,21 @@ easy_admin:
     design:
         brand_color: '#002547'
         # Ici on peut ajouter un CSS + JS custom
+        form_theme: 'vertical'
         assets:
             css:
                 - build/appAdmin.css
         
         menu:
-            - {entity: 'AppRole', icon: 'check'}
-            - {entity: 'RoleCrew', icon: 'check'}
-            - {entity: 'User', icon: 'user'}
-            - {entity: 'Crew', icon: 'users'}
-            - {entity: 'Statistic', icon: 'bullhorn'}
-            - {entity: 'Quizz', icon: 'question'}
-            - {entity: 'Question', icon: 'question'}
-            - {entity: 'Category', icon: 'tags'}
-            - {entity: 'Level', icon: 'signal'}
+            - {entity: 'AppRole', label: 'Role', icon: 'check'}
+            - {entity: 'RoleCrew', label: 'Role Team', icon: 'check' }
+            - {entity: 'User', label: 'Membre', icon: 'user'}
+            - {entity: 'Crew', label: 'Team', icon: 'users'}
+            - {entity: 'Statistic', label: 'Résultat', icon: 'bullhorn'}
+            - {entity: 'Quizz', label: 'Quizz', icon: 'question'}
+            - {entity: 'Question', label: 'Question', icon: 'question'}
+            - {entity: 'Category', label: 'Catégorie', icon: 'tags'}
+            - {entity: 'Level', label: 'Niveau', icon: 'signal'}
             # Permet le retour vers la l'Accueil du site
             - {label: 'Accueil du site', route: 'home', icon: 'home' }
             - {label: 'Page inscription', route: 'security_signup', icon: 'sign-in' }
