@@ -18,6 +18,8 @@ var app = {
 
     init: function () {
 
+        $(".alert").alert('dispose')
+
         $(function () {
             var icons = {
                 header: "fas fa-plus-circle mr-2",

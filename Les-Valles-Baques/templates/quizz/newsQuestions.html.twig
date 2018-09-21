@@ -16,6 +16,7 @@
     #}
 
         <div class="bubble col-8" id="formDiv">
+            <h3 class="text-center"><u>question</u> {{ nbr }}</h3>
             {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
             {{ form_widget(form) }}
             <button class="btn btn-success" type="submit">
@@ -26,9 +27,14 @@
 
         <aside class="bubble ml-2 col-3">
 <div class=" ">
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+    <div class="alert alert-{{ label }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endfor %}
 <h4><u>dans</u> le Quizz : <br/> {{ quizz.title }} <br/>
-                Tu en es à la Question
-                {{ nbr }}</h4>
                 {#TODO a mettre dans un flash
                     <h5>courage plus que
                         {{10 - nbr}}
@@ -54,7 +60,7 @@
             {% if questions is defined %}
                 {% for q in questions %}
                     <span class="text-left ">Question
-                        {{ nbr }}:</span>
+                        {{ q.nbr }}:</span>
                     <p class="shortQuestion">{{ q.body }}</p>
 
                 {% endfor %}
