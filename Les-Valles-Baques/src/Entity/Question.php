@@ -239,23 +239,18 @@ class Question
         return $this;
     }
 
-<<<<<<< HEAD
-    public function getNbr(): ?int
+    public function getNbr() : ? int
     {
         return $this->nbr;
     }
-
-    public function setNbr(int $nbr): self
+    public function setNbr(int $nbr) : self
     {
         $this->nbr = $nbr;
-
         return $this;
     }
-=======
+
     public function __toString()
     {
         return $this->getBody();
     }
-
->>>>>>> easyadmin
 }
