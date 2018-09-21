@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 class QuizzController extends AbstractController
 {
     /**
@@ -38,7 +40,7 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/show/{id}", name="quizz_show")
      */
-    public function show(Quizz $quizz ) : Response
+    public function show(Quizz $quizz) : Response
     {
         $question = $quizz->getQuestions();
 
@@ -90,9 +92,8 @@ class QuizzController extends AbstractController
     /**
      * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods="POST|GET", defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr) : Response
     {
-   
         $question = new Question();
 
         //? je récupere l'id du quizz créer
@@ -136,27 +137,40 @@ class QuizzController extends AbstractController
         ]);
     }
 
-  /**
-     * TODO replacer id par slug
-     * a voir pour bloqué l
-     * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
-     * 
-     */
+    /**
+       * TODO replacer id par slug
+       * a voir pour bloqué l
+       * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
+       *
+       */
     public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
     {
-
-        $question = $questionRepo->findBy(['quizz'=>$id, 'nbr'=> $nbr]);
-        dump($question);
+        $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
+        //dump($question);
+        //dump($question->getProp1());
+        //exit;
         $user = $this->getUser();
-        $question = new Question();
-        $form = $this->createForm(QuestionType::class, $question);
-        $form->handleRequest($request);
 
-        $questions =$quizz->getQuestions();
-        dump($questions);
-        $play = $question->getNbr();
+        
+        $form = $this->createFormBuilder()
+        ->add('question', ChoiceType::class, [
+            'choices'=>[
+                $question->getProp1() => 1,
+                $question->getProp2() => 0,
+                $question->getProp3() => 0,
+                $question->getProp4() => 0
+            ],
+            'expanded' => true,
+            'multiple' => false,
+            
+            ])
+            ->getForm();
+            
+        //$form->handleRequest($request);
+        return $this->render('quizz/play.html.twig', [
+            'form' => $form->createView(),
+            'question' => $question
 
-        dump($play);exit;
-        if ($form->isSubmitted() && $form->isValid()) { }
+        ]);
     }
 }
