@@ -35,7 +35,7 @@ class QuizzController extends AbstractController
 
         dump($quizzs);
         foreach ($quizzs as $key => $quizz) {
-            dump($quizz->getCrew());
+           
             if ( 0 === $quizz->getCrew() ){
                 dump('if');
             }
