@@ -149,19 +149,19 @@ class QuizzController extends AbstractController
         $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
         
         $user = $this->getUser();
-
+        
         $responses = [
-        $question->getProp1() => 'reponse 1',
-        $question->getProp2() => 'reponse 2',
-        $question->getProp3() => 'reponse 3',
-        $question->getProp4() => 'reponse 4'
+            $question->getProp1() => 'reponse 1',
+            $question->getProp2() => 'reponse 2',
+            $question->getProp3() => 'reponse 3',
+            $question->getProp4() => 'reponse 4'
         ];
         
         //dump($responses);
         //shuffle($responses);
         //dump($responses);
         $result =[];
-        
+
         $form = $this->createFormBuilder()
         ->add('responses', ChoiceType::class, [
             'label'=>$question->getBody(),
@@ -171,19 +171,23 @@ class QuizzController extends AbstractController
             
             ])
             ->getForm();
-
+            
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $result = $form->getData();
+            dump($result);
             $nbr++;
-        
+            // ici le fait de passer dans le if ça bloque la récup des autres réponses
+            // on arrive a afficher les 10 Questions avec les réponses mais dans le form->getData() qu'une seule requête affichée
+            // dans le tableau
             if ($nbr <=10) {
                 return $this->redirectToRoute('quizz_play', [
                     'form' => $form->createView(),
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
+                    'result'=>$result
                     ]);
             }
             dump($result);
