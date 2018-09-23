@@ -11,7 +11,10 @@
 </div>
 <main class="bubble col-8 offset-2">
 
-    <h3 class="m-1 border border-primary brad p-2">Mes infos</h3>
+    <h3 class="m-1 border border-primary brad p-2">
+        <u class="">Mes infos</u>
+        <a class="float-right mr-2" href="{{ path('edit_user_profilee' , { 'id': app.user.id, 'username': app.user.userName }) }}"><i class="fas fa-user-edit"></i></a>
+    </h3>
 
     <div class="container fluid ">
         <div class="row">

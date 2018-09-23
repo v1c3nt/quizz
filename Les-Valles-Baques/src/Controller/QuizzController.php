@@ -129,11 +129,7 @@ class QuizzController extends AbstractController
                 $this->addFlash('primary', 'Question ' .( $nbr - 1 ) . ' ajoutée! Encore 8 ça va aller vite courage');
             } elseif ($question->getNbr() > 1) {
                 $this->addFlash('primary', 'Question ' . $nbr . ' ajoutée! plus que 9!');
-            
-            
-            
             }
-
 
             $questions = $questionRepo->findBy(['quizz' => $id]);
             
