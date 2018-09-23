@@ -146,6 +146,8 @@ class QuizzController extends AbstractController
        */
     public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
     {
+        $session = $this->get('session');
+
         $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
         
         $user = $this->getUser();
@@ -160,9 +162,7 @@ class QuizzController extends AbstractController
         //dump($responses);
         //shuffle($responses);
         //dump($responses);
-        $result =[];
-
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder($responses)
         ->add('responses', ChoiceType::class, [
             'label'=>$question->getBody(),
             'choices'=> $responses,
@@ -175,22 +175,29 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $result = $form->getData();
-            dump($result);
+            $data = $form->getData();
+            $responses [] = $data ['responses'];
+            dump($request);
+            dump($responses);
+            dump($data);
+            //exit;
+            $responses = $session->get('responses', array());
+            dump($session);
+            //exit;
             $nbr++;
             // ici le fait de passer dans le if ça bloque la récup des autres réponses
             // on arrive a afficher les 10 Questions avec les réponses mais dans le form->getData() qu'une seule requête affichée
             // dans le tableau
+            // Peut-être un boucle while ? For ?
             if ($nbr <=10) {
                 return $this->redirectToRoute('quizz_play', [
                     'form' => $form->createView(),
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
-                    'result'=>$result
                     ]);
             }
-            dump($result);
+            dump($responses); // Je ne récup que la 1ère est denière réponse soumises
             exit;
         }
         
