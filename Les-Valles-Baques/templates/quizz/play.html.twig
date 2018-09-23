@@ -5,7 +5,7 @@
 
 {% block body %}
 
-    <div class="bubble col-8" id="formDiv">
+    <div class="bubble col-8 offset-2" id="formDiv">
         {{ form_start(form ) }}
         {{ form_widget(form) }}
         <button class="btn btn-success" type="submit">
@@ -13,5 +13,6 @@
         </button>
         {{ form_end(form) }}
     </div>
+    {{ dump(app.session.get('results')) }}
 
 {% endblock %}

@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class QuizzController extends AbstractController
 {
@@ -59,9 +62,9 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $quizz = new Quizz();
 
-        
+
         $form = $this->createForm(QuizzType::class, $quizz);
-    
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -102,18 +105,18 @@ class QuizzController extends AbstractController
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
         //? je crée une variable pour compter le nombre de question créées
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $nbr++;
             $question->setQuizz($quizz);
             $question->setErrore(0);
             $question->setNbr($nbr);
             $manager->persist($question);
-            
+
             $manager->flush();
-            
+
             $questions = $questionRepo->findBy(['quizz' => $id]);
-            
+
             if ($nbr < 10) {
                 $question = new Question();
                 dump($questions);
@@ -139,16 +142,18 @@ class QuizzController extends AbstractController
     }
 
     /**
-       * TODO replacer id par slug
-       * a voir pour bloqué l
-       * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
-       *
-       */
-    public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
+     * TODO replacer id par slug
+     * a voir pour bloqué l
+     * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
+     *
+     */
+    public function play($id, Request $request, $nbr, QuestionRepository $questionRepo, SessionInterface $session)
     {
-        $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
+        
         
         $user = $this->getUser();
+        
+        $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
         
         $responses = [
             $question->getProp1() => 'reponse 1',
@@ -157,48 +162,45 @@ class QuizzController extends AbstractController
             $question->getProp4() => 'reponse 4'
         ];
         
-        //dump($responses);
-        //shuffle($responses);
-        //dump($responses);
-        $result =[];
-
+        
         $form = $this->createFormBuilder()
         ->add('responses', ChoiceType::class, [
-            'label'=>$question->getBody(),
-            'choices'=> $responses,
+            'label' => $question->getBody(),
+            'choices' => $responses,
             'expanded' => true,
             'multiple' => false,
-            
             ])
             ->getForm();
             
-        $form->handleRequest($request);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            $result = $form->getData();
-            dump($result);
+            $session->set('answer'. $nbr .'', $form->getData());
             $nbr++;
-            // ici le fait de passer dans le if ça bloque la récup des autres réponses
-            // on arrive a afficher les 10 Questions avec les réponses mais dans le form->getData() qu'une seule requête affichée
-            // dans le tableau
-            if ($nbr <=10) {
+                    // ici le fait de passer dans le if ça bloque la récup des autres réponses
+                    // on arrive a afficher les 10 Questions avec les réponses mais dans le form->getData() qu'une seule requête affichée
+                    // dans le tableau
+            if ($nbr <= 10) {
+
                 return $this->redirectToRoute('quizz_play', [
-                    'form' => $form->createView(),
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
-                    'result'=>$result
-                    ]);
+                ]);
             }
-            dump($result);
-            exit;
+
         }
+
+        $results[] = 'XX';
+        $session->set('results', $results);
         
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
             'question' => $question,
-            
+
 
         ]);
     }
 }
+                
