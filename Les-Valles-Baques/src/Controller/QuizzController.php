@@ -38,7 +38,7 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/show/{id}", name="quizz_show")
      */
-    public function show(Quizz $quizz ) : Response
+    public function show(Quizz $quizz) : Response
     {
         $question = $quizz->getQuestions();
 
@@ -91,9 +91,8 @@ class QuizzController extends AbstractController
      * TODO {id} a changer par slug.
      * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr) : Response
     {
-   
         $question = new Question();
 
         $form = $this->createForm(QuestionType::class, $question);
@@ -113,14 +112,12 @@ class QuizzController extends AbstractController
             
             
             if ($nbr < 10) {
-
                 return $this->redirectToRoute('questions_quizz', [
                     'id' => $quizz->getId(),
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
                 ]);
-
             }
 
             return $this->redirectToRoute('quizz_list_sort', [
@@ -136,15 +133,14 @@ class QuizzController extends AbstractController
         ]);
     }
 
-  /**
-     * TODO replacer id par slug
-     * a voir pour bloqué l
-     * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
-     * 
-     */
+    /**
+       * TODO replacer id par slug
+       * a voir pour bloqué l
+       * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
+       *
+       */
     public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
     {
-
         $question = $questionRepo->findBy(['quizz'=>$id, 'nbr'=> $nbr]);
         dump($question);
         $user = $this->getUser();
@@ -156,7 +152,9 @@ class QuizzController extends AbstractController
         dump($questions);
         $play = $question->getNbr();
 
-        dump($play);exit;
-        if ($form->isSubmitted() && $form->isValid()) { }
+        dump($play);
+        exit;
+        if ($form->isSubmitted() && $form->isValid()) {
+        }
     }
 }
