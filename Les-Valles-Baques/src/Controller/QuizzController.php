@@ -14,9 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class QuizzController extends AbstractController
 {
@@ -146,9 +147,7 @@ class QuizzController extends AbstractController
     public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
     {
         $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
-        //dump($question);
-        //dump($question->getProp1());
-        //exit;
+        
         $user = $this->getUser();
 
         $responses = [
@@ -157,14 +156,14 @@ class QuizzController extends AbstractController
         $question->getProp3() => 'reponse 3',
         $question->getProp4() => 'reponse 4'
         ];
-
-
-        dump($responses);
-        shuffle($responses);
-        dump($responses);
+        
+        //dump($responses);
+        //shuffle($responses);
+        //dump($responses);
+        $result =[];
         
         $form = $this->createFormBuilder()
-        ->add('response', ChoiceType::class, [
+        ->add('responses', ChoiceType::class, [
             'label'=>$question->getBody(),
             'choices'=> $responses,
             'expanded' => true,
@@ -174,20 +173,27 @@ class QuizzController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $result = $form->getData();
+            $nbr++;
+        
+            if ($nbr <=10) {
+                return $this->redirectToRoute('quizz_play', [
+                    'form' => $form->createView(),
+                    'question' => $question,
+                    'nbr' => $nbr,
+                    'id' => $id,
+                    ]);
+            }
             dump($result);
             exit;
-
-            return $this->redirectToRoute('quizz_play', [
-                'form' => $form->createView(),
-                'question' => $question
-            ]);
         }
         
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
-            'question' => $question
+            'question' => $question,
+            
 
         ]);
     }
