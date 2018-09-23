@@ -42,7 +42,7 @@
                 <tbody>
                     {% for crew in userCrews %}
                     <tr>
-                        <th scope="col">
+                        <td scope="col">
                             {#TODO créer un service pour avatar perso ou defaut avatar #}
                             {% if null != crew.user.avatar %}
                             <img src="{{ asset('/images/vince.jpg') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
@@ -50,10 +50,10 @@
                             {% else %}
                             <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
                                 class="brad  m-2">
-                            {% endif %}</th>
-                        <th scope="col">{{ crew.user.userName }}</th>
-                        <th scope="col">{{ crew.user.createdAt|date }}</th>
-                        <th scope="col">{{ crew.roleCrew.name }}</th>
+                            {% endif %}</td>
+                        <td scope="col">{{ crew.user.userName }}</td>
+                        <td scope="col">{{ crew.user.createdAt|date }}</td>
+                        <td scope="col">{{ crew.roleCrew.name }}</th>
                     </tr>
                     {% endfor %}
                 </tbody>

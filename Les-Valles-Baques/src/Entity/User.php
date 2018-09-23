@@ -41,16 +41,17 @@ class User implements UserInterface
      */
     private $userName;
 
+    /* 
+    !ajouter le AtAssert\Regex ("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")*/
     /**
      * @ORM\Column(type="string", length=255)
      *? @Assert\NotBlank()
-     *? @Assert\Regex("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")
+     *
      */
     private $password;
 
 
     /**
-     * @Assert\Url(),
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -146,12 +147,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAvatar() : ? string
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
-    public function setAvatar(? string $avatar) : self
+    public function setAvatar($avatar) : self
     {
         $this->avatar = $avatar;
 

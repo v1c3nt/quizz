@@ -62,7 +62,7 @@ liip_imagine :
                 # 4px larger to create a 2px border around the final image
                 background : { size : [48, 48], position : top, color : '#000000' }
 
-        icone_square :
+        icon_square :
 
             # adjust the image quality to 75%
             quality : 85
