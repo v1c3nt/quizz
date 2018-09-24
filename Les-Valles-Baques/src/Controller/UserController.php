@@ -33,7 +33,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/profile/{id}/{username}_edite", name="edit_user_profilee")
+     * @Route("/profile/{id}/{username}_edite", name="edit_user_profile")
      */
     public function editProfil(UserCrewRepository $uCrews, $id, Request $request )
     {

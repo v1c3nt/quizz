@@ -10,8 +10,11 @@
     <h1 class="bubble-title">Mon profil</h1>
 </div>
 <main class="bubble col-8 offset-2">
+<div class="m-1 border border-primary brad p-2">
+        <h3 class="d-inline">Mes infos</h3>
+<div class="float-right h5 m-1"><a href="{{ path('edit_user_profile', {'id': app.user.id , 'username': app.user.username}) }}"><i class="fas fa-user-edit mr-1"></i><u>modifier</u></a></div>
 
-    <h3 class="m-1 border border-primary brad p-2">Mes infos</h3>
+    </div>
 
     <div class="container fluid ">
         <div class="row">
@@ -92,7 +95,7 @@
                 </thead>
                 <tbody>
                     {% for ms in myStats %}
-                    {% dump(ms) %}
+                
                     <tr>
                         <th scope="row"><a href="{{ path('quizz_show' , {'id': ms.quizz.id}) }}">{{ ms.quizz.title }}</a></th>
                         <td>{{ ms.quizz.category }}</td>
