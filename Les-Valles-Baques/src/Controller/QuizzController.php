@@ -106,13 +106,8 @@ class QuizzController extends AbstractController
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
-<<<<<<< HEAD
         
         $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
-=======
-        //? je crée une variable pour compter le nombre de question créées
-
->>>>>>> play
         if ($form->isSubmitted() && $form->isValid()) {
 
             //? je crée une variable pour compter le nombre de questions créées
@@ -123,7 +118,6 @@ class QuizzController extends AbstractController
             $manager->persist($question);
 
             $manager->flush();
-<<<<<<< HEAD
             $this->addFlash('success', 'Question '.$nbr.' ajoutée');
             if ( $question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 1 !'); 
@@ -155,18 +149,6 @@ class QuizzController extends AbstractController
 
                 return $this->redirectToRoute('questions_quizz', [
                     'id' => $quizz->getId(),
-=======
-
-            $questions = $questionRepo->findBy(['quizz' => $id]);
-
-            if ($nbr <= 10) {
-                $question = new Question();
-
-                $form = $this->createForm(QuestionType::class, $question);
-                return $this->render('quizz/newsQuestions.html.twig', [
-                    'nbr' => $nbr,
-                    'form' => $form->createView(),
->>>>>>> play
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
