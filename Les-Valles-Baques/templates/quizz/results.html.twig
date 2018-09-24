@@ -5,7 +5,13 @@
 
 {% block body %}
 <div class="bubble col-8 offset-2">
-    <h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #} sur le quizz:{{quizz.title}}</h2>
+<h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #}</h2>
+<h3>sur le quizz:{{quizz.title}}</h3>
+
+<a href="{{ path('add_like', {'id': quizz.id }) }}">
+    <h4>j'adore ce quizz <i class="fas fa-thumbs-up ml-1"></i></h4>
+</a>
+
 </div>
 {% for key, q in quizz.questions %}
 <div class="bubble col-6 offset-3 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
