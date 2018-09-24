@@ -150,7 +150,6 @@ class QuizzController extends AbstractController
      */
     public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
-<<<<<<< HEAD
        
         if ( null === $session->get('results' . $id . '') || empty($session->get('results' . $id . '')) ){
             $results[] = 'quizz_'. $id;
@@ -160,12 +159,6 @@ class QuizzController extends AbstractController
         dump($session->get('results' . $id . ''));
         $nbr = count($session->get('results' . $id . ''));
 
-=======
-        $session = $this->get('session');
-
-        $question = $questionRepo->findOneBy(['quizz'=>$id, 'nbr'=>$nbr]);
-        
->>>>>>> b6b390d79a7f9fcb124b1f01540a1e41e6dbdb61
         $user = $this->getUser();
 
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
@@ -176,7 +169,6 @@ class QuizzController extends AbstractController
             $question->getProp3() => 'prop3',
             $question->getProp4() => 'prop4'
         ];
-<<<<<<< HEAD
 
 
         $form = $this->createFormBuilder()
@@ -185,43 +177,15 @@ class QuizzController extends AbstractController
                 'choices' => $responses,
                 'expanded' => true,
                 'multiple' => false,
-=======
-        
-        //dump($responses);
-        //shuffle($responses);
-        //dump($responses);
-        $form = $this->createFormBuilder($responses)
-        ->add('responses', ChoiceType::class, [
-            'label'=>$question->getBody(),
-            'choices'=> $responses,
-            'expanded' => true,
-            'multiple' => false,
-            
->>>>>>> b6b390d79a7f9fcb124b1f01540a1e41e6dbdb61
             ])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-<<<<<<< HEAD
-
-=======
-            $data = $form->getData();
-            $responses [] = $data ['responses'];
-            dump($request);
-            dump($responses);
-            dump($data);
-            //exit;
-            $responses = $session->get('responses', array());
-            dump($session);
-            //exit;
-            $nbr++;
->>>>>>> b6b390d79a7f9fcb124b1f01540a1e41e6dbdb61
             // ici le fait de passer dans le if ça bloque la récup des autres réponses
             // on arrive a afficher les 10 Questions av ec les réponses mais dans le form->getData() qu'une seule requête affichée
             // dans le tableau
-<<<<<<< HEAD
             $nbr++;
             
             $answers = $session->get('results' . $id . '');
@@ -231,15 +195,10 @@ class QuizzController extends AbstractController
             
             if ($nbr <= 10) {
 
-=======
-            // Peut-être un boucle while ? For ?
-            if ($nbr <=10) {
->>>>>>> b6b390d79a7f9fcb124b1f01540a1e41e6dbdb61
                 return $this->redirectToRoute('quizz_play', [
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
-<<<<<<< HEAD
                 ]);
             }
 
@@ -248,12 +207,6 @@ class QuizzController extends AbstractController
                 'id'=>$id
             ]);
 
-=======
-                    ]);
-            }
-            dump($responses); // Je ne récup que la 1ère est denière réponse soumises
-            exit;
->>>>>>> b6b390d79a7f9fcb124b1f01540a1e41e6dbdb61
         }
 
         return $this->render('quizz/play.html.twig', [
@@ -282,22 +235,6 @@ class QuizzController extends AbstractController
             
             if ( $answer === 'prop1' ){
                 $points++;
-                $question = $quizz->getQuestions($key+1);
-                $answer = $question->getProp1();
-                dump($question);
-                $answer = $quizz->getQuestions()->getProp1();
-            } elseif ($answer === 'prop2') {
-                
-                $answer = $quizz->getQuestions()->getProp2();
-
-            } elseif ($answer === 'prop3') {
-                
-                $answer = $quizz->getQuestions()->getProp3();
-
-            } elseif ($answer === 'prop4') {
-                
-                $answer = $quizz->getQuestions()->getProp4();
-
             }
             
         }
