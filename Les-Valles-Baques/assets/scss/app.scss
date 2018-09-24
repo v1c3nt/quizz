@@ -2,6 +2,7 @@ $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
 $blue: #002547;
+$true: #23a71e;
 
 
 $primary: #253f58;
@@ -21,7 +22,15 @@ $danger: $red;
     border: solid 3px red;
 
 }
- 
+
+.true {
+    border: solid 6px $true;
+}
+
+.false {
+    border: solid 6px $red;
+}
+
 #btn-signup,
 #btn-login,
 button.btn.btn-success {
@@ -214,7 +223,7 @@ header .nav-tabs {
     border: none;
     justify-content: center;
     border-bottom: solid 1px $blue;
-    
+
 }
 
 header .nav .nav-item .nav-link {
@@ -228,7 +237,7 @@ header .nav .nav-item .nav-link {
 }
 
 header .nav .nav-item .active {
-   
+
     background-color: #002547;
     color: $green;
     border: solid 2px $blue;

@@ -5,32 +5,36 @@
 
 {% block body %}
 <div class="bubble col-8 offset-2">
-<h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #} sur le quizz:{{quizz.title}}</h2>
+    <h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #} sur le quizz:{{quizz.title}}</h2>
 </div>
 {% for key, q in quizz.questions %}
-
-
+<div class="bubble col-6 offset-3 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
+        <p class="h5">{{ q.body }}</p>
 <div class="bubble col-6 offset-3">
-    <p class="h5">{{ q.body }}</p>
-</div>
-<div>la bonne rééponse était:
-    <p>{{ dump(q.prop1) }}</p>
-
-</div class"bubble">
-<div class"bubble">Tu as répondu:
-{{answers[key+1]}}
-    {% for answer q %}
-{% if answer === answers[key+1] %}
-            {{answer}}
-        {% endif %}
-    {% endfor %}
-   
-
-</div>
-<div class="bubble col-6 offset-3">
-    <p class="h5">{{ key }}</p>
-</div>
+    {% if 'prop1' == answers[key+1] %}<h5>Tout Bon <i class="fas fa-check-circle"></i></h5>
+    {% else %}<h5>Raté <i class="fas fa-times-circle"></i></h5>{% endif %} 
+    la bonne réponse était:
+<p>{{ q.prop1 }}{% if 'prop1' == answers[key+1] %} {% endif %}</p>
+        </div>
+{% if 'prop1' != answers[key+1] %}
+        <div class="bubble col-6 offset-3">Tu as répondu:
+            {% if 'prop1' == answers[key+1] %} la bonne réponse
+            {% elseif 'prop2' == answers[key+1] %}{{ q.prop2 }}
+            {% elseif 'prop3' == answers[key+1] %}{{ q.prop3 }}
+            {% elseif 'prop4' == answers[key+1] %}{{ q.prop4 }}
+            {% endif %}
+        </div>
+{% endif %}
+    </div>
 {% endfor %}
+
+
+{#TODO afficher un div avec les statistiques du joueur sur ce quizz
+<div class="bubble col-6 offset-3">
+    <p class="h5">Stats </p>
+</div>
+#}
+
 
 
 {% endblock %}
