@@ -194,12 +194,15 @@ class QuizzController extends AbstractController
                 ]);
             }
 
-            return $this->redirectToRoute('home');
+            //! redirectToRoute resultat
+            return $this->redirectToRoute('quizz_results', [
+                'id'=>$id
+            ]);
 
         }
 
         if (null === $session->get('results')) {
-            $results[] = 'init';
+            $results = [];
             $session->set('results', $results);
 
         }
@@ -214,5 +217,35 @@ class QuizzController extends AbstractController
 
         ]);
     }
+
+    /**
+     * TODO replacer id par slug
+     * a voir pour bloqué l
+     * @Route("resultats/quizz_{id}", name="quizz_results")
+     *
+     */
+    public function results ($id, QuizzRepository $quizzRepo, SessionInterface $session)
+    {
+        $empty = [];
+        $points = 0;
+        $answers = $session->get('results');
+    
+        
+        foreach ($answers as $answer) {
+
+            if ( $answer === 'reponse 1' ){
+                $points++;
+            }
+            
+        }
+        dump($points);exit;
+        $session->set('results', $empty );
+        return $this->render('quizz/results.html.twig', [
+            'answers'=> $answers,
+        ]);
+
+    }
+
+
 }
                 
