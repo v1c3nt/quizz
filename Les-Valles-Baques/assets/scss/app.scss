@@ -1,6 +1,9 @@
 $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
+.green {
+    color: $green
+}
 $blue: #002547;
 
 
@@ -15,6 +18,10 @@ $danger: $red;
     color: $blue !important;
 }
 
+
+main{
+    overflow-y: visible; 
+}
 
 //TODO classe de test pour les div
 .test {

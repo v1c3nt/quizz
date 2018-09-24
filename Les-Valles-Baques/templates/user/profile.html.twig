@@ -11,10 +11,7 @@
 </div>
 <main class="bubble col-8 offset-2">
 
-    <h3 class="m-1 border border-primary brad p-2">
-        <u class="">Mes infos</u>
-        <a class="float-right mr-2" href="{{ path('edit_user_profilee' , { 'id': app.user.id, 'username': app.user.userName }) }}"><i class="fas fa-user-edit"></i></a>
-    </h3>
+    <h3 class="m-1 border border-primary brad p-2">Mes infos</h3>
 
     <div class="container fluid ">
         <div class="row">
@@ -40,18 +37,20 @@
                 {% endif %}
             </div>
 
-            <dir class="col-12 col-lg-8 ">
+            <dir class="col-12 col-lg-8 text-left">
                 <ul>
-                    <li>
-                        Nom:
+                    <li class="h5 mb-2">
+                        <ins><u>Nom:</u></ins>
                         {{ user.username }}
                     </li>
-                    <li>
-                        Email:
+                    <li class="h5 mb-2">
+                        <ins><u>Email:</u></ins>
+
                         {{ user.email }}
                     </li>
-                    <li>
-                        Présentation:
+                    <li class="h5 mb-2">
+                        <ins><u>Présentation:</u></ins>
+
                         {{ user.presentation }}
                     </li>
                 </ul>
@@ -92,24 +91,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for ms in myStats %}
+                    {% dump(ms) %}
                     <tr>
-                        <th scope="row">Les pubs d'hier et d'aujourd'hui</th>
-                        <td>Culture G</td>
-                        <td>Débutant</td>
-                        <td>8/10</td>
+                        <th scope="row"><a href="{{ path('quizz_show' , {'id': ms.quizz.id}) }}">{{ ms.quizz.title }}</a></th>
+                        <td>{{ ms.quizz.category }}</td>
+                        <td>{{ ms.quizz.level }}</td>
+                        <td>{{ ms.result }} {% if ms.result == 10 %}
+                            <i class="fas fa-check-circle green ml-2"></i>
+                            {% endif %}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">Les profs d'Oclock</th>
-                        <td>Code</td>
-                        <td>Expert</td>
-                        <td>10/10</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Les Super héros</th>
-                        <td>Cinéma</td>
-                        <td>Confirmé</td>
-                        <td>5/10</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

@@ -9,25 +9,26 @@ use App\Repository\UserCrewRepository;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\StatisticRepository;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/profile/{username}/", name="user_profile")
      */
-    public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews)
+    public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews, StatisticRepository $statRepo)
     {
+        //TODO requetCustom !!
         $user = $this->getUser();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
-        dump($user);
-        dump($myQuizzes);
-        dump($myCrews);
+        $stats = $statRepo->findByUser($user);
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'user' => $user,
             'myQuizzes' => $myQuizzes,
             'myCrews' => $myCrews,
+            'myStats' => $stats
         ]);
     }
 
