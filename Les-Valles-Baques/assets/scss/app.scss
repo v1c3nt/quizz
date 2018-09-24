@@ -16,6 +16,13 @@ $danger: $red;
     color: $blue !important;
 }
 
+.true{
+    border: solide 5px $true;
+}
+
+.false{
+    border: solid 5px $red;
+}
 
 //TODO classe de test pour les div
 .test {
@@ -23,17 +30,6 @@ $danger: $red;
 
 }
 
-<<<<<<< HEAD
-=======
-.true {
-    border: solid 6px $true;
-}
-
-.false {
-    border: solid 6px $red;
-}
-
->>>>>>> play
 #btn-signup,
 #btn-login,
 button.btn.btn-success {
