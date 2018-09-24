@@ -18,9 +18,10 @@
 <div class="bubble col-6 offset-3">
     <p class="h5">Pour voir les 7 prochaines... <i class="fas fa-arrow-circle-right"></i> {% if is_granted('ROLE_USER')
         %}
-        <button class="btn btn-success" type="button">
-            <a href="#">Jouer !</a>
-        </button>
+        
+<a href="{{ path('quizz_play', { 'id' : quizz.id , 'nbr' : 1 }) }}"><button class="btn btn-success" type="button">Jouer
+!</button></a>
+        
         {% else %}
         <button class="btn btn-success" type="button">
             <a href="#">Incrist-toi !</a>

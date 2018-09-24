@@ -14,7 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
+use App\Repository\StatisticRepository;
+use App\Entity\Statistic;
+
 
 class QuizzController extends AbstractController
 {
@@ -38,7 +47,7 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/show/{id}", name="quizz_show")
      */
-    public function show(Quizz $quizz ) : Response
+    public function show(Quizz $quizz) : Response
     {
         $question = $quizz->getQuestions();
 
@@ -56,9 +65,9 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $quizz = new Quizz();
 
-        
+
         $form = $this->createForm(QuizzType::class, $quizz);
-    
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,15 +100,19 @@ class QuizzController extends AbstractController
      * TODO {id} a changer par slug.
      * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo , Quizz $quizz, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr) : Response
     {
-   
         $question = new Question();
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
+<<<<<<< HEAD
         
         $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
+=======
+        //? je crée une variable pour compter le nombre de question créées
+
+>>>>>>> play
         if ($form->isSubmitted() && $form->isValid()) {
 
             //? je crée une variable pour compter le nombre de questions créées
@@ -108,8 +121,9 @@ class QuizzController extends AbstractController
             $question->setErrore(0);
             $question->setNbr($nbr);
             $manager->persist($question);
-            
+
             $manager->flush();
+<<<<<<< HEAD
             $this->addFlash('success', 'Question '.$nbr.' ajoutée');
             if ( $question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' .( $nbr - 1 ). ' ajoutée! plus que 1 !'); 
@@ -141,6 +155,18 @@ class QuizzController extends AbstractController
 
                 return $this->redirectToRoute('questions_quizz', [
                     'id' => $quizz->getId(),
+=======
+
+            $questions = $questionRepo->findBy(['quizz' => $id]);
+
+            if ($nbr <= 10) {
+                $question = new Question();
+
+                $form = $this->createForm(QuestionType::class, $question);
+                return $this->render('quizz/newsQuestions.html.twig', [
+                    'nbr' => $nbr,
+                    'form' => $form->createView(),
+>>>>>>> play
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
@@ -160,28 +186,126 @@ class QuizzController extends AbstractController
             'questions' => $questions,
         ]);
     }
-
-  /**
+    
+    /**
      * TODO replacer id par slug
      * a voir pour bloqué l
      * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
-     * 
+     *
      */
-    public function play($id, Quizz $quizz, Request $request, $nbr, QuestionRepository $questionRepo)
+    public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
+       
+        if ( null === $session->get('results' . $id . '') || empty($session->get('results' . $id . '')) ){
+            $results[] = 'quizz_'. $id;
+            $session->set('results' . $id . '', $results);
+        } 
 
-        $question = $questionRepo->findBy(['quizz'=>$id, 'nbr'=> $nbr]);
-        dump($question);
+        $nbr = count($session->get('results' . $id . ''));
+
         $user = $this->getUser();
-        $question = new Question();
-        $form = $this->createForm(QuestionType::class, $question);
+
+        $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
+
+        $responses = [
+            $question->getProp1() => 'prop1',
+            $question->getProp2() => 'prop2',
+            $question->getProp3() => 'prop3',
+            $question->getProp4() => 'prop4'
+        ];
+
+
+        $form = $this->createFormBuilder()
+            ->add('responses', ChoiceType::class, [
+                'label' => $question->getBody(),
+                'choices' => $responses,
+                'expanded' => true,
+                'multiple' => false,
+            ])
+            ->getForm();
+
         $form->handleRequest($request);
 
-        $questions =$quizz->getQuestions();
-        dump($questions);
-        $play = $question->getNbr();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ici le fait de passer dans le if ça bloque la récup des autres réponses
+            // on arrive a afficher les 10 Questions av ec les réponses mais dans le form->getData() qu'une seule requête affichée
+            // dans le tableau
+            $nbr++;
+            
+            $answers = $session->get('results' . $id . '');
+            $answer = $form->getData()['responses'];
+            array_push($answers, $answer);
+            $session->set('results' . $id . '', $answers);
+            
+            if ($nbr <= 10) {
 
-        dump($play);exit;
-        if ($form->isSubmitted() && $form->isValid()) { }
+                return $this->redirectToRoute('quizz_play', [
+                    'question' => $question,
+                    'nbr' => $nbr,
+                    'id' => $id,
+                ]);
+            }
+
+            //! redirectToRoute resultat
+            return $this->redirectToRoute('quizz_results', [
+                'id'=>$id
+            ]);
+
+        }
+
+        return $this->render('quizz/play.html.twig', [
+            'form' => $form->createView(),
+            'question' => $question,
+        ]);
     }
+
+    /**
+     * TODO replacer id par slug
+     * a voir pour bloqué l
+     * @Route("resultats/quizz_{id}", name="quizz_results")
+     *
+     */
+    public function results ($id, QuizzRepository $quizzRepo, ObjectManager $manager, SessionInterface $session, StatisticRepository $statRepo)
+    {
+        $user = $user = $this->getUser();
+        
+        $quizz = $quizzRepo->findOneBy(['id'=>$id]);
+
+        $points = 0;
+        //? Si la variable results existe en session je récupere la variable stocké en session et je la détruis
+        ( ( null !== $session->get('results' . $id . ''))? ( $answers = $session->remove('results' . $id . '') ) : '' );
+        //$answers = $session->remove('results' . $id . '');
+        
+        $results = [];
+        //? je boucle sur le tableau en session pour récupérer les réponses puis je le remets a vide.
+        foreach ($answers as $key => $answer) {
+            $results[] = $answer;
+            
+            if ( $answer === 'prop1' ){
+                $points++;
+            }
+            
+        }
+
+        $stat = new Statistic();
+        $stat->setQuizz($quizz);
+        $stat->setUser($user);
+        $stat->setResult($points);
+
+        $manager->persist($stat);
+
+        $manager->flush();
+
+
+        
+        return $this->render('quizz/results.html.twig', [
+            'answers'=> $answers,
+            'quizz'=> $quizz,
+            'points'=>$points,
+        ]);
+
+    }
+
+
 }
+                

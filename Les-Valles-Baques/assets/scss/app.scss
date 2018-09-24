@@ -2,6 +2,7 @@ $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
 $blue: #002547;
+$true: #23a71e;
 
 
 $primary: #253f58;
@@ -22,6 +23,17 @@ $danger: $red;
 
 }
 
+<<<<<<< HEAD
+=======
+.true {
+    border: solid 6px $true;
+}
+
+.false {
+    border: solid 6px $red;
+}
+
+>>>>>>> play
 #btn-signup,
 #btn-login,
 button.btn.btn-success {
@@ -220,6 +232,10 @@ header .nav .nav-item .nav-link {
 }
 
 header .nav .nav-item .active {
+<<<<<<< HEAD
+=======
+
+>>>>>>> play
     background-color: #002547;
     color: $green;
     border: solid 2px $blue;
