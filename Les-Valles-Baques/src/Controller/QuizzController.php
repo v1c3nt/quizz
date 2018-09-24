@@ -149,39 +149,43 @@ class QuizzController extends AbstractController
      */
     public function play($id, Request $request, $nbr, QuestionRepository $questionRepo, SessionInterface $session)
     {
-        
-        
+
+
         $user = $this->getUser();
-        
+
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
-        
+
         $responses = [
             $question->getProp1() => 'reponse 1',
             $question->getProp2() => 'reponse 2',
             $question->getProp3() => 'reponse 3',
             $question->getProp4() => 'reponse 4'
         ];
-        
-        
+
+
         $form = $this->createFormBuilder()
-        ->add('responses', ChoiceType::class, [
-            'label' => $question->getBody(),
-            'choices' => $responses,
-            'expanded' => true,
-            'multiple' => false,
+            ->add('responses', ChoiceType::class, [
+                'label' => $question->getBody(),
+                'choices' => $responses,
+                'expanded' => true,
+                'multiple' => false,
             ])
             ->getForm();
-            
-            $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()) {
-        
-            $session->set('answer'. $nbr .'', $form->getData());
-            $nbr++;
-                    // ici le fait de passer dans le if ça bloque la récup des autres réponses
-                    // on arrive a afficher les 10 Questions avec les réponses mais dans le form->getData() qu'une seule requête affichée
-                    // dans le tableau
-            if ($nbr <= 10) {
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // ici le fait de passer dans le if ça bloque la récup des autres réponses
+            // on arrive a afficher les 10 Questions av ec les réponses mais dans le form->getData() qu'une seule requête affichée
+            // dans le tableau
+            if ($nbr <= 9) {
+                $nbr++;
+
+                $answers = $session->get('results');
+                $answer = $form->getData()['responses'];
+                array_push($answers, $answer);
+                $session->set('results', $answers);
 
                 return $this->redirectToRoute('quizz_play', [
                     'question' => $question,
@@ -190,11 +194,19 @@ class QuizzController extends AbstractController
                 ]);
             }
 
+            return $this->redirectToRoute('home');
+
         }
 
-        $results[] = 'XX';
-        $session->set('results', $results);
-        
+        if (null === $session->get('results')) {
+            $results[] = 'init';
+            $session->set('results', $results);
+
+        }
+
+
+
+
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
             'question' => $question,
