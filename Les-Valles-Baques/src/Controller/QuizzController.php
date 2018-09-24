@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 
 
 class QuizzController extends AbstractController
@@ -117,7 +118,7 @@ class QuizzController extends AbstractController
 
             $questions = $questionRepo->findBy(['quizz' => $id]);
 
-            if ($nbr < 10) {
+            if ($nbr <= 10) {
                 $question = new Question();
                 dump($questions);
                 $form = $this->createForm(QuestionType::class, $question);
@@ -140,26 +141,33 @@ class QuizzController extends AbstractController
             'nbr' => $nbr,
         ]);
     }
-
+    
     /**
      * TODO replacer id par slug
      * a voir pour bloqué l
      * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
      *
      */
-    public function play($id, Request $request, $nbr, QuestionRepository $questionRepo, SessionInterface $session)
+    public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
-
+       
+        if ( null === $session->get('results' . $id . '') || empty($session->get('results' . $id . '')) ){
+            $results[] = 'quizz_'. $id;
+            $session->set('results' . $id . '', $results);
+        } 
+     
+        dump($session->get('results' . $id . ''));
+        $nbr = count($session->get('results' . $id . ''));
 
         $user = $this->getUser();
 
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
 
         $responses = [
-            $question->getProp1() => 'reponse 1',
-            $question->getProp2() => 'reponse 2',
-            $question->getProp3() => 'reponse 3',
-            $question->getProp4() => 'reponse 4'
+            $question->getProp1() => 'prop1',
+            $question->getProp2() => 'prop2',
+            $question->getProp3() => 'prop3',
+            $question->getProp4() => 'prop4'
         ];
 
 
@@ -179,13 +187,14 @@ class QuizzController extends AbstractController
             // ici le fait de passer dans le if ça bloque la récup des autres réponses
             // on arrive a afficher les 10 Questions av ec les réponses mais dans le form->getData() qu'une seule requête affichée
             // dans le tableau
-            if ($nbr <= 9) {
-                $nbr++;
-
-                $answers = $session->get('results');
-                $answer = $form->getData()['responses'];
-                array_push($answers, $answer);
-                $session->set('results', $answers);
+            $nbr++;
+            
+            $answers = $session->get('results' . $id . '');
+            $answer = $form->getData()['responses'];
+            array_push($answers, $answer);
+            $session->set('results' . $id . '', $answers);
+            
+            if ($nbr <= 10) {
 
                 return $this->redirectToRoute('quizz_play', [
                     'question' => $question,
@@ -201,20 +210,9 @@ class QuizzController extends AbstractController
 
         }
 
-        if (null === $session->get('results')) {
-            $results = [];
-            $session->set('results', $results);
-
-        }
-
-
-
-
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
             'question' => $question,
-
-
         ]);
     }
 
@@ -226,22 +224,47 @@ class QuizzController extends AbstractController
      */
     public function results ($id, QuizzRepository $quizzRepo, SessionInterface $session)
     {
-        $empty = [];
-        $points = 0;
-        $answers = $session->get('results');
-    
-        
-        foreach ($answers as $answer) {
+        $quizz = $quizzRepo->findOneBy(['id'=>$id]);
 
-            if ( $answer === 'reponse 1' ){
+        $points = 0;
+        $answers = $session->get('results' . $id . '');
+        dump($answers);
+        $results = [];
+        //? je boucle sur le tableau en session pour récupérer les réponses puis je le remets a vide.
+        foreach ($answers as $key => $answer) {
+            $results[] = $answer;
+            
+            if ( $answer === 'prop1' ){
                 $points++;
+                $question = $quizz->getQuestions($key+1);
+                $answer = $question->getProp1();
+                dump($question);
+                $answer = $quizz->getQuestions()->getProp1();
+            } elseif ($answer === 'prop2') {
+                
+                $answer = $quizz->getQuestions()->getProp2();
+
+            } elseif ($answer === 'prop3') {
+                
+                $answer = $quizz->getQuestions()->getProp3();
+
+            } elseif ($answer === 'prop4') {
+                
+                $answer = $quizz->getQuestions()->getProp4();
+
             }
             
         }
-        dump($points);exit;
-        $session->set('results', $empty );
+        dump($results);
+        dump($points);
+   
+        //$answers = $session->remove('results' . $id . '');
+
+        //! TODO requetcustom pour optimisation
         return $this->render('quizz/results.html.twig', [
             'answers'=> $answers,
+            'quizz'=> $quizz,
+            'points'=>$points,
         ]);
 
     }

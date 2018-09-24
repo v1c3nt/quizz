@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block quizz %}results{% endblock %}
+{% block title %}<u>resultats </u>{{quizz.title}}
+{% endblock %}
+
+{% block body %}
+<div class="bubble col-8 offset-2">
+<h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #} sur le quizz:{{quizz.title}}</h2>
+</div>
+{% for key, q in quizz.questions %}
+
+
+<div class="bubble col-6 offset-3">
+    <p class="h5">{{ q.body }}</p>
+</div>
+<div>la bonne rééponse était:
+    <p>{{ dump(q.prop1) }}</p>
+
+</div class"bubble">
+<div class"bubble">Tu as répondu:
+{{answers[key+1]}}
+    {% for answer q %}
+{% if answer === answers[key+1] %}
+            {{answer}}
+        {% endif %}
+    {% endfor %}
+   
+
+</div>
+<div class="bubble col-6 offset-3">
+    <p class="h5">{{ key }}</p>
+</div>
+{% endfor %}
+
+
+{% endblock %}
