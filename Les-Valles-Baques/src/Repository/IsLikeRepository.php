@@ -19,6 +19,18 @@ class IsLikeRepository extends ServiceEntityRepository
         parent::__construct($registry, IsLike::class);
     }
 
+    public function countLikeByQuizz($id): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT COUNT(*) FROM is_like WHERE like_it='1' AND quizz_id= :id";
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->execute(['id'=>$id]);
+        return $stmt->fetchAll();
+    }
+
+
 //    /**
 //     * @return IsLike[] Returns an array of IsLike objects
 //     */
@@ -32,18 +44,6 @@ class IsLikeRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?IsLike
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */

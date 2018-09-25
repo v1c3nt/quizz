@@ -27,7 +27,6 @@ use App\Repository\IsLikeRepository;
 use App\Entity\IsLike;
 use Doctrine\ORM\EntityManager;
 
-
 class QuizzController extends AbstractController
 {
 
@@ -123,20 +122,17 @@ class QuizzController extends AbstractController
                 $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! Encore 8 ça va aller vite courage');
             } elseif ($question->getNbr() > 1) {
                 $this->addFlash('primary', 'Question ' . $nbr . ' ajoutée! plus que 9!');
-
             }
 
             $questions = $questionRepo->findBy(['quizz' => $id]);
 
             if ($nbr < 10) {
-
                 return $this->redirectToRoute('questions_quizz', [
                     'id' => $quizz->getId(),
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
                 ]);
-
             }
 
             return $this->redirectToRoute('quizz_list_sort', [
@@ -160,7 +156,6 @@ class QuizzController extends AbstractController
      */
     public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
-
         if (null === $session->get('results' . $id . '') || empty($session->get('results' . $id . ''))) {
             $results[] = 'quizz_' . $id;
             $session->set('results' . $id . '', $results);
@@ -203,7 +198,6 @@ class QuizzController extends AbstractController
             $session->set('results' . $id . '', $answers);
 
             if ($nbr <= 10) {
-
                 return $this->redirectToRoute('quizz_play', [
                     'question' => $question,
                     'nbr' => $nbr,
@@ -215,7 +209,6 @@ class QuizzController extends AbstractController
             return $this->redirectToRoute('quizz_results', [
                 'id' => $id
             ]);
-
         }
 
         return $this->render('quizz/play.html.twig', [
@@ -249,7 +242,6 @@ class QuizzController extends AbstractController
             if ($answer === 'prop1') {
                 $points++;
             }
-
         }
 
         $stat = new Statistic();
@@ -268,10 +260,9 @@ class QuizzController extends AbstractController
             'quizz' => $quizz,
             'points' => $points,
         ]);
-
     }
 
-    /** 
+    /**
      * TODO replacer id par slug
      * @Route ("quizz/like_{id}", name = "add_like")
      */
@@ -280,6 +271,20 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
 
         $quizz = $quizzRepo->findOneBy(['id' => $id]);
+        
+        /*$em = $this->getDoctrine()->getManager(); // ...or getEntityManager() prior to Symfony 2.1
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT COUNT(*) FROM is_like WHERE like_it='1' AND quizz_id= :id");
+        $statement->bindValue('id', $id);
+        $statement->execute();
+        $aa = $statement->fetchAll();
+        dump($aa);
+        exit;*/
+        dump($likeRepo->countLikeByQuizz($id));
+        exit;
+
+
+        //dcountLikeByQuizz($value);
 
         $Like = $likeRepo->findOneBy(['quizz' => $id, 'user' => $user->getId()]);
         if ($Like === null) {
@@ -288,11 +293,8 @@ class QuizzController extends AbstractController
             $Like->setUser($user);
             $Like->setQuizz($quizz);
             $Like->setLikeIt($toogle);
-            dump(['null', $toogle]);
         } else {
-            
-            ( ( true === $Like->getLikeIt() )? $Like->setLikeIt(false): $Like->setLikeIt(true) );
-
+            ((true === $Like->getLikeIt())? $Like->setLikeIt(false): $Like->setLikeIt(true));
         }
         $manager->persist($Like);
         dump($Like->getLikeIt());
@@ -318,11 +320,6 @@ class QuizzController extends AbstractController
         $quizz = [];
         foreach ($quizzs as $quizz) {
             $count = 0;
-
-                
-
-            
-            
         }
 
 
@@ -337,6 +334,4 @@ class QuizzController extends AbstractController
             'likes' => $likes,
         ]);
     }
-
 }
-                
