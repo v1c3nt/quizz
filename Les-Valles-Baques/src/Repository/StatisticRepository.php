@@ -19,6 +19,17 @@ class StatisticRepository extends ServiceEntityRepository
         parent::__construct($registry, Statistic::class);
     }
 
+    public function avgResultByQuizz($id) : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "SELECT AVG(result) FROM statistic WHERE quizz_id = :id";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll();
+    }
+
 //    /**
 //     * @return Statistic[] Returns an array of Statistic objects
 //     */

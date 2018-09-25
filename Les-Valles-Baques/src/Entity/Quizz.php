@@ -195,6 +195,11 @@ class Quizz
     {
         return $this->isLikes;
     }
+    
+    public function setIsLikes() : Collection
+    {
+        return $this->isLikes;
+    }
 
     public function addIsLike(IsLike $isLike): self
     {
