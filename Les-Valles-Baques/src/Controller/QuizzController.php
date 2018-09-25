@@ -266,11 +266,9 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
-    public function index($sort, IsLikeRepository $likeRepo, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
+    public function index($sort, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
     {
         $user = $this->getUser();
-        
-        $myLikes = $likeRepo->findByUser($user);
 
         $categories = $categories->findBy([], ['name' => 'ASC']);
         $quizzs = $quizzs->findby([], [$sort => 'DESC']);
@@ -282,23 +280,10 @@ class QuizzController extends AbstractController
 
             $myScores[$idQ] = $statRepo->avgResultByQuizz($idQ)[0]['AVG(result)'];
         }
-        dump($myScores);
-        $quizzsLikes = [];
-        $quizz = [];
-        foreach ($quizzs as $quizz) {
-            $quizzId = $quizz->getId();
-            dump($likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)']);
-            $quizzsLikes[$quizzId] = $likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)'];
-            $quizz->setIsLikes($likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)']);
-        }
-
-        dump($quizzsLikes);
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
             'quizzs' => $quizzs,
-            'myLikes' => $myLikes,
-            'quizzsLikes' => $quizzsLikes,
             'myScores' => $myScores,
         ]);
     }

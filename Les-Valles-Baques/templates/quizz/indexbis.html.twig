@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block quizz %}active{% endblock %}
 {% block title %}Les Quizzes{% endblock %}
-{% dump(myLikes) %}
+
 {% block body %}
 <div class="container-fluid">
     <div class="col-12 col-lg-10 offset-lg-1">
@@ -14,9 +14,8 @@
                         <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
                     <li class="list-inline-item">
                         <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
-                    <!-- TODO modifier id par like quand islike oprérationnel-->
                     <li class="list-inline-item">
-                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'likeIt'}) }}">Like</li>
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'nbrLikes'}) }}">Like</li>
                     </a>
                 </ul>
             </div>
@@ -52,11 +51,9 @@
                         </td>
 
                         <td>{{q.level.name}}</td>
-                        <td class="d-none d-md-table-cell">{% for idQ, quizz in quizzsLikes %}
-                            {% if q.id == idQ %}
-                            {{ quizz }}
-                            {% endif %}
-                            {% endfor %}</td>
+                        <td class="d-none d-md-table-cell">
+                            {{ q.nbrLikes }}
+                            </td>
 
                         <td>
                             {{ myScores[q.id]|round(1, 'floor') }}

@@ -19,13 +19,13 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
-        $stats = $statRepo->findByUser($user);
+        $myStats = $statRepo->findByUser($user);
 
         return $this->render('user/profile.html.twig', [
             'user' => $user,
             'myQuizzes' => $myQuizzes,
             'myCrews' => $myCrews,
-            'stats' => $stats
+            'myStats' => $myStats
         ]);
     }
 }
