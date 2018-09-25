@@ -25,6 +25,7 @@ use App\Repository\StatisticRepository;
 use App\Entity\Statistic;
 use App\Repository\IsLikeRepository;
 use App\Entity\IsLike;
+use Doctrine\ORM\EntityManager;
 
 
 class QuizzController extends AbstractController
@@ -306,14 +307,29 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
-    public function index($sort, IsLikeRepository $likeRepo)
+    public function index($sort, IsLikeRepository $likeRepo, CategoryRepository $categories, QuizzRepository $quizzs)
     {
         $likes = $likeRepo->findAll();
+        $categories = $categories->findBy([], ['name' => 'ASC']);
+        $quizzs = $quizzs->findby([], [$sort => 'DESC']);
+        dump($quizzs);
+        dump($likes);
+        $QuizzLikes = [];
+        $quizz = [];
+        foreach ($quizzs as $quizz) {
+            $count = 0;
+
+                
+
+            
+            
+        }
+
+
+
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
 
-        $categories = $repository->findBy([], ['name' => 'ASC']);
-        $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
