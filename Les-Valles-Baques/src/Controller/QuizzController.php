@@ -189,14 +189,18 @@ class QuizzController extends AbstractController
 
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
 
-        $responses = [
-            $question->getProp1() => 'prop1',
-            $question->getProp2() => 'prop2',
-            $question->getProp3() => 'prop3',
-            $question->getProp4() => 'prop4'
-        ];
+        $responses []= 
+        [$question->getProp1() => 'prop1'];
+        $responses []= 
+        [$question->getProp2() => 'prop2'];
+        $responses []= 
+        [$question->getProp3() => 'prop3'];
+        $responses []= 
+            [$question->getProp4() => 'prop4'];
+        shuffle($responses);
 
 
+        dump($responses);
         $form = $this->createFormBuilder()
             ->add('responses', ChoiceType::class, [
                 'label' => $question->getBody(),
@@ -228,7 +232,6 @@ class QuizzController extends AbstractController
                 ]);
             }
 
-            //! redirectToRoute resultat
             return $this->redirectToRoute('quizz_results', [
                 'id'=>$id
             ]);
@@ -275,11 +278,8 @@ class QuizzController extends AbstractController
         $stat->setResult($points);
 
         $manager->persist($stat);
-
         $manager->flush();
 
-
-        
         return $this->render('quizz/results.html.twig', [
             'answers'=> $answers,
             'quizz'=> $quizz,

@@ -12,15 +12,23 @@ $danger: #002547;
 
 $danger: $red;
 
+.green {
+    color: $true;
+};
+
+.red {
+    color:$red;
+}
+
 .badge {
     color: $blue !important;
 }
 
-.true{
-    border: solide 5px $true;
+.true {
+    border: solid 5px $true;
 }
 
-.false{
+.false {
     border: solid 5px $red;
 }
 
