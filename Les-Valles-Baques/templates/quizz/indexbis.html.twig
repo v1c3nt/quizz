@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block quizz %}active{% endblock %}
 {% block title %}Les Quizzes{% endblock %}
-{% dump(likes) %}
+{% dump(myLikes) %}
 {% block body %}
     <div class="container-fluid">
         <div class="col-10 offset-1">
@@ -50,7 +50,11 @@
 
                                 </td>
                                 <td>{{q.level.name}}</td>
-                                <td></td>
+<td>{% for idQ, quizz in quizzsLikes %}
+   {% if q.id == idQ %}
+{{quizz}}
+   {% endif %} 
+{% endfor %}</td>
                                 <td>
                                     {% if is_granted('ROLE_USER') %}
                                         <a href="{{path('quizz_show',{'id':q.id})}}">

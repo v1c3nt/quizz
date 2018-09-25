@@ -262,76 +262,36 @@ class QuizzController extends AbstractController
         ]);
     }
 
-    /**
-     * TODO replacer id par slug
-     * @Route ("quizz/like_{id}", name = "add_like")
-     */
-    public function addLike($id, IsLikeRepository $likeRepo, ObjectManager $manager, QuizzRepository $quizzRepo)
-    {
-        $user = $this->getUser();
-
-        $quizz = $quizzRepo->findOneBy(['id' => $id]);
-        
-        /*$em = $this->getDoctrine()->getManager(); // ...or getEntityManager() prior to Symfony 2.1
-        $connection = $em->getConnection();
-        $statement = $connection->prepare("SELECT COUNT(*) FROM is_like WHERE like_it='1' AND quizz_id= :id");
-        $statement->bindValue('id', $id);
-        $statement->execute();
-        $aa = $statement->fetchAll();
-        dump($aa);
-        exit;*/
-        dump($likeRepo->countLikeByQuizz($id));
-        exit;
-
-
-        //dcountLikeByQuizz($value);
-
-        $Like = $likeRepo->findOneBy(['quizz' => $id, 'user' => $user->getId()]);
-        if ($Like === null) {
-            $toogle = 1;
-            $Like = new IsLike;
-            $Like->setUser($user);
-            $Like->setQuizz($quizz);
-            $Like->setLikeIt($toogle);
-        } else {
-            ((true === $Like->getLikeIt())? $Like->setLikeIt(false): $Like->setLikeIt(true));
-        }
-        $manager->persist($Like);
-        dump($Like->getLikeIt());
-        $manager->flush();
-
-        return $this->redirectToRoute('quizz_list_sort', [
-            'sort' => 'title'
-
-        ]);
-    }
 
     /**
      * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
     public function index($sort, IsLikeRepository $likeRepo, CategoryRepository $categories, QuizzRepository $quizzs)
     {
-        $likes = $likeRepo->findAll();
+        $user = $this->getUser();
+        
+        $myLikes = $likeRepo->findByUser($user);
+        dump($myLikes);
         $categories = $categories->findBy([], ['name' => 'ASC']);
         $quizzs = $quizzs->findby([], [$sort => 'DESC']);
-        dump($quizzs);
-        dump($likes);
-        $QuizzLikes = [];
+
+        $quizzsLikes = [];
         $quizz = [];
         foreach ($quizzs as $quizz) {
-            $count = 0;
+
+            $quizzId = $quizz->getId();
+            dump($likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)']);
+            $quizzsLikes[$quizzId] = $likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)'];
         }
 
-
-
-        $repository = $this->getDoctrine()->getRepository(Category::class);
-        $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
-
+        dump($quizzsLikes);
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
             'quizzs' => $quizzs,
-            'likes' => $likes,
+            'myLikes' => $myLikes,
+            'quizzsLikes' => $quizzsLikes,
+
         ]);
     }
 }
