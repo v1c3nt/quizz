@@ -19,7 +19,7 @@ class IsLikeRepository extends ServiceEntityRepository
         parent::__construct($registry, IsLike::class);
     }
 
-    public function countLikeByQuizz($id): array
+    public function countLikeByQuizz($id)
     {
         $conn = $this->getEntityManager()->getConnection();
 

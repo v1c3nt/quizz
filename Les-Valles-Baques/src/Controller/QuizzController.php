@@ -271,25 +271,21 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         
         $myLikes = $likeRepo->findByUser($user);
-      
+
         $categories = $categories->findBy([], ['name' => 'ASC']);
         $quizzs = $quizzs->findby([], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
-      
             
         foreach ($quizzs as $key => $quizz) {
-           
             $idQ = $quizz->getId();
-       
-            $myScores[$idQ] = $statRepo->avgResultByQuizz($idQ)[0]['AVG(result)'];
 
+            $myScores[$idQ] = $statRepo->avgResultByQuizz($idQ)[0]['AVG(result)'];
         }
         dump($myScores);
         $quizzsLikes = [];
         $quizz = [];
         foreach ($quizzs as $quizz) {
-
             $quizzId = $quizz->getId();
             dump($likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)']);
             $quizzsLikes[$quizzId] = $likeRepo->countLikeByQuizz($quizzId)[0]['COUNT(*)'];

@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Quizz;
+use App\Entity\IsLike;
+use App\Repository\QuizzRepository;
 use App\Repository\IsLikeRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Repository\QuizzRepository;
-use App\Entity\IsLike;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IsLikeController extends AbstractController
 {
@@ -30,10 +31,6 @@ class IsLikeController extends AbstractController
         dump($aa);
         exit;*/
         dump($likeRepo->countLikeByQuizz($id));
-       
-
-
-        //dcountLikeByQuizz($value);
 
         $Like = $likeRepo->findOneBy(['quizz' => $id, 'user' => $user->getId()]);
         if ($Like === null) {
@@ -49,14 +46,21 @@ class IsLikeController extends AbstractController
         dump($Like->getLikeIt());
         $manager->flush();
 
+        $quizz = $quizzRepo->findOneBy(['id' => $id ]);
+        $nbrLikes = $likeRepo->countLikeByQuizz($id)[0]['COUNT(*)'];
+        $quizz->setNbrLikes($nbrLikes);
+        $manager->persist($quizz);
+        $manager->flush();
+
         return $this->redirectToRoute('quizz_list_sort', [
             'sort' => 'title'
 
         ]);
     }
+
     /**
-     * @Route("/is/like", name="is_like")
-     */
+    * @Route("/is/like", name="is_like")
+    */
     public function index()
     {
         return $this->render('is_like/index.html.twig', [
