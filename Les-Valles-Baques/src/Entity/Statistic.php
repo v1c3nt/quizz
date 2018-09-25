@@ -38,53 +38,60 @@ class Statistic
      */
     private $result;
 
-    public function getId(): ?int
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getQuizz(): ?Quizz
+    public function getQuizz() : ? Quizz
     {
         return $this->quizz;
     }
 
-    public function setQuizz(?Quizz $quizz): self
+    public function setQuizz(? Quizz $quizz) : self
     {
         $this->quizz = $quizz;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser() : ? User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(? User $user) : self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt() : ? \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt) : self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getResult(): ?int
+    public function getResult() : ? int
     {
         return $this->result;
     }
 
-    public function setResult(int $result): self
+    public function setResult(int $result) : self
     {
         $this->result = $result;
 

@@ -2,6 +2,7 @@ $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
 $blue: #002547;
+$true: #23a71e;
 
 
 $primary: #253f58;
@@ -11,10 +12,25 @@ $danger: #002547;
 
 $danger: $red;
 
+.green {
+    color: $true;
+};
+
+.red {
+    color:$red;
+}
+
 .badge {
     color: $blue !important;
 }
 
+.true {
+    border: solid 5px $true;
+}
+
+.false {
+    border: solid 5px $red;
+}
 
 //TODO classe de test pour les div
 .test {
@@ -183,14 +199,6 @@ thead.thead {
 
 
 
-.shortQuestion {
-    text-overflow: ellipsis;
-    height: 2em;
-    overflow-x: scroll;
-    white-space: nowrap;
-    height: 3em;
-
-}
 
 
 //? header
@@ -200,7 +208,7 @@ header {
     position: fixed;
     width: 100%;
     z-index: 250;
-
+    
 }
 
 .subheader {
@@ -224,11 +232,10 @@ header .nav .nav-item .nav-link {
     margin: 0 1em;
     //margin-bottom: -2px;
     color: $blue;
-
+    
 }
 
 header .nav .nav-item .active {
-
     background-color: #002547;
     color: $green;
     border: solid 2px $blue;
@@ -262,7 +269,7 @@ header .nav .nav-item .disabled {
 .info-profil {}
 
 .progress {
-
+    
     width: 90%;
     background-color: $red;
     border: solid 2px $blue;
@@ -273,10 +280,43 @@ header .nav .nav-item .disabled {
 //? footer
 #footer {
     color: $green;
-}
+}    
 
 //? question page
-.aside-overflow {
+
+/*.aside-overflow {
     height: 56.68rem;
     overflow-y: scroll;
+} */   
+
+.resum{
+    position: relative;
+}
+
+.shortQuestion {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 95%;
+}
+
+.divDetails {
+    display: none;
+}  
+
+.actived {
+    width: 101%;
+    border-radius: 1rem;
+    top: 1.3rem;
+    position: absolute;
+    z-index: 50;
+    display: block;
+    background: $blue;
+    color: $yellow;
+ 
+}    
+
+
+#newQuestion-title {
+    display: none;
 }

@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row col-10 offset-1">
-        {#
+<div class="row col-10 offset-1">
+    {#
     <div class="bubble col-8 offset-2">
         TODO a mettre dans u flash message
         <h2 class="bubble-title">Super aux Questions maintenant</h2>
@@ -15,50 +15,67 @@
     </div>
     #}
 
-        <div class="bubble col-8" id="formDiv">
-            {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
-            {{ form_widget(form) }}
-            <button class="btn btn-success" type="submit">
-                Question suivante !
-            </button>
-            {{ form_end(form) }}
+    <div class="bubble col-8" id="formDiv">
+        {% for message in app.flashes('primary') %}
+        <div class="m-flash alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        <h4 class="text-center bubble-title" {% if (nbr> 0) %}id="newQuestion-title"{% endif %}><u>question</u> {{ nbr
+            + 1 }}</h4>
+        {{ form_start(form, {'action': path('questions_quizz', {'id': quizz.id, 'nbr' : nbr } )} ) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success" type="submit">
+            Question suivante !
+        </button>
+        {{ form_end(form) }}
+    </div>
+
+    <aside class="bubble ml-2 col-3">
+        <div class=" ">
+            {% for label, messages in app.flashes %}
+            {% for message in messages %}
+            <div class="m-flash alert alert-{{ label }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+            <h4><u>dans</u> le Quizz : <br /> {{ quizz.title }} <br />
+                {#TODO a mettre dans un flash
+                <h5>courage plus que
+                    {{10 - nbr}}
+                    questions
+                </h5>
+                <p>
+                    {% if 3 > nbr %}
+                    c'est un bon début !
+                    {% elseif 5 > nbr %}
+                    c'est une moyenne
+                    {% elseif 7 > nbr %}
+                    tu y es presque un dernier effort
+                    {% endif %}
+                </p>
+                #}
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr }}" style="width: {{ ( nbr ) * 10 }}%"
+                        aria-valuemax="9">{{ nbr }}
+                        / 10</div>
+                </div>
         </div>
 
-        <aside class="bubble ml-2 col-3">
-<div class=" ">
-<h4><u>dans</u> le Quizz : <br/> {{ quizz.title }} <br/>
-                Tu en es à la Question
-                {{ nbr }}</h4>
-                {#TODO a mettre dans un flash
-                    <h5>courage plus que
-                        {{10 - nbr}}
-                        questions
-                    </h5>
-                    <p>
-                        {% if 3 > nbr %}
-                        c'est un bon début !
-                        {% elseif 5 > nbr %}
-                        c'est une moyenne
-                        {% elseif 7 > nbr %}
-                        tu y es presque un dernier effort
-                        {% endif %}
-                    </p>
-                    #}
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr }}" style="width: {{ ( nbr ) * 10 }}%" aria-valuemax="9">{{ nbr }}
-                            / 10</div>
-                        </div>
-                    </div>
-                    
         <div class="aside-overflow mt-3">
             {% dump(questions) %}
             {% if questions is defined %}
-                {% for q in questions %}
-                    <span class="text-left ">Question
-                        {{ q.nbr }}:</span>
-                    <p class="shortQuestion">{{ q.body }}</p>
-
-                {% endfor %}
+            {% for q in questions %}
+            <div class="resum">
+                <span class="text-left ">Question
+                    {{ q.nbr }}:</span>
+                <div class="shortQuestion"> {{ q.body }}</div>
+                <div class="divDetails ">{{ q.body }}</div>
+            </div>
+            <hr>
+            {% endfor %}
             {% endif %}
         </div>
     </aside>
