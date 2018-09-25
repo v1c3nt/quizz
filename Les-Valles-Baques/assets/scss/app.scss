@@ -190,6 +190,7 @@ thead.thead {
 .table td {
     background-color: $blue;
     border-top-color: $red;
+    vertical-align: middle;
 
 }
 
@@ -307,6 +308,11 @@ header .nav .nav-item .disabled {
 .actived {
     width: 101%;
     border-radius: 1rem;
+    /*
+    TODO test pour voir le quel on garde.
+    bottom: 2px;
+    right: 2px;
+    */
     top: 1.3rem;
     position: absolute;
     z-index: 50;

@@ -17,6 +17,7 @@ class UserController extends AbstractController
     {
 
         $user = $this->getUser();
+        $crews = $user->getUserCrews();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
         $stats = $statRepo->findByUser($user);
@@ -24,6 +25,7 @@ class UserController extends AbstractController
         return $this->render('user/profile.html.twig', [
             'user' => $user,
             'myQuizzes' => $myQuizzes,
+            'crews' => $crews,
             'myCrews' => $myCrews,
             'stats' => $stats
         ]);

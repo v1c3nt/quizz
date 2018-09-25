@@ -45,7 +45,7 @@ class Quizz
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $IsPrivate;
+    private $isPrivate;
 
     /**
      *? @Assert\NotBlank()
@@ -135,12 +135,12 @@ class Quizz
 
     public function getIsPrivate() : ? bool
     {
-        return $this->IsPrivate;
+        return $this->isPrivate;
     }
 
-    public function setIsPrivate(? bool $IsPrivate) : self
+    public function setIsPrivate(? bool $isPrivate) : self
     {
-        $this->IsPrivate = $IsPrivate;
+        $this->isPrivate = $isPrivate;
 
         return $this;
     }

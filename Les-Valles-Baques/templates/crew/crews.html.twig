@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+{% block my_crew %}active{% endblock %}
+{% block title %}Mes groupes{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+
+<div class="bubble col-8 offset-2">
+
+    <h3 class="m-1 border border-primary brad p-2 bubble-title"><u>mes groupes</u> </h3>
+</div>
+<main class="bubble col-8 offset-2">
+
+    <div>
+        <div class="brad m-1">
+            <table class="table">
+                <thead>
+
+                    <tr>
+                        <th scope="col"><u>avatar</u></th>
+                        <th scope="col"><u>Nom</u></th>
+                        <th scope="col"><u>ancienneté</u></th>
+                        <th scope="col"><u>role</u></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in mycrew %}
+                    <tr>
+                        <th scope="row">
+
+                            {% if m.avatar is not empty %}
+                            <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"
+                                class="brad">
+                            {% else %}
+                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"
+                                class="brad">
+                            {% endif %}
+
+                        </th>
+                        <td><a href="{{ path('crew_show', { 'id': m.id }) }}">{{ m.name }}</a></td>
+                        <td>
+                            {% for crew in usercrews %}
+                            {% if crew.crew.id == m.id %}
+                            {{ crew.createdAt|date }}
+                            {% endif %}
+                            {% endfor %}
+
+                        </td>
+                        {# TODO codé en dur a modifier #}
+                        <td>
+                            {% for crew in usercrews %}
+                            {% if crew.crew.id == m.id %}
+                            {{ crew.roleCrew.name }}
+                            {% endif %}
+                            {% endfor %}
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <span href="#" class="text-primary h3">
+                <i class="fas fa-sad-tear  mr-1"></i>
+            </span>
+            Tu ne encore jamais créer de Quizz ?
+            <p><i class="fas fa-frown"></i> c'est dommage ça prends max 10 minutes </p>
+
+            <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
+
+        </div>
+    </div>
+
+</main>
+</div>
+</div>
+{% endblock %}

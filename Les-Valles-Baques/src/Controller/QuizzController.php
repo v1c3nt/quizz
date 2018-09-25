@@ -31,11 +31,23 @@ class QuizzController extends AbstractController
      */
     public function index($sort)
     {
+        $user = $this->getUser();
+
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
 
         $categories = $repository->findBy([], ['name' => 'ASC']);
-        $quizzs = $repositoryQuizz->findby([], [$sort => 'DESC']);
+        $quizzs = $repositoryQuizz->findby(['isPrivate'=> 0], [$sort => 'DESC']);
+        
+
+        dump($quizzs);
+        foreach ($quizzs as $key => $quizz) {
+           
+            if ( 0 === $quizz->getCrew() ){
+                dump('if');
+            }
+
+        }
 
         return $this->render('quizz/indexbis.html.twig', [
             'categories' => $categories,
@@ -72,6 +84,8 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //? j'ajoute le User connecté comme auteur du quizz
             $quizz->setAuthor($user);
+            //TODO ajouter l'id du groupe du user 
+            
             // TODO ajouter un slugger
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?

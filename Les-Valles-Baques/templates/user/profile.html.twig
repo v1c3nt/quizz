@@ -60,24 +60,52 @@
 
         <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
         <div>
-            {% if userCrews is defined%}{% endif %}
+
+            {# if the user has registred in a crew #}
+            {% if myCrews is not empty %}
+            {# for access the variable adminCrew i declare here, this variable assign 1 if the user had ever created a crew #}
+            {% set adminCrew = 0 %}
+            <div class="brad m-1">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><u>nom</u></th>
+                            <th scope="col"><u>role dans le groupe</u></th>
+                            <th scope="col"><u>ancienneté</u></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for mc in myCrews %}
+                        <tr>
+                            <th scope="row">{{ mc.crew.name }}</th>
+                            <td>{{ mc.roleCrew.name }}</td>
+                            {% if mc.roleCrew.code is defined %} {% set adminCrew = 1 %} {% endif %}
+                            <td>{{ mc.createdAt|date('d-m-Y') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
             <span href="#" class="text-primary h3">
                 <i class="fas fa-sad-tear  mr-1"></i>
             </span>
             Tu n'as pas encore de groupe ?
             <br />
+            {% endif %}
             <a href="#" class="text-primary h3">
                 <i class="fas fa-search mr-1"></i>
-            </a>Trouve un groupe ou
+            </a>Trouve un{% if myCrews is defined %} autre {% endif %}groupe ou
             <a href="#" class="text-primary h3">
-                <i class="fas fa-edit mr-1"></i>
-            </a>crée un groupe
+                <i class="fas fa-edit ml-1"></i>
+            </a>crée s'en un {% if adminCrew is defined %} nouveau {% endif %}
             <br />
             pour partager tes Quizzes
         </div>
-
         <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
         <div class="brad m-1">
+                {% if myQuizzes is not empty %}
             <table class="table">
                 <thead>
                     <tr>
@@ -109,11 +137,23 @@
                     </tr>
                 </tbody>
             </table>
+            {% else %}
+            <span href="#" class="text-primary h3">
+                <i class="fas fa-sad-tear  mr-1"></i>
+            </span>
+            Tu ne t'es pas encore tester sur Quizz ?
+            <p class="h6">ça ne va pas du tout <i class="fas fa-smile-wink"></i></p>
+            {# TODO Créer un service pour un avoir un quizz random facturisé avec celui de la home
+            Si tu veux te lancer en voilà un:
+            #}
+            <a href="{{ path('quizz_list_sort') }}">Clique choisi et joue !</a>
+            {% endif %}
         </div>
 
         <h3 class="m-1 border border-primary brad p-2">Tes Quizzes</h3>
         <div>
             <div class="brad m-1">
+                {% if myQuizzes is not empty %}
                 <table class="table">
                     <thead>
                         <tr>
@@ -139,6 +179,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <span href="#" class="text-primary h3">
+                    <i class="fas fa-sad-tear  mr-1"></i>
+                </span>
+                Tu ne encore jamais créer de Quizz ?
+                <p><i class="fas fa-frown"></i> c'est dommage ça prends max 10 minutes </p>
+             
+                <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
+                {% endif %}
+
             </div>
         </div>
 </main>
