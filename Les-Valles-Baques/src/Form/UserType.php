@@ -11,39 +11,70 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userName', null, [
-                'label' => 'Nom de joueur *',
-                'help' => 'C\'est le seul champs visible par les autres joueurs',
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email *',
-                'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre',
-                'options' => array(
-                    'attr' => array(
-                        'class' => 'password-field'
-                    )
-                ),
-                'first_options' => [
-                    'required'=>true,
-                    'label' => 'Mot de passe *',
-                    'help' => '6 caratères dont 1 majuscule, 1 minuscule et 1 chiffre, c\'est long mais c\'est pour toi',
-                ],
-                'second_options' => [
-                    'label' => 'Encore le mot de passe *(c\'est juste pour être sûr !)',
-                ]
-            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+
+                $user = $event->getData();
+
+                $form = $event->getForm();
+                Dump($user);
+                if ($user->getId()) {
+
+                    $form->add('password', RepeatedType::class, array(
+                        'type' => PasswordType::class,
+                        'invalid_message' => 'Les mots de passe doivent correspondre.',
+                        'options' => array(
+                            'attr' => array(
+                                'class' => 'password-field'
+                            )
+                        ),
+                        'first_options' => array(
+                            'label' => 'Password (optionnel)'
+                        ),
+                        'second_options' => array(
+                            'label' => 'Repeat Password'
+                        ),
+                    ));
+                } else { //sinon je suis en creation
+                    dump('creation');
+                    $form->add('userName', null, [
+                        'label' => 'Nom de joueur *',
+                        'help' => 'C\'est le seul champs visible par les autres joueurs',
+                    ])
+                        ->add('email', EmailType::class, [
+                            'label' => 'Email *',
+                            'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
+                        ])
+                        ->add('password', RepeatedType::class, array(
+                            'type' => PasswordType::class,
+                            'constraints' => [
+                                new NotBlank(),
+                            ],
+                            'invalid_message' => 'Les mots de passe doivent correspondre.',
+                            'options' => array(
+                                'attr' => array(
+                                    'class' => 'password-field'
+                                )
+                            ),
+                            'first_options' => array(
+                                'label' => 'Password (obligatoire)'
+                            ),
+                            'second_options' => array(
+                                'label' => 'Repeat Password'
+                            ),
+                        ));
+                }
+            })
             ->add('avatar', FileType::class, [
-                'label'=>'choisiez un fichier',
+                'label' => 'Ton Avatar',
                 'required' => false,
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
             ])
@@ -51,15 +82,15 @@ class UserType extends AbstractType
                 'required' => false,
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras le remplir plus tard dans ton profil'
             ])
-             ->setAttributes([
-            'novalidate'=>'novalidate',
+            ->setAttributes([
+                'novalidate' => 'novalidate',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => null,
         ]);
     }
 }

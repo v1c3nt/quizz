@@ -10,6 +10,9 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\StatisticRepository;
+use App\Form\EditUserType;
+use App\Repository\UserRepository;
+
 
 class UserController extends AbstractController
 {
@@ -36,42 +39,47 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{id}/{username}_edite", name="edit_user_profile")
      */
-    public function editProfil(UserCrewRepository $uCrews, $id, Request $request )
+    public function editProfil(User $user, Request $request)
     {
-            $user = $this->getUser();
+       
         //? je vérifie que l'id envoyé est bien celui de l'utilisateur connecté.
-        if( $user->getId() == $id ) {
-
-            $userModif = new User();
+       
+            /** 
+            *$oldUserName = $user->getUserName();            
+            *$oldPassword = $user->getPassword();
+            *$oldAvatar = $user->getAvatar();
+            *$oldPresentation = $user->getPresentation();
+            *$oldEmail = $user->getEmail();            
+             */
+        
+            
             $form = $this->createForm(UserType::class, $user);
+            $form->remove('UserName');
+            $form->remove('PassWord');
+
+            /** 
+            *$user->setUserName($oldUserName);
+            *$user->setPassword($oldPassword);
+             */
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
-                
-                
+                /**
+                *$user->setAvatar($oldAvatar);
+                *$user->setEmail($oldEmail);
+                *$user->setPresentation($oldPresentation);
+                 */
                 return $this->redirectToRoute('user__profile', [
-                    'username'=> $user->getUserName(),
-                    ]);
-                }else{
-                    $form->remove('password');
+                    'username' => $user->getUserName(),
+                ]);
+            } else {
 
                 return $this->render('user/profileEdit.html.twig', [
-                    'form'=> $form->createView(),
-                    'user'=> $user,
+                    'form' => $form->createView(),
+                    'user' => $user,
                 ]);
 
             }
-        }else{
-            return $this->redirectToRoute('home');
-        }
-        
-        return $this->render('user/index.html.twig', [
-            'user' => $user,
-            'myQuizzes' => $myQuizzes,
-            'crews' => $crews,
-            'myCrews' => $myCrews,
-            'myStats' => $myStats
-        ]);
+       
     }
 }
