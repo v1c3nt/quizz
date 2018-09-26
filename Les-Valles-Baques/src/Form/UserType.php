@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserType extends AbstractType
 {
@@ -41,7 +42,8 @@ class UserType extends AbstractType
                     'label' => 'Encore le mot de passe *(c\'est juste pour être sûr !)',
                 ]
             ])
-            ->add('avatar', null, [
+            ->add('avatar', FileType::class, [
+                'label'=>'choisiez un fichier',
                 'required' => false,
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
             ])
