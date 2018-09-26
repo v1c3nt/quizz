@@ -1,6 +1,9 @@
 $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
+.green {
+    color: $green
+}
 $blue: #002547;
 $true: #23a71e;
 
@@ -30,6 +33,10 @@ $danger: $red;
 
 .false {
     border: solid 5px $red;
+}
+
+main{
+    overflow-y: visible; 
 }
 
 //TODO classe de test pour les div
@@ -199,6 +206,9 @@ thead.thead {
 }
 
 
+.p-relat{
+    float: right;
+}
 
 
 

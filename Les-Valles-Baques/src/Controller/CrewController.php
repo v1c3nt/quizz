@@ -13,7 +13,6 @@ use App\Form\NewCrewType;
 use App\Entity\UserCrew;
 use App\Repository\RoleCrewRepository;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 
 class CrewController extends AbstractController
 {
@@ -114,13 +113,4 @@ class CrewController extends AbstractController
         ]);
     }
 
-    /**
-    * @route('/crew/{id}/supprimer', name='crew_delete' ) 
-    */
-    public function deleteCrew($id, $crew, CrewRepository $crewRepo, EntityManager $em)
-    {
-        $crewRepo->findById($id);
-        dump($crewRepo);
-    }
-     
 }

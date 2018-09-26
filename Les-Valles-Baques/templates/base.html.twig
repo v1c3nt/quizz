@@ -24,7 +24,7 @@
                 </div>
                 <div class="d-none d-lg-block col-3 log-menu text-center ">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path ('user_profil', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
+                        <a href="{{ path ('user_profile', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
                             <i class="fas fa-user"></i>
                         </a>
 
@@ -57,7 +57,7 @@
                         </div>
                         <span class="text-muted ml-2">
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <a href="{{ path ('user_profil', { 'username' : app.user }) }}">Mon Profil</a>
+                                <a href="{{ path ('user_profile', { 'username' : app.user }) }}">Mon Profil</a>
                                 |
                                 <a href="{{ path('logout') }}">Déconnexion</a>
                             {% else %}
