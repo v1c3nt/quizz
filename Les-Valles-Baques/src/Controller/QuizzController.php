@@ -23,37 +23,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use App\Repository\StatisticRepository;
 use App\Entity\Statistic;
+use App\Repository\IsLikeRepository;
+use App\Entity\IsLike;
+use Doctrine\ORM\EntityManager;
 
 class QuizzController extends AbstractController
 {
-    /**
-     * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
-     */
-    public function index($sort)
-    {
-        $user = $this->getUser();
-
-        $repository = $this->getDoctrine()->getRepository(Category::class);
-        $repositoryQuizz = $this->getDoctrine()->getRepository(Quizz::class);
-
-        $categories = $repository->findBy([], ['name' => 'ASC']);
-        $quizzs = $repositoryQuizz->findby(['isPrivate'=> 0], [$sort => 'DESC']);
-        
-
-        dump($quizzs);
-        foreach ($quizzs as $key => $quizz) {
-           
-            if ( 0 === $quizz->getCrew() ){
-                dump('if');
-            }
-
-        }
-
-        return $this->render('quizz/indexbis.html.twig', [
-            'categories' => $categories,
-            'quizzs' => $quizzs,
-        ]);
-    }
 
     /**
      * @Route("/quizz/show/{id}", name="quizz_show")
@@ -76,7 +51,6 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $quizz = new Quizz();
 
-
         $form = $this->createForm(QuizzType::class, $quizz);
 
         $form->handleRequest($request);
@@ -84,7 +58,7 @@ class QuizzController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //? j'ajoute le User connecté comme auteur du quizz
             $quizz->setAuthor($user);
-            //TODO ajouter l'id du groupe du user 
+            //TODO ajouter l'id du groupe du user
             
             // TODO ajouter un slugger
             $quizz->setSlug('test');
@@ -119,7 +93,7 @@ class QuizzController extends AbstractController
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
-        
+
         $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -131,30 +105,28 @@ class QuizzController extends AbstractController
             $manager->persist($question);
 
             $manager->flush();
-            $this->addFlash('success', 'Question '.$nbr.' ajoutée');
+            $this->addFlash('success', 'Question ' . $nbr . ' ajoutée');
             if ($question->getNbr() > 9) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! plus que 1 !');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 1 !');
             } elseif ($question->getNbr() > 8) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! La dernière ligne droite!');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! La dernière ligne droite!');
             } elseif ($question->getNbr() > 7) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! plus que 3!');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 3!');
             } elseif ($question->getNbr() > 6) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! Tu as fait la moitié du travail !');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! Tu as fait la moitié du travail !');
             } elseif ($question->getNbr() > 5) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! plus que 5!');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 5!');
             } elseif ($question->getNbr() > 4) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! encore une et tu es à la moitiée');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! encore une et tu es à la moitiée');
             } elseif ($question->getNbr() > 3) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1). ' ajoutée! plus que 7!');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 7!');
             } elseif ($question->getNbr() > 2) {
-                $this->addFlash('primary', 'Question ' .($nbr - 1) . ' ajoutée! Encore 8 ça va aller vite courage');
+                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! Encore 8 ça va aller vite courage');
             } elseif ($question->getNbr() > 1) {
                 $this->addFlash('primary', 'Question ' . $nbr . ' ajoutée! plus que 9!');
             }
 
-
             $questions = $questionRepo->findBy(['quizz' => $id]);
-            
             if ($nbr < 10) {
                 return $this->redirectToRoute('questions_quizz', [
                     'id' => $quizz->getId(),
@@ -176,7 +148,7 @@ class QuizzController extends AbstractController
             'questions' => $questions,
         ]);
     }
-    
+
     /**
      * TODO replacer id par slug
      * a voir pour bloqué l
@@ -186,7 +158,7 @@ class QuizzController extends AbstractController
     public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
         if (null === $session->get('results' . $id . '') || empty($session->get('results' . $id . ''))) {
-            $results[] = 'quizz_'. $id;
+            $results[] = 'quizz_' . $id;
             $session->set('results' . $id . '', $results);
         }
 
@@ -224,12 +196,11 @@ class QuizzController extends AbstractController
             // on arrive a afficher les 10 Questions av ec les réponses mais dans le form->getData() qu'une seule requête affichée
             // dans le tableau
             $nbr++;
-            
+
             $answers = $session->get('results' . $id . '');
             $answer = $form->getData()['responses'];
             array_push($answers, $answer);
             $session->set('results' . $id . '', $answers);
-            
             if ($nbr <= 10) {
                 return $this->redirectToRoute('quizz_play', [
                     'question' => $question,
@@ -239,7 +210,7 @@ class QuizzController extends AbstractController
             }
 
             return $this->redirectToRoute('quizz_results', [
-                'id'=>$id
+                'id' => $id
             ]);
         }
 
@@ -258,19 +229,18 @@ class QuizzController extends AbstractController
     public function results($id, QuizzRepository $quizzRepo, ObjectManager $manager, SessionInterface $session, StatisticRepository $statRepo)
     {
         $user = $user = $this->getUser();
-        
-        $quizz = $quizzRepo->findOneBy(['id'=>$id]);
+
+        $quizz = $quizzRepo->findOneBy(['id' => $id]);
 
         $points = 0;
         //? Si la variable results existe en session je récupere la variable stocké en session et je la détruis
-        ((null !== $session->get('results' . $id . ''))? ($answers = $session->remove('results' . $id . '')) : '');
+        ((null !== $session->get('results' . $id . '')) ? ($answers = $session->remove('results' . $id . '')) : '');
         //$answers = $session->remove('results' . $id . '');
-        
+
         $results = [];
         //? je boucle sur le tableau en session pour récupérer les réponses puis je le remets a vide.
         foreach ($answers as $key => $answer) {
             $results[] = $answer;
-            
             if ($answer === 'prop1') {
                 $points++;
             }
@@ -284,10 +254,45 @@ class QuizzController extends AbstractController
         $manager->persist($stat);
         $manager->flush();
 
+        $quizz = $quizzRepo->findOneBy(['id' => $id]);
+        $avg = $statRepo->avgResultByQuizz($id)[0]['AVG(result)'];
+
+        $quizz->setAvgScore($avg);
+        
+        $manager->persist($quizz);
+        
+        $manager->flush();
+
         return $this->render('quizz/results.html.twig', [
-            'answers'=> $answers,
-            'quizz'=> $quizz,
-            'points'=>$points,
+            'answers' => $answers,
+            'quizz' => $quizz,
+            'points' => $points,
+        ]);
+    }
+
+
+    /**
+     * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
+     */
+    public function index($sort, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
+    {
+        $user = $this->getUser();
+
+        $categories = $categories->findBy([], ['name' => 'ASC']);
+        $quizzs = $quizzs->findby([], [$sort => 'DESC']);
+        $stats = $statRepo->findByUser($user);
+        $myScores = [];
+            
+        foreach ($quizzs as $key => $quizz) {
+            $idQ = $quizz->getId();
+
+            $myScores[$idQ] = $statRepo->avgResultByQuizz($idQ)[0]['AVG(result)'];
+        }
+
+        return $this->render('quizz/indexbis.html.twig', [
+            'categories' => $categories,
+            'quizzs' => $quizzs,
+            'myScores' => $myScores,
         ]);
     }
 }

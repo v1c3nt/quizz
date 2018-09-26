@@ -85,6 +85,16 @@ class Quizz
      */
     private $level;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbrLikes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $avgScore;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -195,6 +205,11 @@ class Quizz
     {
         return $this->isLikes;
     }
+    
+    public function setIsLikes() : Collection
+    {
+        return $this->isLikes;
+    }
 
     public function addIsLike(IsLike $isLike): self
     {
@@ -289,6 +304,30 @@ class Quizz
     public function __toString()
     {
         return $this->getTitle();
+    }
+
+    public function getNbrLikes(): ?int
+    {
+        return $this->nbrLikes;
+    }
+
+    public function setNbrLikes(?int $nbrLikes): self
+    {
+        $this->nbrLikes = $nbrLikes;
+
+        return $this;
+    }
+
+    public function getAvgScore(): ?int
+    {
+        return $this->avgScore;
+    }
+
+    public function setAvgScore(?int $avgScore): self
+    {
+        $this->avgScore = $avgScore;
+
+        return $this;
     }
 
 
