@@ -45,7 +45,7 @@ class User implements UserInterface, \Serializable
     !ajouter le AtAssert\Regex ("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")*/
     /**
      * @ORM\Column(type="string", length=255)
-     *? @Assert\NotBlank()
+     *? @Assert\NotBlank(groups={"registration"})
      *
      */
     private $password;

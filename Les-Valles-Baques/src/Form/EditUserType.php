@@ -30,20 +30,20 @@ class EditUserType extends AbstractType
             ])
             ->add('presentation', null, [
                 'required' => false,
-                'help' => 'Si tu l\'as pas déjà fait ajoute un petite description.'
+                'help' => 'Si tu ne l\'as pas déjà fait ajoute un petite description.'
             ])
              ->setAttributes([
             'novalidate'=>'novalidate',
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                
-                $user = $event->getData();
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) {
+                    $user = $event->getData();
 
-                $form = $event->getForm();
+                    $form = $event->getForm();
                
-                if ($user->getId()) {
-                
-                    $form->add('password', RepeatedType::class, array(
+                    if ($user->getId()) {
+                        $form->add('password', RepeatedType::class, array(
                         'type' => PasswordType::class,
                         'invalid_message' => 'Les mots de passe doivent correspondre.',
                         'options' => array(
@@ -58,9 +58,9 @@ class EditUserType extends AbstractType
                             'label' => 'Repeat Password'
                         ),
                     ));
-                } else { //sinon je suis en creation
-                    dump('creation');
-                    $form->add('password', RepeatedType::class, array(
+                    } else { //sinon je suis en creation
+                        dump('creation');
+                        $form->add('password', RepeatedType::class, array(
                         'type' => PasswordType::class,
                         'constraints' => [
                             new NotBlank(),
@@ -78,10 +78,8 @@ class EditUserType extends AbstractType
                             'label' => 'Repeat Password'
                         ),
                     ));
+                    }
                 }
-            }
         );
     }
-
-
 }
