@@ -19,8 +19,8 @@
             Je veux modifier mon profil !
         </button>
         <button class="btn btn-success" type="button">
-            <a href="{{ path('user_profile', {'username': app.user.username}) }}">
-                Retour au profil, je ne veux rien changer
+            <a href="{{ path('edit_password', {'id': app.user.id , 'username': app.user.username}) }}">
+                Modifier mot de passe
             </button>
             {{ form_end(form) }}
 

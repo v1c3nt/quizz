@@ -72,4 +72,42 @@ class UserController extends AbstractController
                     'user'=> $user,
                 ]);
     }
+
+    /**
+     * @Route("/profile/{id}/{username}_edite_mot_de_passe", name="edit_password", methods="GET|POST")
+     */
+    public function changePassword(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+        $user = $this->getUser();
+        $oldPassword = $user->getPassword();
+            
+        $form = $this->createForm(UserType::class, $user);
+        $form->remove('userName');
+        $form->remove('email');
+        $form->remove('avatar');
+        $form->remove('presentation');
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!is_null($user->getPassword()) &&  $user->getPassword() != $oldPassword) {
+                $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
+            } else {
+                $encodedPassword = $oldPassword;
+            }
+
+            $user->setPassword($encodedPassword);
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('user_profile', [
+                    'username'=> $user->getUserName(),
+                    'id'=>$user->getId()
+                    ]);
+        }
+        return $this->render('user/changePassword.html.twig', [
+                    'form'=> $form->createView(),
+                    'user'=> $user,
+                ]);
+    }
 }
