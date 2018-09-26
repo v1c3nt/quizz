@@ -1,22 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de {{ user.userName }}{% endblock %}
+{% block title %}Modification de
+    {{ user.userName }}
+{% endblock %}
 
 {% block body %}
-<div class="bubble col-8 offset-2">
-<h1 class="bubble-title"><u>Modification</u> de mon profil</h1>
-</div>
-<main class="bubble col-8 offset-2">
+    <div class="bubble col-8 offset-2">
+        <h1 class="bubble-title">
+            <u>Modification</u>
+            de mon profil</h1>
+    </div>
+    <main class="bubble col-8 offset-2">
 
-{{ form_start(form)}}
-{{ form_widget(form) }}
+        {{ form_start(form, {attr: {novalidate: 'novalidate'}})}}
+        {{ form_widget(form) }}
 
+        <button class="btn btn-success" type="submit">
+            Je veux modifier mon profil !
+        </button>
+        <button class="btn btn-success" type="button">
+            <a href="{{ path('user_profile', {'username': app.user.username}) }}">
+                Retour au profil, je ne veux rien changer
+            </button>
+            {{ form_end(form) }}
 
-<button class="btn btn-success" type="submit">
-    J'ai fini de modifier!
-</button>
-{{ form_end(form) }}
+        </main>
 
-</main>
-
-{% endblock %}
+    {% endblock %}

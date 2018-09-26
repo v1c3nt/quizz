@@ -5,18 +5,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis dessu que tu m'es oublié ")
  * @UniqueEntity(fields="userName", message="Désolé {{ value }} quelqu'un utilise déjà ce Nom ")
- * 
+ *
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -27,7 +27,7 @@ class User implements UserInterface
 
     /**
      * @var string $email
-     * 
+     *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      *? @Assert\NotBlank()
      *? @Assert\Email()
@@ -35,13 +35,13 @@ class User implements UserInterface
     private $email;
 
     /**
-     * 
+     *
      * @ORM\Column(type="string", length=64, unique=true)
      *? @Assert\NotBlank()
      */
     private $userName;
 
-    /* 
+    /*
     !ajouter le AtAssert\Regex ("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")*/
     /**
      * @ORM\Column(type="string", length=255)
@@ -346,8 +346,30 @@ class User implements UserInterface
         return [$this->appRole->getCode()];
     }
 
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->userName,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->userName,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized, array('allowed_classes' => false));
+    }
+
     public function __toString()
     {
-        return $this->getUsername();
+        return $this->getUserName();
     }
 }
