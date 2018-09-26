@@ -1,0 +1,9 @@
+
+<a href="#" class="text-primary h3">
+    <i class="fas fa-search mr-1"></i>
+Trouve un {% if null != app.user.userCrews.snapshot %} autre {% endif %}groupe</a> ou
+<a href="{{ path('crew_creat') }}" class="text-primary h3">
+    <i class="fas fa-edit ml-1"></i>
+    crée s'en un {% if adminCrew is defined %} nouveau {% endif %}</a>
+<br />
+pour partager tes Quizzes

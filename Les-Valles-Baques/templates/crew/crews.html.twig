@@ -23,7 +23,7 @@
                         <th scope="col"><u>Nom</u></th>
                         <th scope="col"><u>ancienneté</u></th>
                         <th scope="col"><u>role</u></th>
-
+                        <th scope="col"><u>Action</u></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,27 +49,34 @@
                             {% endfor %}
 
                         </td>
-                        {# TODO codé en dur a modifier #}
+                        {% for crew in usercrews %}
+                        {% if crew.crew.id == m.id %}
                         <td>
-                            {% for crew in usercrews %}
-                            {% if crew.crew.id == m.id %}
                             {{ crew.roleCrew.name }}
-                            {% endif %}
-                            {% endfor %}
-
                         </td>
-
+                        <td>
+                            {% if 1 == crew.roleCrew.id %}
+                            <a href="#">
+                                {#TODO codé une alerte avec vérification de la suppression ? #}
+                                <u>éditer</u>
+                            </a>
+                            <br />
+                            <a href="#">
+                                <u>supprimer</u>
+                            </a>
+                            {% elseif 2 == crew.roleCrew.id %}
+                            <a href="#"><u>éditer</u></a>
+                            {% else %}
+                            <a href="#"><u>voir</u></a> {% endif %}
+                        </td>
+                        {% endif %}
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <span href="#" class="text-primary h3">
-                <i class="fas fa-sad-tear  mr-1"></i>
-            </span>
-            Tu ne encore jamais créer de Quizz ?
-            <p><i class="fas fa-frown"></i> c'est dommage ça prends max 10 minutes </p>
+            {{ include('crew/crewTableFooter.html.twig') }}
 
-            <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
 
         </div>
     </div>
