@@ -7,16 +7,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\QuizzRepository;
 use App\Repository\UserCrewRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
      */
-    public function index(QuizzRepository $quizzes, UserCrewRepository $uCrews, SessionInterface $session )
+    public function index(QuizzRepository $quizzes, UserCrewRepository $uCrews, SessionInterface $session)
     {
         $user = $this->getUser();
         /**
-         * 
+         *
          * TODO preparation pour les acces a faire quand role OK
         $login = $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         dump($login);
