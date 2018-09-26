@@ -126,15 +126,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for mq in myQuizzes %}
+                        {% for mq in myQuizzes|sort %}
                         <tr>
                             <th scope="row">{{ mq.title }}</th>
                             <td>{{ mq.category }}</td>
                             <td>{{ mq.level }}</td>
                             {# TODO codé en dur a modifier #}
-                            <td>{{ random(30) }}</td>
+                            <td>{{ mq.nbrLikes }}</td>
                             {# TODO codé en dur a modifier #}
-                            <td>{{ random(10) }}/10</td>
+                            <td>{{ mq.avgScore }}/10</td>
                         </tr>
                         {% endfor %}
                     </tbody>
