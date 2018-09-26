@@ -1,5 +1,4 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base.html.twig'%}
 {% block title %}Profil de
 {{ user }}
 !{% endblock %}
@@ -60,10 +59,10 @@
 
         <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
         <div>
-
             {# if the user has registred in a crew #}
             {% if myCrews is not empty %}
-            {# for access the variable adminCrew i declare here, this variable assign 1 if the user had ever created a crew #}
+            {# for access the variable adminCrew i declare here, this variable assign 1 if the user had ever created a
+            crew #}
             {% set adminCrew = 0 %}
             <div class="brad m-1">
                 <table class="table">
@@ -94,18 +93,13 @@
             Tu n'as pas encore de groupe ?
             <br />
             {% endif %}
-            <a href="#" class="text-primary h3">
-                <i class="fas fa-search mr-1"></i>
-            </a>Trouve un{% if myCrews is defined %} autre {% endif %}groupe ou
-            <a href="#" class="text-primary h3">
-                <i class="fas fa-edit ml-1"></i>
-            </a>crée s'en un {% if adminCrew is defined %} nouveau {% endif %}
-            <br />
-            pour partager tes Quizzes
+
+            {{ include('crew/crewTableFooter.html.twig') }}
+
         </div>
         <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
         <div class="brad m-1">
-                {% if myQuizzes is not empty %}
+            {% if myQuizzes is not empty %}
             <table class="table">
                 <thead>
                     <tr>
@@ -185,7 +179,7 @@
                 </span>
                 Tu ne encore jamais créer de Quizz ?
                 <p><i class="fas fa-frown"></i> c'est dommage ça prends max 10 minutes </p>
-             
+
                 <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
                 {% endif %}
 
