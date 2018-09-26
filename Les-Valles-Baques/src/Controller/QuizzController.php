@@ -253,7 +253,13 @@ class QuizzController extends AbstractController
 
         $manager->flush();
 
-
+        $quizz = $quizzRepo->findOneBy(['id' => $id]);
+        $avg = $statRepo->avgResultByQuizz($id)[0]['AVG(result)'];
+        $quizz->setAvgScore($avg);
+        
+        $manager->persist($quizz);
+        
+        $manager->flush();
 
         return $this->render('quizz/results.html.twig', [
             'answers' => $answers,
@@ -264,8 +270,8 @@ class QuizzController extends AbstractController
 
 
     /**
-     * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
-     */
+         * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
+         */
     public function index($sort, IsLikeRepository $likeRepo, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
     {
         $user = $this->getUser();
