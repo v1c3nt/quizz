@@ -56,12 +56,60 @@
                                 <u>Email:</u>
                             </ins>
 
+<<<<<<< HEAD
                             {{ user.email }}
                         </li>
                         <li class="h5 mb-2">
                             <ins>
                                 <u>Présentation:</u>
                             </ins>
+=======
+    <div id="accordion">
+
+        <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
+        <div>
+{# if the user has registred in a crew #}
+{% if myCrews is not empty %}
+{# for access the variable adminCrew i declare here, this variable assign 1 if the user had ever created a crew #}
+{% set adminCrew = 0 %}
+<div class="brad m-1">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"><u>nom</u></th>
+                <th scope="col"><u>role dans le groupe</u></th>
+                <th scope="col"><u>ancienneté</u></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mc in myCrews %}
+            <tr>
+                <th scope="row">{{ mc.crew.name }}</th>
+                <td>{{ mc.roleCrew.name }}</td>
+                {% if mc.roleCrew.code is defined %} {% set adminCrew = 1 %} {% endif %}
+                <td>{{ mc.createdAt|date('d-m-Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+            {% if userCrews is defined%}{% endif %}
+            <span href="#" class="text-primary h3">
+                <i class="fas fa-sad-tear  mr-1"></i>
+            </span>
+            Tu n'as pas encore de groupe ?
+            <br />
+            <a href="#" class="text-primary h3">
+                <i class="fas fa-search mr-1"></i>
+            </a>Trouve un groupe ou
+            <a href="#" class="text-primary h3">
+                <i class="fas fa-edit mr-1"></i>
+            </a>crée un groupe
+            <br />
+            pour partager tes Quizzes
+        </div>
+>>>>>>> aa3f0f366498b0686bee5aab0cf508bdf24f737f
 
                             {{ user.presentation }}
                         </li>
