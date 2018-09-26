@@ -5,6 +5,9 @@
 
 {% block body %}
 <div class="bubble col-8 offset-2">
+<a href="{{ path('add_like', {'id': quizz.id }) }}">
+    <h4>j'adore ce quizz <i class="fas fa-thumbs-up ml-1"></i></h4>
+</a>
     <h2 class="bubble-title">{{quizz.title}}</h2>
     <p>{{quizz.description}}</p>
 </div>

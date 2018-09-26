@@ -1,61 +1,59 @@
 {% extends 'base.html.twig'%}
 {% block title %}Profil de
-{{ user }}
-!{% endblock %}
+    {{ user }}
+    !{% endblock %}
 
 {% block body %}
 
-<div class="bubble col-8 offset-2">
-    <h1 class="bubble-title">Mon profil</h1>
-</div>
-<main class="bubble col-8 offset-2">
-
-    <h3 class="m-1 border border-primary brad p-2">Mes infos</h3>
-
-    <div class="container fluid ">
-        <div class="row">
-
-            <div class="col-4 d-none d-lg-block">
-                {% if null != user.avatar %}
-                <img src="{{ asset('/images/vince.jpg') | imagine_filter('medium_square') }}" alt="avatar de {{ user.username }}"
-                    class="brad">
-                {% else %}
-                <div class="bigSize">
-                    <i class="fas fa-portrait"></i>
-                </div>
-                {% endif %}
-            </div>
-            <div class=" col-12 col-lg-4 d-lg-none ">
-                {% if null != user.avatar %}
-                <img src="{{ asset('/images/vince.jpg') | imagine_filter('small_square') }}" alt="avatar de {{ user.username }}"
-                    class="brad">
-                {% else %}
-                <div class="bigSize">
-                    <i class="fas fa-portrait"></i>
-                </div>
-                {% endif %}
-            </div>
-
-            <dir class="col-12 col-lg-8 ">
-                <ul>
-                    <li>
-                        Nom:
-                        {{ user.username }}
-                    </li>
-                    <li>
-                        Email:
-                        {{ user.email }}
-                    </li>
-                    <li>
-                        Présentation:
-                        {{ user.presentation }}
-                    </li>
-                </ul>
-            </dir>
-        </div>
+    <div class="bubble col-8 offset-2">
+        <h1 class="bubble-title">Mon profil</h1>
     </div>
+    <main class="bubble col-8 offset-2">
 
-    <div id="accordion">
+        <h3 class="m-1 border border-primary brad p-2">Mes infos</h3>
+
+        <div class="container fluid ">
+            <div class="row">
+
+                <div class="col-4 d-none d-lg-block">
+                    {% if null != user.avatar %}
+                        <img src="{{ asset('/images/vince.jpg') | imagine_filter('medium_square') }}" alt="avatar de {{ user.username }}" class="brad">
+                    {% else %}
+                        <div class="bigSize">
+                            <i class="fas fa-portrait"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class=" col-12 col-lg-4 d-lg-none ">
+                    {% if null != user.avatar %}
+                        <img src="{{ asset('/images/vince.jpg') | imagine_filter('small_square') }}" alt="avatar de {{ user.username }}" class="brad">
+                    {% else %}
+                        <div class="bigSize">
+                            <i class="fas fa-portrait"></i>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <dir class="col-12 col-lg-8 ">
+                    <ul>
+                        <li>
+                            Nom:
+                            {{ user.username }}
+                        </li>
+                        <li>
+                            Email:
+                            {{ user.email }}
+                        </li>
+                        <li>
+                            Présentation:
+                            {{ user.presentation }}
+                        </li>
+                    </ul>
+                </dir>
+            </div>
+        </div>
+
+        <div id="accordion">
 
         <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
         <div>
@@ -108,82 +106,84 @@
                         <th scope="col">Niveaux</th>
                         <th scope="col">Résultats</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Les pubs d'hier et d'aujourd'hui</th>
-                        <td>Culture G</td>
-                        <td>Débutant</td>
-                        <td>8/10</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Les profs d'Oclock</th>
-                        <td>Code</td>
-                        <td>Expert</td>
-                        <td>10/10</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Les Super héros</th>
-                        <td>Cinéma</td>
-                        <td>Confirmé</td>
-                        <td>5/10</td>
-                    </tr>
-                </tbody>
-            </table>
-            {% else %}
-            <span href="#" class="text-primary h3">
-                <i class="fas fa-sad-tear  mr-1"></i>
-            </span>
-            Tu ne t'es pas encore tester sur Quizz ?
-            <p class="h6">ça ne va pas du tout <i class="fas fa-smile-wink"></i></p>
-            {# TODO Créer un service pour un avoir un quizz random facturisé avec celui de la home
-            Si tu veux te lancer en voilà un:
-            #}
-            <a href="{{ path('quizz_list_sort') }}">Clique choisi et joue !</a>
-            {% endif %}
-        </div>
-
-        <h3 class="m-1 border border-primary brad p-2">Tes Quizzes</h3>
-        <div>
+            <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
             <div class="brad m-1">
                 {% if myQuizzes is not empty %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Quizzes</th>
-                            <th scope="col">Catégories</th>
-                            <th scope="col">Niveaux</th>
-                            <th scope="col">Like</th>
-                            <th scope="col">Résultats moyen</th>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Quizzes</th>
+                                <th scope="col">Catégories</th>
+                                <th scope="col">Niveaux</th>
+                                <th scope="col">Résultats</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for mq in myQuizzes %}
-                        <tr>
-                            <th scope="row">{{ mq.title }}</th>
-                            <td>{{ mq.category }}</td>
-                            <td>{{ mq.level }}</td>
-                            {# TODO codé en dur a modifier #}
-                            <td>{{ random(30) }}</td>
-                            {# TODO codé en dur a modifier #}
-                            <td>{{ random(10) }}/10</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Les pubs d'hier et d'aujourd'hui</th>
+                                <td>Culture G</td>
+                                <td>Débutant</td>
+                                <td>8/10</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Les profs d'Oclock</th>
+                                <td>Code</td>
+                                <td>Expert</td>
+                                <td>10/10</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Les Super héros</th>
+                                <td>Cinéma</td>
+                                <td>Confirmé</td>
+                                <td>5/10</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 {% else %}
-                <span href="#" class="text-primary h3">
-                    <i class="fas fa-sad-tear  mr-1"></i>
-                </span>
-                Tu ne encore jamais créer de Quizz ?
-                <p><i class="fas fa-frown"></i> c'est dommage ça prends max 10 minutes </p>
+                    <span href="#" class="text-primary h3">
+                        <i class="fas fa-sad-tear  mr-1"></i>
+                    </span>
+                    Tu ne encore jamais créer de Quizz ?
+                    <p>
+                        <i class="fas fa-frown"></i>
+                        c'est dommage ça prends max 10 minutes
+                    </p>
 
-                <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
+                    <a href="{{ path('new_quizz') }}">Si tu veux tester !</a>
                 {% endif %}
 
             </div>
-        </div>
-</main>
-{% endblock %}
+
+            <h3 class="m-1 border border-primary brad p-2">Tes Quizzes</h3>
+            <div>
+                <div class="brad m-1">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Quizzes</th>
+                                <th scope="col">Catégories</th>
+                                <th scope="col">Niveaux</th>
+                                <th scope="col">Like</th>
+                                <th scope="col">Résultats moyen</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mq in myQuizzes | sort %}
+                                <tr>
+                                    <th scope="row">{{ mq.title }}</th>
+                                    <td>{{ mq.category }}</td>
+                                    <td>{{ mq.level }}</td>
+                                    {# TODO codé en dur a modifier #}
+                                    <td>{{ mq.nbrLikes }}</td>
+                                    {# TODO codé en dur a modifier #}
+                                    <td>{{ mq.avgScore }}/10</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
