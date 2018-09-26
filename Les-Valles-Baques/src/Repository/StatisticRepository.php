@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use PDO;
 use App\Entity\Statistic;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Statistic|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,7 @@ class StatisticRepository extends ServiceEntityRepository
         parent::__construct($registry, Statistic::class);
     }
 
+    //* TODO try to return an int
     public function avgResultByQuizz($id) : array
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -27,6 +29,7 @@ class StatisticRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
 
         $stmt->execute(['id' => $id]);
+
         return $stmt->fetchAll();
     }
 

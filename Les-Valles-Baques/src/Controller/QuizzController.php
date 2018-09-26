@@ -255,6 +255,7 @@ class QuizzController extends AbstractController
 
         $quizz = $quizzRepo->findOneBy(['id' => $id]);
         $avg = $statRepo->avgResultByQuizz($id)[0]['AVG(result)'];
+
         $quizz->setAvgScore($avg);
         
         $manager->persist($quizz);
