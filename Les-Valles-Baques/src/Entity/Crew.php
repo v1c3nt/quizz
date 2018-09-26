@@ -37,7 +37,7 @@ class Crew
     private $slug;
 
     /**
-     *? @Assert\Url()
+     *? @Assert\File(),
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -57,10 +57,22 @@ class Crew
      */
     private $quizzs;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $isPrivate;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        
     }
 
     public function getId(): ?int
@@ -181,5 +193,29 @@ class Crew
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIsPrivate(): ?int
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(int $isPrivate): self
+    {
+        $this->isPrivate = $isPrivate;
+
+        return $this;
     }
 }
