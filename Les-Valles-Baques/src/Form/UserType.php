@@ -57,8 +57,8 @@ class UserType extends AbstractType
                             ),
                             'first_options'  => array(
                                 'required' => false,
-                                'label' => 'Mot de passe*',
-                                'help' => 'Tu peux changer ton mot de passe'
+                                'label' => 'Nouveau mot de passe*',
+                                'help' => 'Tapes ton nouveau ton mot de passe'
                             ),
                             'second_options' => array(
                                 'required' => false,

@@ -31,9 +31,9 @@ class HomeController extends AbstractController
 
         $new = count($quizzes);
 
-        $newQuizzes[] = $quizzes[$new - 3];
-        $newQuizzes[] = $quizzes[$new - 2];
-        $newQuizzes[] = $quizzes[$new - 1];
+        $newQuizzes[] = $quizzes[$new-3];
+        $newQuizzes[] = $quizzes[$new-2];
+        $newQuizzes[] = $quizzes[$new-1];
 
         $randomKey = array_rand($quizzes);
         $randomQuizz = $quizzes[$randomKey];

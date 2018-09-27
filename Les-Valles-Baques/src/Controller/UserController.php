@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Form\EditUserType;
 use App\Repository\UserRepository;
 use App\Repository\QuizzRepository;
 use App\Repository\UserCrewRepository;
@@ -43,8 +42,7 @@ class UserController extends AbstractController
     public function editProfil(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();
-        $oldPassword = $user->getPassword();
-            
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->remove('password');
@@ -52,12 +50,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!is_null($user->getPassword()) &&  $user->getPassword() != $oldPassword) {
-                $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
-            } else {
-                $encodedPassword = $oldPassword;
-            }
-
             $user->setPassword($encodedPassword);
             $em = $this->getDoctrine()->getManager();
             $em->flush();
