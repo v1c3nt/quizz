@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use App\Form\Model\ChangePassword;
 
 class UserType extends AbstractType
 {
@@ -65,8 +66,10 @@ class UserType extends AbstractType
                                 'required' => false,
                                 'label' => 'Encore le mot de passe *(c\'est juste pour être sûr !)'
                             ),
+                            
                         )
-                    );
+                    )
+                    ->add('oldPassword', 'password');
                 } else { //sinon je suis en creation
                     dump('creation');
                     $form->add(
@@ -92,7 +95,8 @@ class UserType extends AbstractType
                             'help' => 'Les most de passe doivent correspondre',
                         ),
                     )
-                );
+                )
+                ;
                 }
             });
     }
@@ -100,6 +104,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+
         ]);
     }
 }
