@@ -20,7 +20,6 @@ class SecurityController extends AbstractController
      */
     public function signUp(Request $request, UserPasswordEncoderInterface $encoder, AppRoleRepository $repository, \Swift_Mailer $mailer): Response
     {
-       
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

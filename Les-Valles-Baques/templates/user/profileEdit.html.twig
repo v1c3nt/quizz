@@ -12,17 +12,19 @@
     </div>
     <main class="bubble col-8 offset-2">
 
-        {{ form_start(form, {attr: {novalidate: 'novalidate'}})}}
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <button class="btn btn-success" type="submit">
-            Je veux modifier mon profil !
-        </button>
-        <button class="btn btn-success" type="button">
-            <a href="{{ path('edit_password', {'id': app.user.id , 'username': app.user.username}) }}">
-                Modifier mot de passe
+        <div class="form-group">
+            <button class="btn btn-success" type="submit">
+                Je veux modifier mon profil !
             </button>
             {{ form_end(form) }}
+            <button class="btn btn-success" type="button">
+                <a href="{{ path('edit_password', {'id': app.user.id , 'username': app.user.username}) }}">
+                    Modifier mot de passe
+                </button>
+
+            </div>
 
         </main>
 

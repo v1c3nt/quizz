@@ -22,7 +22,11 @@ class UserController extends AbstractController
     public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews, StatisticRepository $statRepo)
     {
         //TODO requetCustom !!
+       
+
         $user = $this->getUser();
+        dump($user);
+       
         $crews = $user->getUserCrews();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
@@ -42,17 +46,27 @@ class UserController extends AbstractController
     public function editProfil(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();
-
+        $oldAvatar = $user->getAvatar();
+        dump($oldAvatar);
         $form = $this->createForm(UserType::class, $user);
-
+        $form->remove('userName');
         $form->remove('password');
+      
 
         $form->handleRequest($request);
-        
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encodedPassword);
+            if (null === $user->getAvatar()) {
+                $user->setAvatar($oldAvatar);
+            } else {
+                $file = $user->getAvatar();
+                $fileName = md5(uniqid()).".".$file->guessExtension();
+                $file->move($this->getParameter('avatar_directory'), $fileName);
+                $user->setAvatar($fileName);
+            }
+            
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+         
 
             return $this->redirectToRoute('user_profile', [
                     'username'=> $user->getUserName(),
@@ -71,6 +85,8 @@ class UserController extends AbstractController
     public function changePassword(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();
+        dump($user);
+        
         $oldPassword = $user->getPassword();
             
         $form = $this->createForm(UserType::class, $user);
