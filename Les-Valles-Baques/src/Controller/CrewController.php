@@ -93,6 +93,15 @@ class CrewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (null === $crew->getId()) {
+                //? AppRole id = 2 donc ROLE_USER
+                $file = $form->getData()->getAvatar();
+
+                dump($file);
+                $fileName = md5(uniqid()) . "." . $file->guessExtension();
+                $file->move($this->getParameter('avatar_directory'), $fileName);
+                $crew->setAvatar($fileName);
+            }
             //TODO a modifier quand slug OK
             $crew->setSlug('slug');
             $manager->persist($crew);
