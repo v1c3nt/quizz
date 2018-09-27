@@ -6,16 +6,21 @@
 {% block body %}
     <div class="col-8 offset-2">
         <div class="bubble">
-            <h2 class="bubble-title"><u>crée</u> ton <u>groupe</u></h2>
-            <p>En créeant ton groupe tu pourras  <br/>
-créer des questonnaires privés<br />
+            <h2 class="bubble-title">
+                <u>Crée</u>
+                ton
+                <u>groupe</u>
+            </h2>
+            <p>En créeant ton groupe tu pourras
+                <br/>
+                créer des questonnaires privés<br/>
                 et les partager avec les membres de ton groupe<br/>
-        </div>
+            </div>
 
-        <div class="bubble">
-            {{ include('crew/_formNewCrew.html.twig') }}
+            <div class="bubble">
+                {{ include('crew/_formNewCrew.html.twig') }}
+            </div>
         </div>
     </div>
-</div>
 </main>
 {% endblock %}

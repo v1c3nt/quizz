@@ -1,9 +1,11 @@
 $red: #d92139;
 $yellow: #fec748;
 $green: #aec33a;
+
 .green {
     color: $green
 }
+
 $blue: #002547;
 $true: #23a71e;
 
@@ -17,10 +19,12 @@ $danger: $red;
 
 .green {
     color: $true;
-};
+}
+
+;
 
 .red {
-    color:$red;
+    color: $red;
 }
 
 .badge {
@@ -35,8 +39,8 @@ $danger: $red;
     border: solid 5px $red;
 }
 
-main{
-    overflow-y: visible; 
+main {
+    overflow-y: visible;
 }
 
 //TODO classe de test pour les div
@@ -206,7 +210,7 @@ thead.thead {
 }
 
 
-.p-relat{
+.p-relat {
     float: right;
 }
 
@@ -219,7 +223,7 @@ header {
     position: fixed;
     width: 100%;
     z-index: 250;
-    
+
 }
 
 .subheader {
@@ -243,7 +247,7 @@ header .nav .nav-item .nav-link {
     margin: 0 1em;
     //margin-bottom: -2px;
     color: $blue;
-    
+
 }
 
 header .nav .nav-item .active {
@@ -280,7 +284,7 @@ header .nav .nav-item .disabled {
 .info-profil {}
 
 .progress {
-    
+
     width: 90%;
     background-color: $red;
     border: solid 2px $blue;
@@ -291,16 +295,16 @@ header .nav .nav-item .disabled {
 //? footer
 #footer {
     color: $green;
-}    
+}
 
 //? question page
 
 /*.aside-overflow {
     height: 56.68rem;
     overflow-y: scroll;
-} */   
+} */
 
-.resum{
+.resum {
     position: relative;
 }
 
@@ -313,7 +317,7 @@ header .nav .nav-item .disabled {
 
 .divDetails {
     display: none;
-}  
+}
 
 .actived {
     width: 101%;
@@ -329,8 +333,8 @@ header .nav .nav-item .disabled {
     display: block;
     background: $blue;
     color: $yellow;
- 
-}    
+
+}
 
 
 #newQuestion-title {

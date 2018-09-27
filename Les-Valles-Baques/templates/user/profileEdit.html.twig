@@ -1,22 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification de {{ user.userName }}{% endblock %}
+{% block title %}Modification de
+    {{ user.userName }}
+{% endblock %}
 
 {% block body %}
-<div class="bubble col-8 offset-2">
-<h1 class="bubble-title"><u>Modification</u> de mon profil</h1>
-</div>
-<main class="bubble col-8 offset-2">
+    <div class="bubble col-8 offset-2">
+        <h1 class="bubble-title">
+            <u>Modification</u>
+            de mon profil</h1>
+    </div>
+    <main class="bubble col-8 offset-2">
 
-{{ form_start(form)}}
-{{ form_widget(form) }}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <button class="btn btn-success" type="submit">
+                Je veux modifier mon profil !
+            </button>
+            {{ form_end(form) }}
+            <button class="btn btn-success" type="button">
+                <a href="{{ path('edit_password', {'id': app.user.id , 'username': app.user.username}) }}">
+                    Modifier mot de passe
+                </button>
 
+            </div>
 
-<button class="btn btn-success" type="submit">
-    J'ai fini de modifier!
-</button>
-{{ form_end(form) }}
+        </main>
 
-</main>
-
-{% endblock %}
+    {% endblock %}
