@@ -67,6 +67,10 @@ class UserController extends AbstractController
             
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+
+            return $this->redirectToRoute('user_profile', [
+                'username' => $user->getUserName(),
+            ]);
         }
         return $this->render('user/profileEdit.html.twig', [
                     'form'=> $form->createView(),

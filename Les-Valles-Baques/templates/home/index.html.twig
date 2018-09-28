@@ -18,7 +18,7 @@
                 {% for q in newQuizzes %}
                     <ul>
                         <li>
-                            <a href="{{ path('quizz_play', {'id': q.id }) }}">{{ q.title }}</a>
+                            <a href="{{ path('quizz_show', {'id': q.id }) }}">{{ q.title }}</a>
                         </li>
                     </ul>
                 {% endfor %}
@@ -26,7 +26,7 @@
             <div class="bubble">
                 <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
                 <p>
-                    <a href="{{ path('quizz_play', {'id' : randomQuizz.id }) }}">{{ randomQuizz.title }}</a>
+                    <a href="{{ path('quizz_show', {'id' : randomQuizz.id }) }}">{{ randomQuizz.title }}</a>
                 </p>
 
             </div>

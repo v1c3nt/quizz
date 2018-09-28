@@ -4,36 +4,40 @@
 {% endblock %}
 
 {% block body %}
-<div class="bubble col-8 offset-2">
-<a href="{{ path('add_like', {'id': quizz.id }) }}">
-    <h4>j'adore ce quizz <i class="fas fa-thumbs-up ml-1"></i></h4>
-</a>
-    <h2 class="bubble-title">{{quizz.title}}</h2>
-    <p>{{quizz.description}}</p>
-</div>
-{% for q in questions|slice(0,3) %}
+    <div class="bubble col-8 offset-2">
+        <a href="{{ path('add_like', {'id': quizz.id }) }}">
+            <h4>J'adore ce quizz
+                <i class="fas fa-thumbs-up ml-1"></i>
+            </h4>
+        </a>
+        <h2 class="bubble-title">{{quizz.title}}</h2>
+        <p>{{quizz.description}}</p>
+    </div>
+    {% for q in questions | slice(0, 3) %}
 
-<div class="bubble col-6 offset-3">
-    <p class="h5">{{ q.body }}</p>
-</div>
-{% endfor %}
+        <div class="bubble col-6 offset-3">
+            <p class="h5">{{ q.body }}</p>
+        </div>
+    {% endfor %}
 
-<div class="bubble col-6 offset-3">
-    <p class="h5">Pour voir les 7 prochaines... <i class="fas fa-arrow-circle-right"></i> {% if is_granted('ROLE_USER')
-        %}
-        
-<a href="{{ path('quizz_play', { 'id' : quizz.id , 'nbr' : 1 }) }}"><button class="btn btn-success" type="button">Jouer
-!</button></a>
-        
-        {% else %}
-        <button class="btn btn-success" type="button">
-            <a href="#">Incrist-toi !</a>
-        </button>
-        {% endif %}
-    </p>
+    <div class="bubble col-6 offset-3">
+        <p class="h5">Pour voir les 7 prochaines...
+            <i class="fas fa-arrow-circle-right"></i>
+            {% if is_granted('ROLE_USER')
+ %}
 
+                <a href="{{ path('quizz_play', { 'id' : quizz.id , 'nbr' : 1 }) }}">
+                    <button class="btn btn-success" type="button">Jouer !</button>
+                </a>
 
-</div>
+            {% else %}
+                <button class="btn btn-success" type="button">
+                    <a href="#">Incrist-toi !</a>
+                </button>
+            {% endif %}
+        </p>
+
+    </div>
 </div>
 </div>
 
