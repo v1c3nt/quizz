@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis dessu que tu m'es oublié ")
+ * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis deçu que tu m'es oublié ")
  * @UniqueEntity(fields="userName", message="Désolé {{ value }} quelqu'un utilise déjà ce Nom ")
  *
  */

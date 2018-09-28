@@ -21,8 +21,6 @@ $danger: $red;
     color: $true;
 }
 
-;
-
 .red {
     color: $red;
 }
@@ -183,17 +181,12 @@ thead.thead {
 .table th {
     background-color: #253f58;
     border-top-color: $red;
+     vertical-align:middle;
 }
 
 .table thead th {
     background-color: $blue;
     border-bottom-color: $red;
-
-}
-
-.table th {
-    background-color: $blue;
-    border-top-color: $red;
 
 }
 
