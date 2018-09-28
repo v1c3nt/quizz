@@ -6,9 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CrewRepository")
+ * @Vich\Uploadable
  */
 class Crew
 {
@@ -37,7 +40,13 @@ class Crew
     private $slug;
 
     /**
-     *? @Assert\File(mimeTypes={ "image/png", "image/jpeg" }),
+     * ! a mettre plus tard 
+     * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatarFile;
+    /**
+     * 
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -72,56 +81,78 @@ class Crew
         $this->members = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
         $this->createdAt = new \DateTime();
-        
+
     }
 
-    public function getId(): ?int
+    public function getId() : ? int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName() : ? string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name) : self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug() : ? string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(string $slug) : self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar() : ? string
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    /**
+     *
+     * @param File|UploadedFile $image
+     */
+    public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+        return $this->avatar;
 
-        return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function setAvatarFile(? File $image = null) : void
+    {
+        $this->avatarFile = $image;
+
+        if (null !== $image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+
+        }
+    }
+
+
+    public function getAvatarFile() : ? File
+    {
+        return $this->avatarFile;
+    }
+
+    public function getCreatedAt() : ? \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt) : self
     {
         $this->createdAt = $createdAt;
 
@@ -131,12 +162,12 @@ class Crew
     /**
      * @return Collection|UserCrew[]
      */
-    public function getMembers(): Collection
+    public function getMembers() : Collection
     {
         return $this->members;
     }
 
-    public function addMember(UserCrew $member): self
+    public function addMember(UserCrew $member) : self
     {
         if (!$this->members->contains($member)) {
             $this->members[] = $member;
@@ -146,7 +177,7 @@ class Crew
         return $this;
     }
 
-    public function removeMember(UserCrew $member): self
+    public function removeMember(UserCrew $member) : self
     {
         if ($this->members->contains($member)) {
             $this->members->removeElement($member);
@@ -162,12 +193,12 @@ class Crew
     /**
      * @return Collection|Quizz[]
      */
-    public function getQuizzs(): Collection
+    public function getQuizzs() : Collection
     {
         return $this->quizzs;
     }
 
-    public function addQuizz(Quizz $quizz): self
+    public function addQuizz(Quizz $quizz) : self
     {
         if (!$this->quizzs->contains($quizz)) {
             $this->quizzs[] = $quizz;
@@ -177,7 +208,7 @@ class Crew
         return $this;
     }
 
-    public function removeQuizz(Quizz $quizz): self
+    public function removeQuizz(Quizz $quizz) : self
     {
         if ($this->quizzs->contains($quizz)) {
             $this->quizzs->removeElement($quizz);
@@ -195,24 +226,24 @@ class Crew
         return $this->getName();
     }
 
-    public function getDescription(): ?string
+    public function getDescription() : ? string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(? string $description) : self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getIsPrivate(): ?int
+    public function getIsPrivate() : ? int
     {
         return $this->isPrivate;
     }
 
-    public function setIsPrivate(int $isPrivate): self
+    public function setIsPrivate(int $isPrivate) : self
     {
         $this->isPrivate = $isPrivate;
 

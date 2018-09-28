@@ -32,7 +32,7 @@
                         <th scope="row">
 
                             {% if m.avatar is not empty %}
-                            <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"
+<img src="{{ vich_uploader_asset(m, 'avatarFile') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"
                                 class="brad">
                             {% else %}
                             <img src="{{ asset('/images/avatar1.png') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"

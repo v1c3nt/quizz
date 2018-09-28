@@ -88,21 +88,13 @@ class CrewController extends AbstractController
         $crew = new Crew();
         $userCrew = new UserCrew;
         $roleUserCrew = $rcrewRepo->findOneBy(['id'=>'1']);
-
+       
         $form = $this->createForm(NewCrewType::class, $crew);
         $form->handleRequest($request);
-
+      
         if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $crew->getId()) {
-                //? AppRole id = 2 donc ROLE_USER
-                $file = $form->getData()->getAvatar();
-
-                dump($file);
-                $fileName = md5(uniqid()) . "." . $file->guessExtension();
-                $file->move($this->getParameter('avatar_directory'), $fileName);
-                $crew->setAvatar($fileName);
-            }
-            //TODO a modifier quand slug OK
+    
+    //TODO a modifier quand slug OK
             $crew->setSlug('slug');
             $manager->persist($crew);
             $manager->flush();
@@ -136,5 +128,6 @@ class CrewController extends AbstractController
          
         return $this->redirectToRoute('crews_show');
     }
+
      
 }

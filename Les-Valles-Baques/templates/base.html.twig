@@ -112,6 +112,7 @@
                     <li class="nav-item ">
                         <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>
                     </li>
+                    
                     {% if ( app.user.userCrews is not empty ) %}
                     <li class="nav-item ">
 <a class="nav-link {% block my_crew %}{% endblock %}" href="{{ path('crews_show') }}"><u>mes groupes</u></a>
@@ -119,7 +120,7 @@
                     {% endif %}
                     
                     {% endif %}
-                    
+                
                 </ul>
             </div>
         </header>
