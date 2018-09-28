@@ -29,11 +29,13 @@ class SecurityController extends AbstractController
             //? si l'utilisateur n'est pas enregister le lui donne par défault:
             if (null === $user->getId()) {
                 //? AppRole id = 2 donc ROLE_USER
-                $file = $user->getAvatar();
-                $fileName = md5(uniqid()).".".$file->guessExtension();
-                $file->move($this->getParameter('avatar_directory'), $fileName);
-                $user->setAvatar($fileName);
-
+                if (!null === $user->getAvatar()) {
+                    $file = $user->getAvatar();
+                
+                    $fileName = md5(uniqid()).".".$file->guessExtension();
+                    $file->move($this->getParameter('avatar_directory'), $fileName);
+                    $user->setAvatar($fileName);
+                }
                 $role = $repository->findOneBy(['id' => 2]);
                 dump($role);
                 $user->setAppRole($role);
@@ -42,6 +44,7 @@ class SecurityController extends AbstractController
             }
             $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
+            $user->setOldPassword($encodedPassword);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
 

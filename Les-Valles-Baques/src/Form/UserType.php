@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use App\Form\Model\ChangePassword;
 
 class UserType extends AbstractType
 {
@@ -103,6 +102,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => user::class,
+
         ]);
     }
 }

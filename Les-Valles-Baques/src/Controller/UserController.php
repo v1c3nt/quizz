@@ -4,13 +4,17 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\ChangePasswordType;
+use App\Form\Model\ChangePassword;
 use App\Repository\UserRepository;
 use App\Repository\QuizzRepository;
 use App\Repository\UserCrewRepository;
 use App\Repository\StatisticRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,11 +26,9 @@ class UserController extends AbstractController
     public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews, StatisticRepository $statRepo)
     {
         //TODO requetCustom !!
-       
-
         $user = $this->getUser();
         dump($user);
-       
+
         $crews = $user->getUserCrews();
         $myQuizzes = $quizzes->findByAuthor($user);
         $myCrews = $uCrews->findByUser($user);
@@ -51,7 +53,6 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->remove('userName');
         $form->remove('password');
-      
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,12 +67,6 @@ class UserController extends AbstractController
             
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-         
-
-            return $this->redirectToRoute('user_profile', [
-                    'username'=> $user->getUserName(),
-                    'id'=>$user->getId()
-                    ]);
         }
         return $this->render('user/profileEdit.html.twig', [
                     'form'=> $form->createView(),
@@ -82,11 +77,11 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{id}/{username}_edite_mot_de_passe", name="edit_password", methods="GET|POST")
      */
-    public function changePassword(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
+
+    public function changePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {
         $user = $this->getUser();
-        dump($user);
-        $oldPassword = $user->getPassword();
+
         $form = $this->createForm(UserType::class, $user);
         $form->remove('userName');
         $form->remove('email');
@@ -96,24 +91,19 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!is_null($user->getPassword()) &&  $user->getPassword() != $oldPassword) {
-                $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
-            } else {
-                $encodedPassword = $oldPassword;
-            }
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
 
-            $user->setPassword($encodedPassword);
-            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
             $em->flush();
-
             return $this->redirectToRoute('user_profile', [
-                    'username'=> $user->getUserName(),
-                    'id'=>$user->getId()
+                    'username'=>$user->getUserName(),
                     ]);
         }
-        return $this->render('user/changePassword.html.twig', [
-                    'form'=> $form->createView(),
-                    'user'=> $user,
-                ]);
+
+        return $this->render('user/changePassword.html.twig', array(
+            'form' => $form->createView(),
+            'user'=>$user
+        ));
     }
 }
