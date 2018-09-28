@@ -7,7 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 class NewCrewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -25,9 +26,8 @@ class NewCrewType extends AbstractType
                 'expanded' => true,
                 'help' => 'privé = Tu seras obligé d\'inviter tous les nouveaux membres - ouvert = toutes personnes peut s\'ajouter à ton groupe'
             ])
-            ->add('avatar', null, [
+            ->add('avatarFile', VichImageType::class, [
                 'required' => false,
-                'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
             ]);
     }
 
