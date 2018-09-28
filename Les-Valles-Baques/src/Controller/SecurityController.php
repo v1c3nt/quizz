@@ -31,8 +31,7 @@ class SecurityController extends AbstractController
                 //? AppRole id = 2 donc ROLE_USER
                 if (!null === $user->getAvatar()) {
                     $file = $user->getAvatar();
-                
-                    $fileName = md5(uniqid()).".".$file->guessExtension();
+                    $fileName = md5(uniqid()) . "." . $file->guessExtension();
                     $file->move($this->getParameter('avatar_directory'), $fileName);
                     $user->setAvatar($fileName);
                 }
@@ -44,7 +43,6 @@ class SecurityController extends AbstractController
             }
             $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
-            $user->setOldPassword($encodedPassword);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
 
