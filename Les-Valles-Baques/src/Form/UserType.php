@@ -68,8 +68,7 @@ class UserType extends AbstractType
                             ),
                             
                         )
-                    )
-                    ->add('oldPassword', 'password');
+                        );
                 } else { //sinon je suis en creation
                     dump('creation');
                     $form->add(

@@ -86,9 +86,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         dump($user);
-        
         $oldPassword = $user->getPassword();
-            
         $form = $this->createForm(UserType::class, $user);
         $form->remove('userName');
         $form->remove('email');
