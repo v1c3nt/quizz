@@ -152,7 +152,7 @@ class QuizzController extends AbstractController
     /**
      * TODO replacer id par slug
      * a voir pour bloqué l
-     * @Route("quizz_{id}/question_{nbr}", name="quizz_play")
+     * @Route("quizz_{id}/question_{nbr}", name="quizz_play", defaults={"nbr"=1})
      *
      */
     public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
