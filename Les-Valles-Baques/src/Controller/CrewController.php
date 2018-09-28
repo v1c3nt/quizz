@@ -87,12 +87,13 @@ class CrewController extends AbstractController
         $crew = new Crew();
         $userCrew = new UserCrew;
         $roleUserCrew = $rcrewRepo->findOneBy(['id'=>'1']);
-
+       
         $form = $this->createForm(NewCrewType::class, $crew);
         $form->handleRequest($request);
-
+      
         if ($form->isSubmitted() && $form->isValid()) {
-            //TODO a modifier quand slug OK
+    
+    //TODO a modifier quand slug OK
             $crew->setSlug('slug');
             $manager->persist($crew);
             $manager->flush();
@@ -113,4 +114,19 @@ class CrewController extends AbstractController
         ]);
     }
 
+    /**
+    * @route("/crew/{id}/supprimer", name="crew_delete" ) 
+    */
+    public function deleteCrew($id, CrewRepository $crewRepo)
+    {
+        $crew = $crewRepo->findOneById($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($crew);
+        $em->flush();
+         
+        return $this->redirectToRoute('crews_show');
+    }
+
+     
 }
