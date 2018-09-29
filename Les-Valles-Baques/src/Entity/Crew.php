@@ -24,20 +24,20 @@ class Crew
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=128)
-     */
-    private $name;
-
-    /**
-     *? @Assert\NotBlank()
-     *? @Assert\Length(
+     * @Assert\NotBlank()
+     * @Assert\Length(
      *      min = 1,
      *      max = 128,
      *      minMessage = " ' ' c''est pas nom ça c'est ... vide  ",
      *      maxMessage = "Un nom de groupe de plus de {{ limit }} caractères c'est Heuuu ... trop long",
      * )
-     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=128)
+     */
+    private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=12)
      */
     private $slug;
 

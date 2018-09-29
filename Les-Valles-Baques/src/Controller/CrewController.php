@@ -13,6 +13,7 @@ use App\Form\NewCrewType;
 use App\Entity\UserCrew;
 use App\Repository\RoleCrewRepository;
 use Doctrine\ORM\EntityManager;
+use App\Service\Slugger;
 
 class CrewController extends AbstractController
 {
@@ -46,7 +47,7 @@ class CrewController extends AbstractController
     }
 
     /**
-     * @Route("/groupe_{id}", name="crew_show")
+     * @Route("/groupe_{id}/{slug}", name="crew_show")
      */
     public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr)
     {
@@ -74,7 +75,7 @@ class CrewController extends AbstractController
      * @Route("/groupe/creation", name="crew_creat")
      *
      */
-    public function newCrew(ObjectManager $manager, Request $request, RoleCrewRepository $rcrewRepo)
+    public function newCrew(ObjectManager $manager, Request $request, RoleCrewRepository $rcrewRepo, Slugger $slugger)
     {
         $user = $this->getUser();
         $crew = new Crew();
@@ -82,6 +83,7 @@ class CrewController extends AbstractController
         $roleUserCrew = $rcrewRepo->findOneBy(['id'=>'1']);
 
         $form = $this->createForm(NewCrewType::class, $crew);
+        $form->remove('slug');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -94,16 +96,20 @@ class CrewController extends AbstractController
             $userCrew->setUser($user);
             $userCrew->setCrew($crew);
             $userCrew->setRoleCrew($roleUserCrew);
+            $convertedName = $slugger->slugify($crew->getName());
+            $crew->setSlug($convertedName);
+
             $manager->persist($userCrew);
             $manager->flush();
 
             return $this->redirectToRoute('crew_show', [
                 'id'=> $user->getId(),
+                'slug' =>$crew->getSlug(),
             ]);
         }
 
         return $this->render('crew/newCrew.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
