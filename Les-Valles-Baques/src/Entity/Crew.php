@@ -40,16 +40,17 @@ class Crew
     private $slug;
 
     /**
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" }),
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
+    /**
      * ! a mettre plus tard 
      * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatarFile;
-    /**
-     * 
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $avatar;
 
     /**
      * @ORM\Column(type="datetime")
@@ -113,7 +114,7 @@ class Crew
         return $this;
     }
 
-    public function getAvatar() : ? string
+    public function getAvatar()
     {
         return $this->avatar;
     }
@@ -141,12 +142,11 @@ class Crew
         }
     }
 
-
     public function getAvatarFile() : ? File
     {
         return $this->avatarFile;
     }
-
+    
     public function getCreatedAt() : ? \DateTimeInterface
     {
         return $this->createdAt;

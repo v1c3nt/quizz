@@ -50,7 +50,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $oldAvatar = $user->getAvatar();
-        dump($oldAvatar);
+
         $form = $this->createForm(UserType::class, $user);
         $form->remove('userName');
         $form->remove('password');
@@ -68,6 +68,11 @@ class UserController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+
+            return $this->redirectToRoute('user_profile', [
+                'username' => $user->getUserName(),
+            ]);
+
         }
         return $this->render('user/profileEdit.html.twig', [
             'form' => $form->createView(),
