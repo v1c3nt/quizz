@@ -21,16 +21,13 @@ class CrewController extends AbstractController
      */
     public function crewList(CrewRepository $cr, UserCrewRepository $ucr)
     {
-
         $user = $this->getUser();
         $userCrews = $ucr->findBy(['user' => $user]);
         $crews = $cr->findAll();
         $access = false;
 
         foreach ($crews as $crew) {
-
             foreach ($crew->getMembers() as $member) {
-
                 if ($member->getUser() === $user) {
                     $myCrew[] = $crew;
                     $access = true;
@@ -38,7 +35,6 @@ class CrewController extends AbstractController
             }
         }
         if ($access === true) {
-
             return $this->render('crew/crews.html.twig', [
                 'controller_name' => 'CrewController',
                 'usercrews' => $userCrews,
@@ -47,7 +43,6 @@ class CrewController extends AbstractController
         } else {
             return $this->redirectToRoute('home');
         }
-
     }
 
     /**
@@ -67,19 +62,17 @@ class CrewController extends AbstractController
         }
 
         if ($access === true) {
-
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
             ]);
         } else {
             return $this->redirectToRoute('home');
         }
-
     }
     
     /**
      * @Route("/groupe/creation", name="crew_creat")
-     * 
+     *
      */
     public function newCrew(ObjectManager $manager, Request $request, RoleCrewRepository $rcrewRepo)
     {
@@ -87,14 +80,14 @@ class CrewController extends AbstractController
         $crew = new Crew();
         $userCrew = new UserCrew;
         $roleUserCrew = $rcrewRepo->findOneBy(['id'=>'1']);
-       
+
         $form = $this->createForm(NewCrewType::class, $crew);
         $form->handleRequest($request);
-      
+
         if ($form->isSubmitted() && $form->isValid()) {
     
     //TODO a modifier quand slug OK
-            $crew->setSlug('slug');
+            //$crew->setSlug('slug');
             $manager->persist($crew);
             $manager->flush();
 
@@ -104,7 +97,7 @@ class CrewController extends AbstractController
             $manager->persist($userCrew);
             $manager->flush();
 
-            return $this->redirectToRoute('crew_show',[
+            return $this->redirectToRoute('crew_show', [
                 'id'=> $user->getId(),
             ]);
         }
@@ -115,7 +108,7 @@ class CrewController extends AbstractController
     }
 
     /**
-    * @route("/crew/{id}/supprimer", name="crew_delete" ) 
+    * @route("/crew/{id}/supprimer", name="crew_delete" )
     */
     public function deleteCrew($id, CrewRepository $crewRepo)
     {
@@ -127,6 +120,4 @@ class CrewController extends AbstractController
          
         return $this->redirectToRoute('crews_show');
     }
-
-     
 }

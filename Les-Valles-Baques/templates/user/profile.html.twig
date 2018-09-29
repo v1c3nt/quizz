@@ -102,7 +102,7 @@
                         {% for ms in myStats %}
                             <tr>
                                 <th scope="row">
-                                    <a href="{{ path('quizz_show' , {'id': ms.quizz.id}) }}">{{ ms.quizz.title }}</a>
+                                    <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{ ms.quizz.title }}</a>
                                 </th>
                                 <td>{{ ms.quizz.category }}</td>
                                 <td>{{ ms.quizz.level }}</td>

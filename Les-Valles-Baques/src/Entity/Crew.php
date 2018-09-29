@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CrewRepository")
@@ -35,18 +36,19 @@ class Crew
      *      minMessage = " ' ' c''est pas nom ça c'est ... vide  ",
      *      maxMessage = "Un nom de groupe de plus de {{ limit }} caractères c'est Heuuu ... trop long",
      * )
+     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=128)
      */
     private $slug;
 
     /**
-     * ! a mettre plus tard 
+     * ! a mettre plus tard
      * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatarFile;
     /**
-     * 
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -81,7 +83,6 @@ class Crew
         $this->members = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
         $this->createdAt = new \DateTime();
-
     }
 
     public function getId() : ? int
@@ -126,7 +127,6 @@ class Crew
     {
         $this->avatar = $avatar;
         return $this->avatar;
-
     }
 
     public function setAvatarFile(? File $image = null) : void
@@ -137,7 +137,6 @@ class Crew
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
-
         }
     }
 
