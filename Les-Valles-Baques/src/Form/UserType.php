@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserType extends AbstractType
 {
@@ -39,10 +40,7 @@ class UserType extends AbstractType
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])
-            ->add('avatarFile', VichImageType::class, [
-                'required' => false,
-            ])
-
+         
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();
@@ -104,7 +102,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => user::class,
+            'data_class' => User::class,
 
         ]);
     }

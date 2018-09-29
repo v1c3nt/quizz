@@ -65,7 +65,6 @@ class User implements UserInterface, \Serializable
      */
     private $avatarFile;
 
-
     /**
      * @ORM\Column(type="boolean")
      */

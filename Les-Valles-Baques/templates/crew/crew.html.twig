@@ -3,7 +3,7 @@
 {% block title %}Mes groupes{% endblock %}
 {# TODO requet custom pour reduire le nombre de requets #}
 {% block body %}
-{% set roleCrewActive = "" %}
+
 <main class="bubble col-12 col-md-8 offset-md-2">
 
     {% for message in app.flashes('success') %}
@@ -21,8 +21,9 @@
     <div class="m-1 border border-primary row brad">
         {# Si createur la div modifier s'affiche #}
         <div class="col-2 p-2">
-            {% if null != userCrews[0].crew.avatar %}
-            <img src="{{ vich_uploader_asset(userCrews[0].crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+            {% if null != crew.avatar %}
+{{ dump( crew.avatar) }}
+<img src="{{ vich_uploader_asset(crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
             class="brad m-2">
             {% else %}
             <img src="{{ asset('/images/avatar1.png') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
@@ -47,16 +48,16 @@
                 <th><u>nom</u></th>
                 <th class=" d-none d-lg-table-cell"><u>date</u></th>
                 <th><u>Statut</u></th>
-                {% if roleCrewActive <= 2 %} <th><u>renvoyer</u></th>
+                {% if roleUserActif <= 2 %} <th><u>renvoyer</u></th>
                     {% endif %}
-                    {% if roleCrewActive <= 1 %} <th colspan="2"><u>promouvoir</u></th>
+                    {% if roleUserActif <= 1 %} <th colspan="2"><u>promouvoir</u></th>
                         {% endif %}
             </thead>
 
             <tbody>
                 {% for crew in userCrews %}
 
-                {% if crew.user == app.user %}{% set roleCrewActive = crew.roleCrew.id %}{% endif %}
+                {% if crew.user == app.user %}{% set roleUserActif = crew.roleCrew.id %}{% endif %}
                 <tr>
                     <th scope="col">
                         {#TODO créer un service pour avatar perso ou defaut avatar #}
@@ -68,16 +69,16 @@
                             class="brad  m-2">
                         {% endif %}</th>
                     <th scope="col">{{ crew.user.userName }}</th>
-                    <th class=" d-none d-lg-table-cell" scope="col">{{ crew.user.createdAt.diff(date())|date("%d jours-
+                    <th class=" d-none d-lg-table-cell" scope="col">{{ crew.createdAt.diff(date())|date("%d jours-
                         %m mois- %y ans")
                         }}</th>
                     <th scope="col">{{ crew.roleCrew.name }}</th>
 
-                    {% if roleCrewActive <= 2 %} <th scope="col"> <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id }) }}"
+                    {% if roleUserActif <= 2 %} <th scope="col"> <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id }) }}"
                             class="h3"><u><i class="fas fa-sign-out-alt"></i></u></a></th>
                         {% endif %}
 
-                        {% if roleCrewActive <= 1 %} <th scope="col"> <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id }) }}"
+                        {% if roleUserActif <= 1 %} <th scope="col"> <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id }) }}"
                                 class="h3"><i class="fas fa-medal m-1"></i><u class="h6">leader</u></a></th>
 
                             {% if crew.roleCrew.id != 1 %}
@@ -98,7 +99,7 @@
             <i class="fas fa-sad-tear  mr-1"></i><br /><u>Oh </u>... tu es tout seul ? <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite
                 du monde <i class="fas fa-users"></i></a>
             </span>
-            {% elseif roleCrewActive <= 2 %} <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite plus
+            {% elseif roleUserActif <= 2 %} <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite plus
                 du monde <i class="fas fa-users m-1"></i></a> pour faire grandir ton groupe
                 {% endif %}
 
