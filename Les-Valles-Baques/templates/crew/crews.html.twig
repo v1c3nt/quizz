@@ -56,7 +56,10 @@
                         <td>
                             {% for crew in usercrews %}
                             {% if crew.crew.id == m.id %}
-                            {{ crew.createdAt|date }}
+
+                            {{ crew.createdAt.diff(date())|date("%d j - %m m - %y a") }}
+
+
                             {% endif %}
                             {% endfor %}
 
@@ -68,7 +71,7 @@
                         </td>
                         <td>
                             {% if 1 == crew.roleCrew.id %}
-                            <a href="#">
+<a href="{{ path('crew_edit', {'id': crew.crew.id }) }}">
                                 {#TODO codé une alerte avec vérification de la suppression ? #}
                                 <u>éditer</u>
                             </a>

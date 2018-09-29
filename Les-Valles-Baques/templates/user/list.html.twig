@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block quizz %}Membres{% endblock %}
+{% block title %}Les membres{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="bubble">
+            <h2 class="bubble-title">
+                {% if crew != null %}
+                ajouter un membre à :<br />
+                {{ crew.Name }}
+                {% else %}
+                Les Membres
+                {% endif %}
+
+            </h2>
+            <div class="container">{#
+                <ul class="list-inline">
+                    <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
+                    <li class="list-inline-item">
+                        <a href="#"><u>nom</u></li>|</a>
+                    <li class="list-inline-item">
+                        <a href="#"><u></u></li>|</a>
+                    <li class="list-inline-item">
+                        <a href="#"><u></u></li>
+                    </a>
+                </ul>#}
+            </div>
+
+            <table class="table mt-5">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col"><u>avatar</u></th>
+                        <th scope="col"><u>nom</u></th>
+                        <th class=" d-none d-lg-table-cell" scope="col"><u>date d'inscription</u></th>
+                        <th scope="col"><u>Inviter</u></th>
+                        {#
+                        <th class=" d-none d-md-table-cell" scope="col"><u>Nbr quizz poster</u></th>
+                        <th scope="col"><u>Avg score</u></th>
+                        <th scope="col"><u>je suis déjà dans X groupe</u></th>
+                        #}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for user in users %}
+                        <th scope="col">
+                            {#TODO créer un service pour avatar perso ou defaut avatar #}
+                            {% if null != user.avatar %}
+                            <img src="{{ vich_uploader_asset(user, 'avatarFile') | imagine_filter('icon_square') }}"
+                                alt="avatar de {{ user.userName }}" class="brad m-2">
+                            {% else %}
+                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{user.userName }}"
+                                class="brad  m-2">
+                            {% endif %}</th>
+                        <th scope="col"><u>{{ user.username }}</u></th>
+                        <th class=" d-none d-lg-table-cell" scope="col">{{ user.createdAt|date('d-m-Y') }}</th>
+                        <th scope="col"><a href="{{ path('crew_add_member', {'user': user, 'id': crew.id }) }}" class="h2"><i
+                                    class="fas fa-envelope"></i></a></th>
+                        {#
+                        <th class=" d-none d-md-table-cell" scope="col"><u>Nbr quizz poster</u></th>
+                        <th scope="col"><u>Avg score</u></th>
+                        <th scope="col"><u>je suis déjà dans X groupe</u></th>
+                        #}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

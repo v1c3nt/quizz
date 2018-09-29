@@ -3,63 +3,104 @@
 {% block title %}Mes groupes{% endblock %}
 {# TODO requet custom pour reduire le nombre de requets #}
 {% block body %}
-<main class="bubble col-8 offset-2">
+{% set roleCrewActive = "" %}
+<main class="bubble col-12 col-md-8 offset-md-2">
 
-
-
-        <div class="m-1 border border-primary brad row">
-            <div class="col-2 p-2">
-                {% if null != userCrews[0].crew.avatar %}
-                <img src="{{ vich_uploader_asset(userCrews[0].crew, 'avatarFile') | imagine_filter('small_square') }}"
-                    alt="avatar de {{ userCrews[0].crew.name }}" class="brad m-2">
-                {% else %}
-<img src="{{ asset('/images/avatar1.png') | imagine_filter('medium_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
-    class="brad  m-2">
-                {% endif %}
-            </div>
-            <div class=" bubble-title col-10 p-2 ">
-                <u>
-                    <h3>{{ userCrews[0].crew.name }}</h3>
-                </u>
-                <p><u><ins>crée le :</ins></u> {{ userCrews[0].crew.createdAt|date('d/m/Y') }}</p>
-                <p><u><ins>Description:</ins></u> {{ userCrews[0].crew.description }}</p>
-            </div>
-        </div>    
+    {% for message in app.flashes('success') %}
+    <div class="m-flash alert alert-success">
+        {{ message }}
     </div>
-               
-                    <div class="brad m-1">
-                        <table class="table">
-                            <thead>
-                                <th><u>avatar</u></th>
-                                <th><u>nom</u></th>
-                                <th><u>date</u></th>
-                                <th><u>Statut</u></th>
-                            </thead>
+    {% endfor %}
 
-                            <tbody>
-                                {% for crew in userCrews %}
-                                <tr>
-                            <th scope="col">
-                                    {#TODO créer un service pour avatar perso ou defaut avatar #}
-                                    {% if null != crew.user.avatar %}
-                                    <img src="{{ asset('/images/vince.jpg') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
-                                        class="brad m-2">
-                                    {% else %}
-                                    <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
-                                        class="brad  m-2">
-                                    {% endif %}</th>
-                                    <th scope="col">{{ crew.user.userName }}</th>
-                                    <th scope="col">{{ crew.user.createdAt|date ("d-m-Y")  }}</th>
-                                    <th scope="col">{{ crew.roleCrew.name }}</th>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+    {% for message in app.flashes('danger') %}
+    <div class="m-flash alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
 
-                        {% if userCrews|length < 2 %} <span href="#" class="text-primary h3">
-<i class="fas fa-sad-tear  mr-1"></i><br/><u>Oh </u>... tu es tout seul ? <a href="#">invite du monde <i class="fas fa-users"></i></a>
-                            </span>
+    <div class="m-1 border border-primary row brad">
+        {# Si createur la div modifier s'affiche #}
+        <div class="col-2 p-2">
+            {% if null != userCrews[0].crew.avatar %}
+            <img src="{{ vich_uploader_asset(userCrews[0].crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+            class="brad m-2">
+            {% else %}
+            <img src="{{ asset('/images/avatar1.png') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+            class="brad  m-2">
+            {% endif %}
+        </div>
+        <div class=" bubble-title col-9 p-2 ">
+            <u>
+                <h3>{{ userCrews[0].crew.name }}</h3>
+            </u>
+            <p><u><ins>crée le :</ins></u> {{ userCrews[0].crew.createdAt|date('d/m/Y') }}</p>
+            <p><u><ins>Description:</ins></u> {{ userCrews[0].crew.description }}</p>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="brad m-1">
+        <table class="table">
+            <thead>
+                <th><u>avatar</u></th>
+                <th><u>nom</u></th>
+                <th class=" d-none d-lg-table-cell"><u>date</u></th>
+                <th><u>Statut</u></th>
+                {% if roleCrewActive <= 2 %} <th><u>renvoyer</u></th>
+                    {% endif %}
+                    {% if roleCrewActive <= 1 %} <th colspan="2"><u>promouvoir</u></th>
+                        {% endif %}
+            </thead>
+
+            <tbody>
+                {% for crew in userCrews %}
+
+                {% if crew.user == app.user %}{% set roleCrewActive = crew.roleCrew.id %}{% endif %}
+                <tr>
+                    <th scope="col">
+                        {#TODO créer un service pour avatar perso ou defaut avatar #}
+                        {% if null != crew.user.avatar %}
+                        <img src="{{ vich_uploader_asset(crew.user, 'avatarFile') | imagine_filter('icon_square') }}"
+                            alt="avatar de {{ crew.user.userName }}" class="brad m-2 ">
+                        {% else %}
+                        <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
+                            class="brad  m-2">
+                        {% endif %}</th>
+                    <th scope="col">{{ crew.user.userName }}</th>
+                    <th class=" d-none d-lg-table-cell" scope="col">{{ crew.user.createdAt.diff(date())|date("%d jours-
+                        %m mois- %y ans")
+                        }}</th>
+                    <th scope="col">{{ crew.roleCrew.name }}</th>
+
+                    {% if roleCrewActive <= 2 %} <th scope="col"> <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id }) }}"
+                            class="h3"><u><i class="fas fa-sign-out-alt"></i></u></a></th>
+                        {% endif %}
+
+                        {% if roleCrewActive <= 1 %} <th scope="col"> <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                class="h3"><i class="fas fa-medal m-1"></i><u class="h6">leader</u></a></th>
+
+                            {% if crew.roleCrew.id != 1 %}
+
+                            <th scope="col"> <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                    class="h3"><i class="fas fa-chess-king m-1"></i><u class="h6">createur</u></a></th>
+                            {% else %}
+                            <th scope="col"> <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                    class="h3"><i class="fas fa-user-astronaut"></i><u class="h6">membre</u></a></th>
                             {% endif %}
-                   
+                            {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if userCrews|length < 2 %} <span href="#" class="text-primary h3">
+            <i class="fas fa-sad-tear  mr-1"></i><br /><u>Oh </u>... tu es tout seul ? <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite
+                du monde <i class="fas fa-users"></i></a>
+            </span>
+            {% elseif roleCrewActive <= 2 %} <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite plus
+                du monde <i class="fas fa-users m-1"></i></a> pour faire grandir ton groupe
+                {% endif %}
+
 </main>
 {% endblock %}

@@ -39,6 +39,9 @@ class UserType extends AbstractType
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])
+            ->add('avatarFile', VichImageType::class, [
+                'required' => false,
+            ])
 
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();

@@ -9,12 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis deçu que tu m'es oublié ")
  * @UniqueEntity(fields="userName", message="Désolé {{ value }} quelqu'un utilise déjà ce Nom ")
- *
+ * @Vich\Uploadable
  */
 class User implements UserInterface, \Serializable
 {
@@ -55,6 +57,14 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+
+    /**
+     * ! a mettre plus tard 
+     * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatarFile;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -152,11 +162,15 @@ class User implements UserInterface, \Serializable
         return $this->avatar;
     }
 
-    public function setAvatar($avatar) : self
+    /**
+     *
+     * @param File|UploadedFile $image
+     */
+    public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+        return $this->avatar;
 
-        return $this;
     }
 
     public function getIsActif() : ? bool
@@ -365,6 +379,25 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized, array('allowed_classes' => false));
+    }
+
+
+    public function setAvatarFile(? File $image = null) : void
+    {
+        $this->avatarFile = $image;
+
+        if (null !== $image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+
+        }
+    }
+
+
+    public function getAvatarFile() : ? File
+    {
+        return $this->avatarFile;
     }
 
     public function __toString()

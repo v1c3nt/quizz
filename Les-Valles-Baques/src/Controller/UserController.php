@@ -8,6 +8,7 @@ use App\Form\ChangePasswordType;
 use App\Form\Model\ChangePassword;
 use App\Repository\UserRepository;
 use App\Repository\QuizzRepository;
+use App\Repository\CrewRepository;
 use App\Repository\UserCrewRepository;
 use App\Repository\StatisticRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +46,7 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{id}/{username}_edite", name="edit_user_profile", methods="GET|POST")
      */
-    public function editProfil(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function editProfil(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder) : Response
     {
         $user = $this->getUser();
         $oldAvatar = $user->getAvatar();
@@ -60,22 +61,18 @@ class UserController extends AbstractController
                 $user->setAvatar($oldAvatar);
             } else {
                 $file = $user->getAvatar();
-                $fileName = md5(uniqid()).".".$file->guessExtension();
+                $fileName = md5(uniqid()) . "." . $file->guessExtension();
                 $file->move($this->getParameter('avatar_directory'), $fileName);
                 $user->setAvatar($fileName);
             }
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-
-            return $this->redirectToRoute('user_profile', [
-                'username' => $user->getUserName(),
-            ]);
         }
         return $this->render('user/profileEdit.html.twig', [
-                    'form'=> $form->createView(),
-                    'user'=> $user,
-                ]);
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -93,7 +90,7 @@ class UserController extends AbstractController
         $form->remove('presentation');
 
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $encoded = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encoded);
@@ -101,13 +98,28 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('user_profile', [
-                    'username'=>$user->getUserName(),
-                    ]);
+                'username' => $user->getUserName(),
+            ]);
         }
 
-        return $this->render('user/changePassword.html.twig', array(
+        return $this->render('user/changePassword.html.twig', [
             'form' => $form->createView(),
-            'user'=>$user
-        ));
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/user/public/{id}", name="list_users_free" ,defaults={"id"=0}  )
+     */
+    public function usersListe(UserRepository $ur, CrewRepository $cr, $id)
+    {
+        $users = $ur->findAll();
+        (( 0 === $id)? $crew = null : $crew = $cr->findOneById($id) );
+        
+
+        return $this->render('user/list.html.twig', [
+            'users' => $users,
+            'crew' => $crew,
+        ]);
     }
 }
