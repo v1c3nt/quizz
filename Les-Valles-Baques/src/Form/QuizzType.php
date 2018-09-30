@@ -29,7 +29,6 @@ class QuizzType extends AbstractType
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
             ->add('level')
-       
             //->add('questions', QuestionType::class)
             ->setAttributes([
             'novalidate'=>'novalidate',

@@ -38,18 +38,19 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        {#TODO créer un service pour avatar perso ou defaut avatar #}
-                                        {% if null != crew.user.avatar %}
-                                            <img src="{{ asset('/images/vince.jpg') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad m-2">
-                                        {% else %}
-                                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad  m-2">
-                                        {% endif %}
-                                    </th>
-                                    <th scope="col">{{ crew.user.userName }}</th>
-                                    <th scope="col">{{ crew.user.createdAt|date }}</th>
-                                    <th scope="col">{{ crew.roleCrew.name }}</th>
-                                </tr>
-
+                                        {% for crew in userCrews %}
+                                            {#TODO créer un service pour avatar perso ou defaut avatar #}
+                                            {% if null != crew.user.avatar %}
+                                                <img src="{{ asset('/images/vince.jpg') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad m-2">
+                                            {% else %}
+                                                <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad  m-2">
+                                            {% endif %}
+                                        </th>
+                                        <th scope="col">{{ crew.user.userName }}</th>
+                                        <th scope="col">{{ crew.user.createdAt|date }}</th>
+                                        <th scope="col">{{ crew.roleCrew.name }}</th>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                         {% if userCrews | length < 2 %}

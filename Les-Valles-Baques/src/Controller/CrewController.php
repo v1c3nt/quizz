@@ -49,22 +49,30 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe_{id}/{slug}", name="crew_show")
      */
-    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr)
+    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, $slug)
     {
         $user = $this->getUser();
+
+        /**
+         * TODO service pour vérifier si membre dans le crew et role
+         */
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
-
-        //? je boucle sur tous les crews et je verifie si l'utilisateur et bien un membre si oui access passe a true
+        
+        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre si oui access passe a true
         foreach ($userCrews as $userCrew) {
             if ($userCrew->getUser() === $user) {
                 $access = true;
+                $roleUserActif = $userCrew->getRoleCrew()->getId();
             };
         }
-
         if ($access === true) {
+            $crew = $cr->findOneBy(['id' => $id]);
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
+                'crew' => $crew,
+                'user'=>$user,
+                'roleUserActif' => $roleUserActif
             ]);
         } else {
             return $this->redirectToRoute('home');

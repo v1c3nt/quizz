@@ -27,6 +27,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //? si l'utilisateur n'est pas enregister le lui donne par défault:
+            // ? partie à revoir aussi pour l'avatar bug
             if (null === $user->getId()) {
                 //? AppRole id = 2 donc ROLE_USER
                 if (null === $user->getAvatar()) {
