@@ -44,6 +44,12 @@
                     {% endif %}
                 </div>
             {% endif %}
+            {% if q.anecdote != null %}
+            <p><u><ins>anectode</ins></u> {{ q.anecdote }}</p>
+            {% endif %}
+            {% if q.source != null %}
+            <p><u><ins>Source</ins></u> {{ q.source }}</p>
+            {% endif %}
         </div>
     {% endfor %}
 

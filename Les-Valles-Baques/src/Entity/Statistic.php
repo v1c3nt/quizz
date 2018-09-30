@@ -38,6 +38,11 @@ class Statistic
      */
     private $result;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $answers = [];
+
 
     public function __construct()
     {
@@ -94,6 +99,18 @@ class Statistic
     public function setResult(int $result) : self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getAnswers(): ?array
+    {
+        return $this->answers;
+    }
+
+    public function setAnswers(?array $answers): self
+    {
+        $this->answers = $answers;
 
         return $this;
     }

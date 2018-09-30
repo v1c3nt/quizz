@@ -53,6 +53,16 @@ class QuizzController extends AbstractController
 
         $form = $this->createForm(QuizzType::class, $quizz);
 
+        dump([$user->getUserCrews()]);exit;
+        /** 
+        $form->add('privateCrew', ChoiceType::class, [
+            'label' => $question->getBody(),
+            'choices' => $responses,
+            'expanded' => true,
+            'multiple' => false,
+        ])
+         */
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,21 +117,21 @@ class QuizzController extends AbstractController
             $manager->flush();
             $this->addFlash('success', 'Question ' . $nbr . ' ajoutée');
             if ($question->getNbr() > 9) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 1 !');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! plus que 1 !');
             } elseif ($question->getNbr() > 8) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! La dernière ligne droite!');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! La dernière ligne droite!');
             } elseif ($question->getNbr() > 7) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 3!');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! plus que 3!');
             } elseif ($question->getNbr() > 6) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! Tu as fait la moitié du travail !');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Tu as fait la moitié du travail !');
             } elseif ($question->getNbr() > 5) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 5!');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! plus que 5!');
             } elseif ($question->getNbr() > 4) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! encore une et tu es à la moitiée');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! encore une et tu es à la moitiée');
             } elseif ($question->getNbr() > 3) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! plus que 7!');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! plus que 7!');
             } elseif ($question->getNbr() > 2) {
-                $this->addFlash('primary', 'Question ' . ($nbr - 1) . ' ajoutée! Encore 8 ça va aller vite courage');
+                $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Encore 8 ça va aller vite courage');
             } elseif ($question->getNbr() > 1) {
                 $this->addFlash('primary', 'Question ' . $nbr . ' ajoutée! plus que 9!');
             }
@@ -168,13 +178,13 @@ class QuizzController extends AbstractController
 
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
 
-        $responses []=
-        [$question->getProp1() => 'prop1'];
-        $responses []=
-        [$question->getProp2() => 'prop2'];
-        $responses []=
-        [$question->getProp3() => 'prop3'];
-        $responses []=
+        $responses[] =
+            [$question->getProp1() => 'prop1'];
+        $responses[] =
+            [$question->getProp2() => 'prop2'];
+        $responses[] =
+            [$question->getProp3() => 'prop3'];
+        $responses[] =
             [$question->getProp4() => 'prop4'];
         shuffle($responses);
 
@@ -234,7 +244,7 @@ class QuizzController extends AbstractController
 
         $points = 0;
         //? Si la variable results existe en session je récupere la variable stocké en session et je la détruis
-        ((null !== $session->get('results' . $id . '')) ? ($answers = $session->remove('results' . $id . '')) : '');
+        ((null !== $session->get('results' . $id . '')) ? ($answers = $session->get('results' . $id . '')) : '');
         //$answers = $session->remove('results' . $id . '');
 
         $results = [];
@@ -250,6 +260,7 @@ class QuizzController extends AbstractController
         $stat->setQuizz($quizz);
         $stat->setUser($user);
         $stat->setResult($points);
+        $stat->setAnswers($answers);
 
         $manager->persist($stat);
         $manager->flush();
@@ -258,9 +269,9 @@ class QuizzController extends AbstractController
         $avg = $statRepo->avgResultByQuizz($id)[0]['AVG(result)'];
 
         $quizz->setAvgScore($avg);
-        
+
         $manager->persist($quizz);
-        
+
         $manager->flush();
 
         return $this->render('quizz/results.html.twig', [
@@ -277,12 +288,11 @@ class QuizzController extends AbstractController
     public function index($sort, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
     {
         $user = $this->getUser();
-
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findby([], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy([ 'isPrivate'=>0 ], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
-            
+
         foreach ($quizzs as $key => $quizz) {
             $idQ = $quizz->getId();
 

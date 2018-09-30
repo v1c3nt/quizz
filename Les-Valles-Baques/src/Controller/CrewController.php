@@ -15,6 +15,7 @@ use App\Repository\RoleCrewRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UserManager;
 use App\Repository\UserRepository;
+use App\Repository\QuizzRepository;
 
 class CrewController extends AbstractController
 {
@@ -55,7 +56,7 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe_{id}", name="crew_show")
      */
-    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr)
+    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, QuizzRepository $qr)
     {
         $user = $this->getUser();
         /**
@@ -74,11 +75,16 @@ class CrewController extends AbstractController
 
         if ($access === true) {
             $crew = $cr->findOneBy(['id' => $id]);
+            $privatQuizzs = $qr->findBy(['isPrivate'=>1]);
+            $quizzs =[];
+
+    
 
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
                 'crew' => $crew,
-                'roleUserActif' => $roleUserActif
+                'roleUserActif' => $roleUserActif,
+                'quizzs'=> $quizzs
             ]);
         } else {
             return $this->redirectToRoute('home');
@@ -156,7 +162,7 @@ class CrewController extends AbstractController
             if (null === $crew->getAvatar()) {
                 $crew->setAvatar($oldAvatar);
             } else {
-                
+
                 dump($crew->getAvatar());
                 $file = $crew->getAvatar();
                 $fileName = md5(uniqid()) . "." . $file->guessExtension();
@@ -184,8 +190,9 @@ class CrewController extends AbstractController
     /**
      * @route("/crew/{id}/supprimer", name="crew_delete" ) 
      */
-    public function deleteCrew($id, CrewRepository $crewRepo)
+    public function deleteCrew($id, CrewRepository $crewRepo, UserCrewRepository $ucr)
     {
+        $userActive = $this->getUser();
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
 
@@ -268,6 +275,7 @@ class CrewController extends AbstractController
         $crew = $crewRepo->findOneById($id);
         //? je recherche le role 2 => leader
         $roleCrew = $rcr->findOneById(2);
+        $creater = $rcr->findOneById(1);
 
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
@@ -281,25 +289,41 @@ class CrewController extends AbstractController
                 }
             }
         }
-        /**
-         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
-         */
+        
+        //? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
         if ($access === true) {
-
+            
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
-            $userCrew->setRoleCrew($roleCrew);
+            
+            
+            if ($userCrew->getRoleCrew() !== $creater) {
+                
+                $userCrew->setRoleCrew($roleCrew);
 
-            $manager->persist($userCrew);
-            $manager->flush();
+                $manager->persist($userCrew);
+                $manager->flush();
 
-            $this->addFlash('success', ' Pense à féliciter ' . $user->getUserName() . ' pour à promotion ');
+                $this->addFlash('success', ' Pense à féliciter ' . $user->getUserName() . ' pour à promotion ');
+
+                return $this->redirectToRoute('crew_show', [
+                    'id' => $crew->getId(),
+                ]);
+            }
+            $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
+    
+            return $this->redirectToRoute('crew_show', [
+                'id' => $crew->getId(),
+            ]);
 
         }
+
+        $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
         ]);
+
     }
 
     /**
@@ -312,6 +336,7 @@ class CrewController extends AbstractController
         $crew = $crewRepo->findOneById($id);
         //? je recherche le role 2 => leader
         $roleCrew = $rcr->findOneById(3);
+        $creater = $rcr->findOneById(1);
 
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
@@ -332,15 +357,25 @@ class CrewController extends AbstractController
         if ($access === true) {
 
 
-
             $user = $ur->findOneBy(['userName' => $user, ]);
-            $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
-            $userCrew->setRoleCrew($roleCrew);
+            if ($userCrew->getRoleCrew() !== $creater) {
 
-            $manager->persist($userCrew);
-            $manager->flush();
 
-            $this->addFlash('success', $user->getUserName() . ' n\'est plus un Dieu ');
+                $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
+                $userCrew->setRoleCrew($roleCrew);
+
+                $manager->persist($userCrew);
+                $manager->flush();
+
+                $this->addFlash('success', $user->getUserName() . ' n\'est plus un Dieu ');
+
+                return $this->redirectToRoute('crew_show', [
+                    'id' => $crew->getId(),
+                ]);
+
+            }
+
+            $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
@@ -410,14 +445,13 @@ class CrewController extends AbstractController
         $userActive = $this->getUser();
         $crew = $crewRepo->findOneById($id);
         $creater = $rcr->findOneById(1);
-
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
 
         //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle (créateur ou leader) oui access passe a true
         foreach ($userCrews as $userCrew) {
-
-            if ($userCrew->getRoleCrew()->getId() <= 2) {
+            
+            if ($userCrew->getRoleCrew()->getId() <= 2 || $userCrew->getUser() === $userActive ) {
                 if ($userCrew->getUser() === $userActive) {
                     $access = true;
                     $crewId = $userCrew->getCrew()->getId();
@@ -428,12 +462,24 @@ class CrewController extends AbstractController
          * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
          */
         if ($access === true) {
+            if ( $userActive->getUserName() === $user){
+                
+                $manager->remove($userCrew);
+                $manager->flush();
+                $this->addFlash('success', 'J\'espere que tu as dis au revoir avant de partir ');
 
+                return $this->redirectToRoute('home', [
+                    
+                ]);
+
+
+            }
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
 
             //? si l'utilisateur n'est pas un créateur
-            if ( $userCrew->getRoleCrew() !== $creater ) {
+            if ($userCrew->getRoleCrew() !== $creater) {
+
 
                 $manager->remove($userCrew);
                 $manager->flush();

@@ -83,7 +83,9 @@
                                 {% elseif 2 == crew.roleCrew.id %}
                                 <a href="#"><u>éditer</u></a>
                                 {% else %}
-                                <a href="{{ path('crew_show', { 'id': m.id }) }}"><u>voir</u></a> {% endif %}
+                                <a href="{{ path('crew_remove_member', { 'id': m.id , 'user': app.user }) }}"><i class="fas fa-step-forward m-1"></i><u>quitter</u></a>
+                                {%
+                                endif %}
                             </td>
                             {% endif %}
                             {% endfor %}
