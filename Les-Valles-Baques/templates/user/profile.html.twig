@@ -26,10 +26,6 @@
 
             <div class="col-4 d-none d-lg-block">
                 {% if null != user.avatar %}
-<<<<<<< HEAD
-=======
-{{ dump(user.avatar) }}
->>>>>>> 1f22d137315263310a19f5aa8d37226bab869aa2
                 <img src="{{  vich_uploader_asset(user, 'avatarFile') | imagine_filter('medium_square') }}" alt="avatar de {{ user.username }}"
                     class="brad">
                 {% else %}
@@ -84,15 +80,9 @@
                 Tu n'as pas encore de groupe ?
             </span>
             <br />
-<<<<<<< HEAD
             {% endif %}
             {{ include('crew/crewTableFooter.html.twig') }}
 
-=======
-{% endif %}
-            {{ include('crew/crewTableFooter.html.twig') }}
-            
->>>>>>> 1f22d137315263310a19f5aa8d37226bab869aa2
         </div>
         <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
         <div class="brad m-1">
