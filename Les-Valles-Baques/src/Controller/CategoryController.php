@@ -8,7 +8,6 @@ use App\Repository\CategoryRepository;
 use App\Repository\QuizzRepository;
 use App\Entity\Category;
 
-
 class CategoryController extends AbstractController
 {
     /**
@@ -16,8 +15,11 @@ class CategoryController extends AbstractController
      */
     public function index(CategoryRepository $category)
     {
-
         $categories = $category->findAll();
+
+        if (!$categories) {
+            throw $this->createNotFoundException('Il n\'y a rien par ici.');
+        }
 
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
@@ -32,11 +34,15 @@ class CategoryController extends AbstractController
         $category = $category->findOneBy(['id' => $id]);
         $quizzs = $quizzRepo->findBy(['category' => $id]);
 
+        if (!$category) {
+            throw $this->createNotFoundException('Il n\'y a aucune catégorie par ici.');
+        }
+
+
         dump($category);
         return $this->render('category/category.html.twig', [
             'category' => $category,
             'quizzs' => $quizzs,
         ]);
     }
-
 }

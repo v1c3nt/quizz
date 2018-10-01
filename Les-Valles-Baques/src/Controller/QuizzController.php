@@ -34,9 +34,14 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/show/{slug}", name="quizz_show")
      */
-    public function show(Quizz $quizz) : Response
+    public function show(Quizz $quizz = null) : Response
     {
         $question = $quizz->getQuestions();
+        
+        if (!$question) {
+            throw $this->createNotFoundException('Il n\'y a aucun Quizz par ici.');
+        }
+
 
         return $this->render('quizz/show.html.twig', [
             'quizz' => $quizz,

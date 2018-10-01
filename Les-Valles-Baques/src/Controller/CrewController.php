@@ -58,6 +58,11 @@ class CrewController extends AbstractController
          */
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
+
+        if (!$iserCrews) {
+            throw $this->createNotFoundException('Il n\'y a rien par ici.');
+        }
+
         
         //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre si oui access passe a true
         foreach ($userCrews as $userCrew) {
