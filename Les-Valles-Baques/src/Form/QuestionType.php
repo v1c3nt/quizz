@@ -10,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class QuestionType extends AbstractType
 {
@@ -19,6 +21,10 @@ class QuestionType extends AbstractType
             ->add('body', TextareaType::class, [
                 'label' => 'Ta Question',
                 'help' => 'Sois précis '
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'label' => 'Ajoute une image',
             ])
             ->add('level', null, [
                 'expanded' => true,

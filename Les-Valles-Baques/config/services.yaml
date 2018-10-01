@@ -6,6 +6,7 @@
 parameters:
     locale: 'fr'
     avatar_directory: '%kernel.project_dir%/public/images/avatars'
+    question_directory: '%kernel.project_dir%/public/images/questions'
     
 
 services:

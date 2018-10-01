@@ -150,9 +150,11 @@ class QuizzController extends AbstractController
 
         $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dump($form->getData());
+            dump($question);
             //? je crée une variable pour compter le nombre de questions créées
             $nbr++;
+
             $question->setQuizz($quizz);
             $question->setErrore(0);
             $question->setNbr($nbr);

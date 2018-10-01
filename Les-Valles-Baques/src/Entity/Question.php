@@ -7,7 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
+
 /**
+ * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
  */
 class Question
@@ -21,7 +23,7 @@ class Question
 
     /**
      * ! a mettre plus tard 
-     * @Vich\UploadableField(mapping="question_image", fileNameProperty="avatar")
+     * @Vich\UploadableField(mapping="question_image", fileNameProperty="image")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imageFile;
@@ -29,7 +31,7 @@ class Question
     /**
      *? @Assert\NotBlank()
      *? @Assert\Length(
-     *      min = 15,
+     *      min = 10,
      *      max = 255,
      *      minMessage = "Une question en moins de {{ limit }} caractères ? Je suis pas sûr ... ",
      *      maxMessage = "C'est plus une question c'est un roman ?",
@@ -121,10 +123,11 @@ class Question
 
     /**
      * @ORM\Column(type="integer")
-     */
+     */ 
     private $nbr;
 
     /**
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" }),
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
