@@ -60,25 +60,27 @@
                                     {{ random(30) }}</td>
                                 <td>
                                     {% if is_granted('ROLE_USER') %}
-                                        <a href="{{path('quizz_show',{'id':q.id})}}">
+                                        <a href="{{path('quizz_show',{'id':q.id, 'slug':q.slug})}}">
                                             <button class="btn btn-success" type="button">
                                                 Go !
                                             </button>
                                         </a>
                                     {% else %}
-                                        
-<a href="{{path('security_signup')}}"><button class="btn btn-success" type="button">Inscris-toi pour jouer</button></a>
-                                    
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
 
-                </tbody>
-            </table>
+                                        <a href="{{path('security_signup')}}">
+                                            <button class="btn btn-success" type="button">Inscris-toi pour jouer</button>
+                                        </a>
 
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}

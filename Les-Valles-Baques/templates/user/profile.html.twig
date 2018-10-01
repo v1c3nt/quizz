@@ -6,10 +6,10 @@
 
 {% block body %}
 
-    <div class="bubble col-8 offset-2">
-        <h1 class="bubble-title">Mon profil</h1>
-    </div>
     <main class="bubble col-8 offset-2">
+        <div class="bubble col-8 offset-2">
+            <h1 class="bubble-title">Mon profil</h1>
+        </div>
         <div class="m-1 border border-primary brad p-2">
             <h3 class="d-inline">Mes infos</h3>
             <div class="float-right h5 m-1">
@@ -72,7 +72,29 @@
         <div id="accordion">
             <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
             <div>
-                {% if user.userCrews is empty %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Avatar</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Depuis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mc in myCrews %}
+                            <tr>
+                                <td><img src="{{ vich_uploader_asset(mc.crew, 'avatarFile') | imagine_filter('mini_square') }}" alt="avatar de {{ mc.crew.name }}" class="brad"></td>
+                                <td scope="row">
+                                    <a href="{{ path('crew_show' , {'id': mc.crew.id, 'slug': mc.crew.slug }) }}">{{ mc.crew.name }}</a>
+                                </td>
+                                <td>{{ mc.crew.createdAt|date("d-m-Y")}}</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if myCrews is empty %}
                     <span href="#" class="text-primary h4 m-2">
                         <i class="fas fa-sad-tear mr-1"></i>
                         Tu n'as pas encore de groupe ?
@@ -97,7 +119,7 @@
                         {% for ms in myStats %}
                             <tr>
                                 <th scope="row">
-                                    <a href="{{ path('quizz_show' , {'id': ms.quizz.id}) }}">{{ ms.quizz.title }}</a>
+                                    <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{ ms.quizz.title }}</a>
                                 </th>
                                 <td>{{ ms.quizz.category }}</td>
                                 <td>{{ ms.quizz.level }}</td>
@@ -111,7 +133,7 @@
                     </tbody>
                 </table>
             </div>
-            <h3 class="m-1 border border-primary brad p-2">Tes Quizzes</h3>
+            <h3 class="m-1 border border-primary brad p-2">Mes Quizzes</h3>
             <div>
                 <div class="brad m-1">
                     <table class="table">
@@ -132,6 +154,7 @@
                                     </th>
                                     <td>{{ ms.quizz.category }}</td>
                                     <td>{{ ms.quizz.level }}</td>
+                                    <td>{{ ms.quizz.nbrLikes }}</td>
                                     <td>{{ ms.result }}
                                         {% if ms.result == 10 %}
                                             <i class="fas fa-check-circle green ml-2"></i>

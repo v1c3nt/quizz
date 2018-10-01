@@ -17,6 +17,10 @@ $danger: #002547;
 
 $danger: $red;
 
+body {
+    overflow-y: scroll;
+}
+
 .green {
     color: $true;
 }
@@ -181,7 +185,7 @@ thead.thead {
 .table th {
     background-color: $blue;
     border-top-color: $red;
-     vertical-align:middle;
+    vertical-align: middle;
 }
 
 .table thead th {
@@ -332,4 +336,8 @@ header .nav .nav-item .disabled {
 
 #newQuestion-title {
     display: none;
+}
+
+.li_none {
+    list-style-type: none;
 }

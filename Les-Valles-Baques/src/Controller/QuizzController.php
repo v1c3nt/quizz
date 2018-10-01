@@ -161,8 +161,8 @@ class QuizzController extends AbstractController
             $manager->persist($question);
             $manager->flush();
             
-            //? addFlash à revoir
-            $this->addFlash('success', 'Question ' . $nbr . ' ajoutée');
+            //? addFlash ajout de question
+            
             if ($question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Courage la dernière !');
             } elseif ($question->getNbr() > 8) {
@@ -293,6 +293,8 @@ class QuizzController extends AbstractController
         $quizz = $quizzRepo->findOneBy(['id' => $id]);
 
         $points = 0;
+        $congrats = "";
+        
         //? Si la variable results existe en session je récupere la variable stocké en session et je la détruis
         ((null !== $session->get('results' . $id . '')) ? ($answers = $session->get('results' . $id . '')) : '');
         //$answers = $session->remove('results' . $id . '');
@@ -324,11 +326,25 @@ class QuizzController extends AbstractController
 
         $manager->flush();
 
+        if (10 === $points) {
+            $congrats = 'Alors là tu me bluffes, Bravo !';
+        } elseif (8 <= $points) {
+            $congrats= 'Pas mal !';
+        } elseif (5 === $points) {
+            $congrats = 'Juste la moyenne.';
+        } elseif (3 <= $points) {
+            $congrats = 'C\'est vraiment trop... juste, il faut réviser.';
+        } else {
+            $congrats= 'A ce niveau-là, ce n\'est plus de la révision !';
+        }
+        
+
         return $this->render('quizz/results.html.twig', [
             'answers' => $answers,
             'quizz' => $quizz,
             'points' => $points,
             'slug'=>$slug,
+            'congrats'=>$congrats,
         ]);
     }
 
@@ -340,7 +356,7 @@ class QuizzController extends AbstractController
     {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy(['isPrivate' => null], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy([], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
 

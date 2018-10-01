@@ -104,6 +104,7 @@ class Question
     private $quizz;
 
     /**
+     * ? @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="App\Entity\Level", inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
      */

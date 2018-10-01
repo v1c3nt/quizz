@@ -17,7 +17,7 @@
                 <h3 class="bubble-title">Les Derniers Quizzes</h3>
                 {% for q in newQuizzes %}
                     <ul>
-                        <li>
+                        <li class="li_none">
                             <a href="{{ path('quizz_show', {'id': q.id, 'slug': q.slug }) }}">{{ q.title }}</a>
                         </li>
                     </ul>

@@ -24,15 +24,15 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{username}/", name="user_profile")
      */
-    public function showProfil(QuizzRepository $quizzes, UserCrewRepository $uCrews, StatisticRepository $statRepo)
+    public function showProfil(QuizzRepository $qr, UserCrewRepository $ucr, StatisticRepository $statRepo)
     {
         //TODO requetCustom !!
         $user = $this->getUser();
   
 
         $crews = $user->getUserCrews();
-        $myQuizzes = $quizzes->findByAuthor($user);
-        $myCrews = $uCrews->findByUser($user);
+        $myQuizzes = $qr->findByAuthor($user);
+        $myCrews = $ucr->findByUser($user);
         $stats = $statRepo->findByUser($user);
 
         return $this->render('user/profile.html.twig', [
@@ -72,7 +72,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_profile', [
                 'username' => $user->getUserName(),
             ]);
-
         }
         return $this->render('user/profileEdit.html.twig', [
             'form' => $form->createView(),
@@ -121,7 +120,7 @@ class UserController extends AbstractController
     public function usersListe(UserRepository $ur, CrewRepository $cr, $id)
     {
         $users = $ur->findAll();
-        (( 0 === $id)? $crew = null : $crew = $cr->findOneById($id) );
+        ((0 === $id)? $crew = null : $crew = $cr->findOneById($id));
         
 
         return $this->render('user/list.html.twig', [

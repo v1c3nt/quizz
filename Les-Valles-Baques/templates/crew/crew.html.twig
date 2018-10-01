@@ -5,7 +5,16 @@
 {% block body %}
 
     <main class="bubble col-12 col-md-8 offset-md-2">
-
+        <div class="bubble col-8 offset-2">
+            <h1 class="bubble-title">Mon
+                <u>groupe</u>
+            </h1>
+        </div>
+        <div class="m-1 border border-primary brad p-2">
+            <u>
+                <h3>{{ userCrews[0].crew.name }}</h3>
+            </u>
+        </div>
         {% for message in app.flashes('success') %}
             <div class="m-flash alert alert-success">
                 {{ message }}
@@ -18,7 +27,7 @@
             </div>
         {% endfor %}
 
-        <div class="m-1 border border-primary row brad">
+        <div class="row">
             {# Si createur la div modifier s'affiche #}
             <div class="col-2 p-2">
                 {% if null != crew.avatar %}
@@ -29,9 +38,7 @@
                 {% endif %}
             </div>
             <div class=" bubble-title col-9 p-2 ">
-                <u>
-                    <h3>{{ userCrews[0].crew.name }}</h3>
-                </u>
+
                 <p>
                     <u>
                         <ins>crée le :</ins>
@@ -200,8 +207,8 @@
                                 !</th>
                         {% else %}
                             <th scope="col">
-                                < href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}">
-                                    class="h3"><i class="fas fa-medal m-1"></i>
+                                <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}" class="h3">
+                                    <i class="fas fa-medal m-1"></i>
                                     <u class="h6">leader</u>
                                 </a>
                             </th>

@@ -186,6 +186,7 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
+                'slug'=>$crew->getSlug(),
             ]);
         }
 
@@ -268,13 +269,14 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
+            'slug'=>$crew->getSlug(),
         ]);
     }
 
     /**
      * @route("/groupe/{id}/role_leader/{user}/membre", name="crew_add_leader")
      */
-    public function addLeader(Crewrepository $crewRepo, $user, $id, ObjectManager $manager, UserCrewRepository $ucr, UserRepository $ur, RoleCrewRepository $rcr)
+    public function addLeader(Crewrepository $crewRepo, $user, $id, ObjectManager $manager, UserCrewRepository $ucr, UserRepository $ur, RoleCrewRepository $rcr, Slugger $slug)
     {
         //TODO prevoir un service pour meilleur maintenance
         $userActive = $this->getUser();
@@ -312,12 +314,14 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
+                    'slug'=>$crew->getSlug(),
                 ]);
             }
             $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
     
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
+                'slug'=>$crew->getSlug(),
             ]);
         }
 
@@ -325,6 +329,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
+            'slug'=>$crew->getSlug(),
         ]);
     }
 
@@ -368,6 +373,7 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
+                    'slug'=>$crew->getSlug(),
                 ]);
             }
 
@@ -375,11 +381,13 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
+                'slug'=>$crew->getSlug(),
             ]);
         }
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
+            'slug'=>$crew->getSlug(),
         ]);
     }
 
@@ -428,6 +436,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
+            'slug'=>$crew->getSlug(),
         ]);
     }
 
@@ -475,6 +484,7 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
+                    'slug'=>$crew->getSlug(),
                 ]);
             }
 
@@ -482,6 +492,7 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
+                'slug'=>$crew->getSlug(),
             ]);
         }
 
@@ -489,6 +500,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
+            'slug'=>$crew->getSlug(),
         ]);
     }
 }

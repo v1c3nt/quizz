@@ -6,8 +6,24 @@
 
 {% block body %}
     <div class="bubble col-8 offset-2">
-        <h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #}</h2>
-        <h3>sur le quizz:{{quizz.title}}</h3>
+        <h2 class="bubble-title">
+            {% if 10 == points %}
+                <i class="fas fa-grin-stars"></i>
+            {% elseif 
+                    8 <= points %}
+
+                <i class="far fa-grin-hearts"></i>
+            {% elseif 
+                        5 == points %}
+                <i class="fas fa-meh"></i>
+            {% elseif 
+                            1 <= points %}
+                <i class="fas fa-tired"></i>
+            {% endif %}
+            {{ points }}/10 :
+            {{congrats}}</h2>
+        <h3>sur le quizz :
+            {{quizz.title}}</h3>
 
         <a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
             <h4>J'adore ce quizz
@@ -17,9 +33,9 @@
 
     </div>
     {% for key, q in quizz.questions %}
-        <div class="bubble col-6 offset-3 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
+        <div class="bubble col-8 offset-2 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
             <p class="h5">{{ q.body }}</p>
-            <div class="bubble col-6 offset-3">
+            <div class="bubble col-8 offset-2">
                 {% if 'prop1' == answers[key + 1] %}
                     <h5 class="green">Tout Bon
                         <i class="fas fa-check-circle"></i>
@@ -29,13 +45,13 @@
                         <i class="fas fa-times-circle"></i>
                     </h5>
                 {% endif %}
-                <ins>la bonne réponse était:</ins>
+                <ins>la bonne réponse était :</ins>
                 <span>{{ q.prop1 }}
                     {% if 'prop1' == answers[key + 1] %}{% endif %}
                 </span>
             </div>
             {% if 'prop1' != answers[key + 1] %}
-                <div class="col-6 offset-3">Tu as répondu:
+                <div class="col-8 offset-2">Tu as répondu :
                     {% if 'prop1' == answers[key + 1] %}
                         la bonne réponse
                     {% elseif 'prop2' == answers[key+1] %}{{ q.prop2 }}
@@ -45,16 +61,24 @@
                 </div>
             {% endif %}
             {% if q.anecdote != null %}
-            <p><u><ins>anectode</ins></u> {{ q.anecdote }}</p>
+                <p>
+                    <u>
+                        <ins>anectode</ins>
+                    </u>
+                    {{ q.anecdote }}</p>
             {% endif %}
             {% if q.source != null %}
-            <p><u><ins>Source</ins></u> {{ q.source }}</p>
+                <p>
+                    <u>
+                        <ins>Source</ins>
+                    </u>
+                    {{ q.source }}</p>
             {% endif %}
         </div>
     {% endfor %}
 
     {#TODO afficher un div avec les statistiques du joueur sur ce quizz
-<div class="bubble col-6 offset-3">
+<div class="bubble col-8 offset-2">
     <p class="h5">Stats </p>
 </div>
 #}
