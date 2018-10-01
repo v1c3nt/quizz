@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\FormTypeInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CrewQuizzsRepository")
@@ -12,82 +13,39 @@ use Doctrine\ORM\Mapping as ORM;
 class CrewQuizzs
 {
     /**
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToMany(targetEntity="App\Entity\Quizz")
-     */
-    private $quizz;
-
-    /**
-     * @ORM\Id()
-     * @ORM\ManyToMany(targetEntity="App\Entity\Crew")
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="App\Entity\Crew", inversedBy="crewQuizzs")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $crew;
 
-    public function __construct()
-    {
-        $this->quizz = new ArrayCollection();
-        $this->crew = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
-     * @return Collection|Quizz[]
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="App\Entity\Quizz", inversedBy="crewQuizzs")
+     * @ORM\JoinColumn(nullable=false)
      */
-    public function getQuizz(): Collection
-    {
-        return $this->quizz;
-    }
+    private $Quizz;
 
-    public function addQuizz(Quizz $quizz): self
-    {
-        if (!$this->quizz->contains($quizz)) {
-            $this->quizz[] = $quizz;
-        }
-
-        return $this;
-    }
-
-    public function removeQuizz(Quizz $quizz): self
-    {
-        if ($this->quizz->contains($quizz)) {
-            $this->quizz->removeElement($quizz);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Crew[]
-     */
-    public function getCrew(): Collection
+    public function getCrew(): ?Crew
     {
         return $this->crew;
     }
 
-    public function addCrew(Crew $crew): self
+    public function setCrew(?Crew $crew): self
     {
-        if (!$this->crew->contains($crew)) {
-            $this->crew[] = $crew;
-        }
+        $this->crew = $crew;
 
         return $this;
     }
 
-    public function removeCrew(Crew $crew): self
+    public function getQuizz(): ?Quizz
     {
-        if ($this->crew->contains($crew)) {
-            $this->crew->removeElement($crew);
-        }
+        return $this->Quizz;
+    }
+
+    public function setQuizz(?Quizz $Quizz): self
+    {
+        $this->Quizz = $Quizz;
 
         return $this;
     }

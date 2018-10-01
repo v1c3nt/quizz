@@ -6,6 +6,7 @@ use App\Entity\Quizz;
 use App\Form\QuizzType;
 use App\Entity\Category;
 use App\Entity\Question;
+use App\Entity\CrewQuizzs;
 use App\Form\QuestionType;
 use App\Repository\QuizzRepository;
 use App\Repository\CategoryRepository;
@@ -26,6 +27,14 @@ use App\Entity\Statistic;
 use App\Repository\IsLikeRepository;
 use App\Entity\IsLike;
 use Doctrine\ORM\EntityManager;
+use App\Repository\UserCrewRepository;
+use App\Repository\CrewQuizzsRepository;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Crew;
+use App\Form\CrewQuizzsType;
+
+
 
 class QuizzController extends AbstractController
 {
@@ -46,30 +55,44 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/propose/nouveau", name="new_quizz")
      */
-    public function new(Request $request, ObjectManager $manager)
+    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr)
     {
         $user = $this->getUser();
+        $crews = $ucr->findBy(['user' => $user]);
+
         $quizz = new Quizz();
 
         $form = $this->createForm(QuizzType::class, $quizz);
 
-        dump([$user->getUserCrews()]);exit;
         /** 
-        $form->add('privateCrew', ChoiceType::class, [
-            'label' => $question->getBody(),
-            'choices' => $responses,
+        $crewsChoices[] = [0 => 'publique'];
+        //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices 
+        foreach ($crews as $crew) {
+            $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
+        }
+        dump($crewsChoices);
+        $form->add('crewQuizzs', CollectionType::class, [
+            'entry_type' => ChoiceType::class,
+            'entry_options' => [
+            'choices' => [
+                $crewsChoices
+            ],
             'expanded' => true,
-            'multiple' => false,
-        ])
+            'multiple' => true,
+            'label' => 'visibilité',
+            'help' => 'choisi publique pour que tout le monde puisse jouer ou choisi un ou plusieurs des groupes.'
+        ]
+        ]);
          */
-
         $form->handleRequest($request);
-
+        //? j'ajoute le User connecté comme auteur du quizz
         if ($form->isSubmitted() && $form->isValid()) {
-            //? j'ajoute le User connecté comme auteur du quizz
+            dump([$quizz, $form->getData()]);
+
             $quizz->setAuthor($user);
-            //TODO ajouter l'id du groupe du user
-            
+
+            $crews = $quizz->getCrewQuizzs();
+           
             // TODO ajouter un slugger
             $quizz->setSlug('test');
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
@@ -77,9 +100,20 @@ class QuizzController extends AbstractController
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
+            /** 
+            foreach ($crewsQuizz as $crewQuizz) {
+                dump([$crewQuizz]);
+                $quizzAutho = new CrewQuizzs;
+                $authorization = $quizzAutho->setCrew($crewQuizz);
+                $authorization = $quizzAutho->setQuizz($quizz);
+
+                $manager->persist($authorization);
+                $manager->flush();
+
+            }
             dump($request);
             
-
+             */
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
                 'id' => $quizz->getId(),
@@ -167,7 +201,7 @@ class QuizzController extends AbstractController
      */
     public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
-        if (null === $session->get('results' . $id . '') || empty($session->get('results' . $id . ''))) {
+        if (null === $session->get('results' . $id . '') || empty($session->get('results' . $id . '')) || 11 === count($session->get('results' . $id . ''))) {
             $results[] = 'quizz_' . $id;
             $session->set('results' . $id . '', $results);
         }
@@ -289,7 +323,7 @@ class QuizzController extends AbstractController
     {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy([ 'isPrivate'=>0 ], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy(['isPrivate' => null], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
 

@@ -95,11 +95,17 @@ class Quizz
      */
     private $avgScore;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CrewQuizzs", mappedBy="Quizz")
+     */
+    private $crewQuizzs;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
         $this->isLikes = new ArrayCollection();
         $this->statistics = new ArrayCollection();
+        $this->crewQuizzs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -330,5 +336,35 @@ class Quizz
         return $this;
     }
 
+    /**
+     * @return Collection|CrewQuizzs[]
+     */
+    public function getCrewQuizzs(): Collection
+    {
+        return $this->crewQuizzs;
+    }
+
+    public function addCrewQuizz(CrewQuizzs $crewQuizz): self
+    {
+        if (!$this->crewQuizzs->contains($crewQuizz)) {
+            $this->crewQuizzs[] = $crewQuizz;
+            $crewQuizz->setQuizz($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCrewQuizz(CrewQuizzs $crewQuizz): self
+    {
+        if ($this->crewQuizzs->contains($crewQuizz)) {
+            $this->crewQuizzs->removeElement($crewQuizz);
+            // set the owning side to null (unless already changed)
+            if ($crewQuizz->getQuizz() === $this) {
+                $crewQuizz->setQuizz(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

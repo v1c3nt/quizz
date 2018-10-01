@@ -23,7 +23,7 @@ class Crew
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128, unique=true)
      */
     private $name;
 
@@ -77,11 +77,17 @@ class Crew
      */
     private $isPrivate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CrewQuizzs", mappedBy="crew")
+     */
+    private $crewQuizzs;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->crewQuizzs = new ArrayCollection();
 
     }
 
@@ -249,4 +255,36 @@ class Crew
 
         return $this;
     }
+
+    /**
+     * @return Collection|CrewQuizzs[]
+     */
+    public function getCrewQuizzs(): Collection
+    {
+        return $this->crewQuizzs;
+    }
+
+    public function addCrewQuizz(CrewQuizzs $crewQuizz): self
+    {
+        if (!$this->crewQuizzs->contains($crewQuizz)) {
+            $this->crewQuizzs[] = $crewQuizz;
+            $crewQuizz->setCrew($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCrewQuizz(CrewQuizzs $crewQuizz): self
+    {
+        if ($this->crewQuizzs->contains($crewQuizz)) {
+            $this->crewQuizzs->removeElement($crewQuizz);
+            // set the owning side to null (unless already changed)
+            if ($crewQuizz->getCrew() === $this) {
+                $crewQuizz->setCrew(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

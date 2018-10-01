@@ -3,11 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Quizz;
+use App\Entity\CrewQuizzs;
 use App\Form\QuestionType;
+use App\Form\CrewQuizzsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class QuizzType extends AbstractType
 {
@@ -20,15 +23,13 @@ class QuizzType extends AbstractType
             ->add('description', null, [
                 'required'=> false,
             ])
-            ->add('IsPrivate', null, [
-                'label' => 'Privé',
-                'help' => 'Si tu coches cette option, le Quizz ne sera visible que dans ton groupe actuel'
-            ])
+            
             ->add('category', null, [
                 'label'=>'Catégorie'
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
             ->add('level')
+            
        
             //->add('questions', QuestionType::class)
             ->setAttributes([
