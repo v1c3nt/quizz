@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Crew;
 use App\Entity\Quizz;
 use App\Entity\IsLike;
+use App\Form\CrewType;
 use App\Form\QuizzType;
 use App\Entity\Category;
 use App\Entity\Question;
@@ -15,8 +16,8 @@ use App\Form\QuestionType;
 use App\Form\CrewQuizzsType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\CrewRepository;
-use App\Repository\QuizzRepository;
 
+use App\Repository\QuizzRepository;
 use App\Repository\IsLikeRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\QuestionRepository;
@@ -32,9 +33,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 
@@ -67,41 +68,35 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $crews = $ucr->findBy(['user' => $user]);
         $crew = $crewRepo->findAll();
-        dump($crew);
-        dump($crews);
-
+    
         $quizz = new Quizz();
 
         $form = $this->createForm(QuizzType::class, $quizz);
-        /**
-        $crewsChoices[] = [0 => 'publique'];
+        $crewsChoices[] = ['publique' => null];
+        
         //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
         foreach ($crews as $crew) {
             $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
         }
-        dump($crewsChoices);
-        $form->add('crewQuizzs', CollectionType::class, [
-            'entry_type' => ChoiceType::class,
-            'entry_options' => [
-            'choices' => [
+       
+        $form->add('arrayCrew', choiceType::class, [
+                'choices' => [
                 $crewsChoices
             ],
             'expanded' => true,
             'multiple' => true,
-            'label' => 'visibilité',
-            'help' => 'choisi publique pour que tout le monde puisse jouer ou choisi un ou plusieurs des groupes.'
-        ]
-        ]);
-         */
+            'label' => 'visibilité',// être plus explicite
+            'help' => 'choisi'
+            ]);
+     
+         
         $form->handleRequest($request);
         //? j'ajoute le User connecté comme auteur du quizz
         if ($form->isSubmitted() && $form->isValid()) {
-            dump([$quizz, $form->getData()]);
-
             $quizz->setAuthor($user);
-            $crew = setCrew();
-            $quizz = setQuizz();
-    
+            $arrayCrews = $quizz->getArrayCrew();
+           
+            dump($arrayCrews);
             //TODO ajouter l'id du groupe du user
 
             $convertedTitle = $slugger->slugify($quizz->getTitle());
@@ -111,21 +106,24 @@ class QuizzController extends AbstractController
             
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
+            dump($arrayCrews);
+
             $manager->flush();
-            /**
-            foreach ($crewsQuizz as $crewQuizz) {
-                dump([$crewQuizz]);
+            dump($arrayCrews);
+
+            foreach ($arrayCrews as $crew) {
+                dump([$crew]);
                 $quizzAutho = new CrewQuizzs;
-                $authorization = $quizzAutho->setCrew($crewQuizz);
+                $authorization = $quizzAutho->setCrew($crew);
                 $authorization = $quizzAutho->setQuizz($quizz);
 
                 $manager->persist($authorization);
+                
                 $manager->flush();
-
             }
             dump($request);
 
-             */
+             
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
                 'id' => $quizz->getId(),

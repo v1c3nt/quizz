@@ -28,9 +28,7 @@ class QuizzType extends AbstractType
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
             ->add('level')
-            ->add('crew', CrewType::class, [
-                'label'=>false,
-            ])
+            
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])

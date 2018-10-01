@@ -97,12 +97,11 @@ class Quizz
     private $avgScore;
 
     /**
-     *
-     * @Assert\Type(type="App\Entity\CrewQuizzs")
-     * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\CrewQuizzs", mappedBy="Quizz")
      */
     private $crewQuizzs;
+
+    private $arrayCrew = [];
 
     public function __construct()
     {
@@ -367,6 +366,18 @@ class Quizz
                 $crewQuizz->setQuizz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArrayCrew(): ?array
+    {
+        return $this->arrayCrew;
+    }
+
+    public function setArrayCrew(?array $arrayCrew): self
+    {
+        $this->arrayCrew = $arrayCrew;
 
         return $this;
     }

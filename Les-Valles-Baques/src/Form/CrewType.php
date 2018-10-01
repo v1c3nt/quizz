@@ -17,7 +17,7 @@ class CrewType extends AbstractType
             ->add('name', EntityType::class, [
                 'class'=> Crew::class,
                 'label'=>'Choisir un groupe',
-                'help'=>'Si tu as un groupe, tu peux déjà choisir si tu veux le paratger avec les membres du groupe',
+                'help'=>'Si tu as un groupe, tu peux déjà choisir si tu veux le paratger avec les membres groupe',
                 'choice_label'=>function ($name) {
                     return $name->getName();
                 }
