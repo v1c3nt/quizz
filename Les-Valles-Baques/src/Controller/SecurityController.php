@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
                 }
                 
                 $role = $repository->findOneBy(['id' => 2]);
-                dump($role);
+
                 $user->setAppRole($role);
                 //? et le status Actif
                 $user->setIsActif(true);
@@ -87,13 +87,12 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
-
         $lastUsername = $authenticationUtils->getLastUsername();
 
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'=> $error,
+            'error' => $error,
         ]);
     }
 }

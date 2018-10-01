@@ -46,7 +46,7 @@ class UserType extends AbstractType
                 $form = $event->getForm();
 
                 if ($user->getId()) {
-                    dump('edition');
+
                     $form->add(
                         'password',
                         RepeatedType::class,
@@ -70,7 +70,6 @@ class UserType extends AbstractType
                         )
                         );
                 } else { //sinon je suis en creation
-                    dump('creation');
                     $form->add(
                         'password',
                         RepeatedType::class,
