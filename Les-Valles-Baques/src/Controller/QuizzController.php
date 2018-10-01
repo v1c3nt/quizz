@@ -2,40 +2,41 @@
 
 namespace App\Controller;
 
+use App\Entity\Crew;
 use App\Entity\Quizz;
+use App\Entity\IsLike;
 use App\Form\QuizzType;
 use App\Entity\Category;
 use App\Entity\Question;
+use App\Service\Slugger;
+use App\Entity\Statistic;
 use App\Entity\CrewQuizzs;
 use App\Form\QuestionType;
+use App\Form\CrewQuizzsType;
+use Doctrine\ORM\EntityManager;
+use App\Repository\CrewRepository;
 use App\Repository\QuizzRepository;
+
+use App\Repository\IsLikeRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\UserCrewRepository;
+use App\Repository\StatisticRepository;
+use App\Repository\CrewQuizzsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
-use App\Repository\StatisticRepository;
-use App\Entity\Statistic;
-use App\Repository\IsLikeRepository;
-use App\Entity\IsLike;
-use Doctrine\ORM\EntityManager;
-use App\Repository\UserCrewRepository;
-use App\Repository\CrewQuizzsRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Crew;
-use App\Form\CrewQuizzsType;
-
-
-use App\Service\Slugger;
 
 class QuizzController extends AbstractController
 {
@@ -61,15 +62,17 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/propose/nouveau", name="new_quizz")
      */
-    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, Slugger $slugger)
+    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, CrewRepository $crewRepo, Slugger $slugger)
     {
         $user = $this->getUser();
         $crews = $ucr->findBy(['user' => $user]);
+        $crew = $crewRepo->findAll();
+        dump($crew);
+        dump($crews);
 
         $quizz = new Quizz();
 
         $form = $this->createForm(QuizzType::class, $quizz);
-
         /**
         $crewsChoices[] = [0 => 'publique'];
         //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
@@ -96,8 +99,8 @@ class QuizzController extends AbstractController
             dump([$quizz, $form->getData()]);
 
             $quizz->setAuthor($user);
-
-            $crews = $quizz->getCrewQuizzs();
+            $crew = setCrew();
+            $quizz = setQuizz();
     
             //TODO ajouter l'id du groupe du user
 

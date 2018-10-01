@@ -3,14 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Quizz;
-use App\Entity\CrewQuizzs;
+use App\Form\CrewType;
 use App\Form\QuestionType;
-use App\Form\CrewQuizzsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class QuizzType extends AbstractType
 {
@@ -29,7 +28,9 @@ class QuizzType extends AbstractType
             ])
             //? on pourrait le calculé a partir des difficultés des questions ?
             ->add('level')
-            //->add('questions', QuestionType::class)
+            ->add('crew', CrewType::class, [
+                'label'=>false,
+            ])
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])

@@ -97,6 +97,9 @@ class Quizz
     private $avgScore;
 
     /**
+     *
+     * @Assert\Type(type="App\Entity\CrewQuizzs")
+     * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\CrewQuizzs", mappedBy="Quizz")
      */
     private $crewQuizzs;
