@@ -30,7 +30,6 @@ class CategoryController extends AbstractController
      */
     public function categoryShow(QuizzRepository $quizzRepo, CategoryRepository $category, $id)
     {
-        dump($id);
         $category = $category->findOneBy(['id' => $id]);
         $quizzs = $quizzRepo->findBy(['category' => $id]);
 
@@ -38,8 +37,6 @@ class CategoryController extends AbstractController
             throw $this->createNotFoundException('Il n\'y a aucune catégorie par ici.');
         }
 
-
-        dump($category);
         return $this->render('category/category.html.twig', [
             'category' => $category,
             'quizzs' => $quizzs,

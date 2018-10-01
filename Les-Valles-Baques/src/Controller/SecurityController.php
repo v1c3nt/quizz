@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
                     $user->setAvatar($fileName);
                 }
                 $role = $repository->findOneBy(['id' => 2]);
-                dump($role);
+
                 $user->setAppRole($role);
                 //? et le status Actif
                 $user->setIsActif(true);

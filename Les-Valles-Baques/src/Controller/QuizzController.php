@@ -70,11 +70,9 @@ class QuizzController extends AbstractController
             $quizz->setSlug($convertedTitle);
 
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-            dump($user);
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
-            dump($request);
             
 
             //? après la création du questionnaire j'oriente vers la  création des questions.
@@ -192,7 +190,6 @@ class QuizzController extends AbstractController
         shuffle($responses);
 
 
-        dump($responses);
         $form = $this->createFormBuilder()
             ->add('responses', ChoiceType::class, [
                 'label' => $question->getBody(),

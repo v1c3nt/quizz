@@ -27,7 +27,7 @@ class UserController extends AbstractController
     {
         //TODO requetCustom !!
         $user = $this->getUser();
-        dump($user);
+  
 
         $crews = $user->getUserCrews();
         $myQuizzes = $quizzes->findByAuthor($user);
@@ -49,7 +49,7 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $oldAvatar = $user->getAvatar();
-        dump($oldAvatar);
+
         $form = $this->createForm(UserType::class, $user);
         $form->remove('userName');
         $form->remove('password');
@@ -88,6 +88,7 @@ class UserController extends AbstractController
 
         $form = $this->createForm(UserType::class, $user);
         $form->remove('avatar');
+        $form->remove('avatarFile');
         $form->remove('userName');
         $form->remove('email');
         $form->remove('presentation');
