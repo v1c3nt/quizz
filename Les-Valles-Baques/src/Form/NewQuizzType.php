@@ -6,14 +6,19 @@ use App\Entity\Quizz;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\HttpFoundation\File\File;
 class NewQuizzType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title')
-            ->add('slug')
+            ->add('image', null, [
+                'data_class' => null,
+                'required' => false,
+                'help' => 'Une petite Image pourta question'
+            ])
             ->add('description')
             ->add('IsPrivate', null, [
                 'label'=>'Privé',

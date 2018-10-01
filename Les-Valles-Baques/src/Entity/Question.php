@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
@@ -16,6 +18,13 @@ class Question
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * ! a mettre plus tard 
+     * @Vich\UploadableField(mapping="question_image", fileNameProperty="avatar")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFile;
 
     /**
      *? @Assert\NotBlank()
@@ -114,6 +123,11 @@ class Question
      * @ORM\Column(type="integer")
      */
     private $nbr;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function getId() : ? int
     {
@@ -254,4 +268,40 @@ class Question
     {
         return $this->getBody();
     }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+    *
+    * @param File|UploadedFile $image
+    */
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function setImageFile(? File $image = null) : void
+    {
+        $this->imageFile = $image;
+
+        if (null !== $image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+
+        }
+    }
+
+
+    public function getImageFile() : ? File
+    {
+        return $this->imageFile;
+    }
+
+
 }
