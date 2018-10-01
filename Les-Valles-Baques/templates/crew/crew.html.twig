@@ -96,17 +96,15 @@
                             {% if q.Quizz.category.name is defined %}
                             {{q.Quizz.category.name}}
                             {% endif %}
-
+                            
                         </td>
-
                         <td>{{q.Quizz.level.name}}</td>
                         <td class="d-none d-md-table-cell">
                             {{ q.Quizz.nbrLikes }}
                         </td>
-
+                        
                         <td>
                             {# myScores[q.Quizz.id]|round(1, 'floor') #}
-
                         </td>
                         <td>
                             {% if is_granted('ROLE_USER') %}

@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block new_quizz %}active{% endblock %}
-{% block title %}Nouveau Quizz
+{% block title %}Jeu en cours
 {% endblock %}
 
 {% block body %}
-
+<div class="bubble col-8 offset-2 bubble-title h4 p-2">
+    question {{ nbr }}
+<div class="progress my-2">
+    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ nbr }}" style="width: {{ ( nbr ) * 10 }}%"
+        aria-valuemax="9">{{ nbr }}
+        / 10</div>
+</div>
+</div>
     <div class="bubble col-8 offset-2" id="formDiv">
         {{ form_start(form ) }}
 <div class="float-right"><img src="{{ vich_uploader_asset(question, 'imageFile') | imagine_filter('question') }}" alt="Illustration de la question"

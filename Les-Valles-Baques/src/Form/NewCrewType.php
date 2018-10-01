@@ -15,7 +15,9 @@ class NewCrewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null, [
+                'label'=>'Nom du Groupe'
+            ])
             ->add('slug', null, [
                 'required' => false])
             ->add('description')
@@ -25,10 +27,10 @@ class NewCrewType extends AbstractType
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
             ])
             ->add('isPrivate', ChoiceType::class, [
-                'label' => 'recrutement',
+                'label' => 'Groupe privé ou public ?',
                 'choices' => [
-                    'privé' => 1,
-                    'public'=> 0,
+                    'Privé' => 1,
+                    'Public'=> 0,
                 ],
                 'expanded' => true,
                 'help' => 'privé = Tu seras obligé d\'inviter tous les nouveaux membres - ouvert = toutes personnes peut s\'ajouter à ton groupe'

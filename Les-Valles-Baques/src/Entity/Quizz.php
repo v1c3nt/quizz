@@ -101,6 +101,8 @@ class Quizz
      */
     private $crewQuizzs;
 
+    private $arrayCrew = [];
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -364,6 +366,18 @@ class Quizz
                 $crewQuizz->setQuizz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArrayCrew(): ?array
+    {
+        return $this->arrayCrew;
+    }
+
+    public function setArrayCrew(?array $arrayCrew): self
+    {
+        $this->arrayCrew = $arrayCrew;
 
         return $this;
     }

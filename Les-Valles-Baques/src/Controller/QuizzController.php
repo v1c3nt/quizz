@@ -2,40 +2,42 @@
 
 namespace App\Controller;
 
+use App\Entity\Crew;
 use App\Entity\Quizz;
+use App\Entity\IsLike;
+use App\Form\CrewType;
 use App\Form\QuizzType;
 use App\Entity\Category;
 use App\Entity\Question;
+use App\Service\Slugger;
+use App\Entity\Statistic;
 use App\Entity\CrewQuizzs;
 use App\Form\QuestionType;
+use App\Form\CrewQuizzsType;
+use Doctrine\ORM\EntityManager;
+use App\Repository\CrewRepository;
+
 use App\Repository\QuizzRepository;
+use App\Repository\IsLikeRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\UserCrewRepository;
+use App\Repository\StatisticRepository;
+use App\Repository\CrewQuizzsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
+
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
-use App\Repository\StatisticRepository;
-use App\Entity\Statistic;
-use App\Repository\IsLikeRepository;
-use App\Entity\IsLike;
-use Doctrine\ORM\EntityManager;
-use App\Repository\UserCrewRepository;
-use App\Repository\CrewQuizzsRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Crew;
-use App\Form\CrewQuizzsType;
-
-
-use App\Service\Slugger;
 
 class QuizzController extends AbstractController
 {
@@ -46,7 +48,7 @@ class QuizzController extends AbstractController
     public function show(Quizz $quizz = null) : Response
     {
         $question = $quizz->getQuestions();
-        
+
         if (!$question) {
             throw $this->createNotFoundException('Il n\'y a aucun Quizz par ici.');
         }
@@ -61,72 +63,67 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/propose/nouveau", name="new_quizz")
      */
-    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, Slugger $slugger)
+    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, CrewRepository $crewRepo, Slugger $slugger)
     {
         $user = $this->getUser();
         $crews = $ucr->findBy(['user' => $user]);
-
+        $crew = $crewRepo->findAll();
         $quizz = new Quizz();
 
         $form = $this->createForm(QuizzType::class, $quizz);
-
-        /**
-        $crewsChoices[] = [0 => 'publique'];
+        $crewsChoices[] = ['publique' => null];
+  
         //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
         foreach ($crews as $crew) {
+
             $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
         }
-        dump($crewsChoices);
-        $form->add('crewQuizzs', CollectionType::class, [
-            'entry_type' => ChoiceType::class,
-            'entry_options' => [
+        $form->add('arrayCrew', choiceType::class, [
             'choices' => [
                 $crewsChoices
             ],
             'expanded' => true,
             'multiple' => true,
-            'label' => 'visibilité',
-            'help' => 'choisi publique pour que tout le monde puisse jouer ou choisi un ou plusieurs des groupes.'
-        ]
+            'label' => 'visibilité',// être plus explicite
+            'help' => 'choisi Publique pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupe.'
         ]);
-         */
+
+
         $form->handleRequest($request);
-        //? j'ajoute le User connecté comme auteur du quizz
+            //? j'ajoute le User connecté comme auteur du quizz
         if ($form->isSubmitted() && $form->isValid()) {
-            dump([$quizz, $form->getData()]);
-
             $quizz->setAuthor($user);
+            $arrayCrews = $quizz->getArrayCrew();
+                //? si le tableau contient ne contient pas NULL, il est donc privée.
+            ( true !== ( in_array(null, $arrayCrews) ) ) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
 
-            $crews = $quizz->getCrewQuizzs();
-    
-            //TODO ajouter l'id du groupe du user
+                //TODO ajouter l'id du groupe du user
 
             $convertedTitle = $slugger->slugify($quizz->getTitle());
             $quizz->setSlug($convertedTitle);
-
-            // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-            
-            //  $quizz->setCrew('user.crew')
+                
+                // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
+                
+                //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
+            dump($arrayCrews);
+
             $manager->flush();
-            /**
-            foreach ($crewsQuizz as $crewQuizz) {
-                dump([$crewQuizz]);
+
+            foreach ($arrayCrews as $crew) {
                 $quizzAutho = new CrewQuizzs;
-                $authorization = $quizzAutho->setCrew($crewQuizz);
+                $authorization = $quizzAutho->setCrew($crew);
                 $authorization = $quizzAutho->setQuizz($quizz);
 
                 $manager->persist($authorization);
                 $manager->flush();
-
             }
-            dump($request);
 
-             */
+             
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
                 'id' => $quizz->getId(),
-                'slug' =>$quizz->getSlug(),
+                'slug' => $quizz->getSlug(),
                 'quizz' => $quizz,
                 'nbr' => 0,
             ]);
@@ -157,14 +154,13 @@ class QuizzController extends AbstractController
 
             $question->setQuizz($quizz);
             $question->setErrore(0);
-            $question->setNbr($nbr);
-            ;
-            
+            $question->setNbr($nbr);;
+
             $manager->persist($question);
             $manager->flush();
             
             //? addFlash ajout de question
-            
+
             if ($question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Courage la dernière !');
             } elseif ($question->getNbr() > 8) {
@@ -192,7 +188,7 @@ class QuizzController extends AbstractController
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
-                    'slug'=>$slug,
+                    'slug' => $slug,
                 ]);
             }
 
@@ -206,7 +202,7 @@ class QuizzController extends AbstractController
             'quizz' => $quizz,
             'nbr' => $nbr,
             'questions' => $questions,
-            'slug'=>$slug,
+            'slug' => $slug,
         ]);
     }
 
@@ -266,18 +262,19 @@ class QuizzController extends AbstractController
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
-                    'slug'=>$slug,
+                    'slug' => $slug,
                 ]);
             }
 
             return $this->redirectToRoute('quizz_results', [
                 'id' => $id,
-                'slug'=>$slug,
+                'slug' => $slug,
             ]);
         }
 
         return $this->render('quizz/play.html.twig', [
             'form' => $form->createView(),
+            'nbr' => $nbr,
             'question' => $question,
         ]);
     }
@@ -331,22 +328,22 @@ class QuizzController extends AbstractController
         if (10 === $points) {
             $congrats = 'Alors là tu me bluffes, Bravo !';
         } elseif (8 <= $points) {
-            $congrats= 'Pas mal !';
+            $congrats = 'Pas mal !';
         } elseif (5 === $points) {
             $congrats = 'Juste la moyenne.';
         } elseif (3 <= $points) {
             $congrats = 'C\'est vraiment trop... juste, il faut réviser.';
         } else {
-            $congrats= 'A ce niveau-là, ce n\'est plus de la révision !';
+            $congrats = 'A ce niveau-là, ce n\'est plus de la révision !';
         }
-        
+
 
         return $this->render('quizz/results.html.twig', [
             'answers' => $answers,
             'quizz' => $quizz,
             'points' => $points,
-            'slug'=>$slug,
-            'congrats'=>$congrats,
+            'slug' => $slug,
+            'congrats' => $congrats,
         ]);
     }
 
@@ -355,10 +352,10 @@ class QuizzController extends AbstractController
      * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
     public function index($sort, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
-    {
+    { 
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy([], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy(['isPrivate' => NULL ], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
 

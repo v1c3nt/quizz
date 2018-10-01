@@ -17,6 +17,7 @@ use Doctrine\ORM\UserManager;
 use App\Repository\UserRepository;
 use App\Repository\QuizzRepository;
 use App\Service\Slugger;
+use App\Repository\CrewQuizzsRepository;
 
 class CrewController extends AbstractController
 {
@@ -52,7 +53,7 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe_{id}/{slug}", name="crew_show")
      */
-    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, QuizzRepository $qr, $slug)
+    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, QuizzRepository $qr, $slug, CrewQuizzsRepository $cqr )
     {
         $user = $this->getUser();
         /**
@@ -61,11 +62,11 @@ class CrewController extends AbstractController
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
 
+        
+
         if (!$userCrews) {
             throw $this->createNotFoundException('Il n\'y a rien par ici.');
         }
-
-
         
         //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre si oui access passe a true
         foreach ($userCrews as $userCrew) {
@@ -77,7 +78,7 @@ class CrewController extends AbstractController
         if ($access === true) {
             $crew = $cr->findOneBy(['id' => $id]);
             $privatQuizzs = $qr->findBy(['isPrivate'=>1]);
-            $quizzs =[];
+            $quizzs = $cqr->findBy(['crew'=>$crew]);
 
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
@@ -167,11 +168,9 @@ class CrewController extends AbstractController
         $form = $this->createForm(NewCrewType::class, $crew);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
             if (null === $crew->getAvatar()) {
                 $crew->setAvatar($oldAvatar);
             } else {
-                dump($crew->getAvatar());
                 $file = $crew->getAvatar();
                 $fileName = md5(uniqid()) . "." . $file->guessExtension();
                 $file->move($this->getParameter('avatar_directory'), $fileName);
