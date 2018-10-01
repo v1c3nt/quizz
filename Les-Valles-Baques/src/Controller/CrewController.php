@@ -162,7 +162,7 @@ class CrewController extends AbstractController
             if (null === $crew->getAvatar()) {
                 $crew->setAvatar($oldAvatar);
             } else {
-
+                
                 dump($crew->getAvatar());
                 $file = $crew->getAvatar();
                 $fileName = md5(uniqid()) . "." . $file->guessExtension();

@@ -22,9 +22,15 @@
         {# Si createur la div modifier s'affiche #}
         <div class="col-2 p-2">
             {% if null != crew.avatar %}
+<<<<<<< HEAD
 
             <img src="{{ vich_uploader_asset(crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
                 class="brad m-2">
+=======
+{{ dump( crew.avatar) }}
+<img src="{{ vich_uploader_asset(crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+            class="brad m-2">
+>>>>>>> 1f22d137315263310a19f5aa8d37226bab869aa2
             {% else %}
             <img src="{{ asset('/images/avatar1.png') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
                 class="brad  m-2">
@@ -96,6 +102,7 @@
     </tr>
     {% endfor %}
 
+<<<<<<< HEAD
 </tbody>
             </table>
 
@@ -116,6 +123,69 @@
 
         <div class="brad m-1">
 
+=======
+    <div class="brad m-1">
+        <table class="table">
+            <thead>
+                <th><u>avatar</u></th>
+                <th><u>nom</u></th>
+                <th class=" d-none d-lg-table-cell"><u>date</u></th>
+                <th><u>Statut</u></th>
+                {% if roleUserActif <= 2 %} <th><u>renvoyer</u></th>
+                    {% endif %}
+                    {% if roleUserActif <= 1 %} <th colspan="2"><u>promouvoir</u></th>
+                        {% endif %}
+            </thead>
+
+            <tbody>
+                {% for crew in userCrews %}
+
+                {% if crew.user == app.user %}{% set roleUserActif = crew.roleCrew.id %}{% endif %}
+                <tr>
+                    <th scope="col">
+                        {#TODO créer un service pour avatar perso ou defaut avatar #}
+                        {% if null != crew.user.avatar %}
+                        <img src="{{ vich_uploader_asset(crew.user, 'avatarFile') | imagine_filter('icon_square') }}"
+                            alt="avatar de {{ crew.user.userName }}" class="brad m-2 ">
+                        {% else %}
+                        <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
+                            class="brad  m-2">
+                        {% endif %}</th>
+                    <th scope="col">{{ crew.user.userName }}</th>
+                    <th class=" d-none d-lg-table-cell" scope="col">{{ crew.createdAt.diff(date())|date("%d jours-
+                        %m mois- %y ans")
+                        }}</th>
+                    <th scope="col">{{ crew.roleCrew.name }}</th>
+
+                    {% if roleUserActif <= 2 %} <th scope="col"> <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id }) }}"
+                            class="h3"><u><i class="fas fa-sign-out-alt"></i></u></a></th>
+                        {% endif %}
+
+                        {% if roleUserActif <= 1 %} <th scope="col"> <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                class="h3"><i class="fas fa-medal m-1"></i><u class="h6">leader</u></a></th>
+
+                            {% if crew.roleCrew.id != 1 %}
+
+                            <th scope="col"> <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                    class="h3"><i class="fas fa-chess-king m-1"></i><u class="h6">createur</u></a></th>
+                            {% else %}
+                            <th scope="col"> <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id }) }}"
+                                    class="h3"><i class="fas fa-user-astronaut"></i><u class="h6">membre</u></a></th>
+                            {% endif %}
+                            {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if userCrews|length < 2 %} <span href="#" class="text-primary h3">
+            <i class="fas fa-sad-tear  mr-1"></i><br /><u>Oh </u>... tu es tout seul ? <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite
+                du monde <i class="fas fa-users"></i></a>
+            </span>
+            {% elseif roleUserActif <= 2 %} <a href="{{ path('list_users_free', {'id' : crew.id } ) }}">invite plus
+                du monde <i class="fas fa-users m-1"></i></a> pour faire grandir ton groupe
+                {% endif %}
+>>>>>>> 1f22d137315263310a19f5aa8d37226bab869aa2
 
 </main>
 {% endblock %}
