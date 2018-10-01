@@ -5,7 +5,7 @@
 
 {% block body %}
     <div class="bubble col-8 offset-2">
-        <a href="{{ path('add_like', {'id': quizz.id }) }}">
+        <a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
             <h4>J'adore ce quizz
                 <i class="fas fa-thumbs-up ml-1"></i>
             </h4>
@@ -23,10 +23,9 @@
     <div class="bubble col-6 offset-3">
         <p class="h5">Pour voir les 7 prochaines...
             <i class="fas fa-arrow-circle-right"></i>
-            {% if is_granted('ROLE_USER')
- %}
+            {% if is_granted('ROLE_USER')%}
 
-                <a href="{{ path('quizz_play', { 'id' : quizz.id , 'nbr' : 1 }) }}">
+                <a href="{{ path('quizz_play', { 'slug' : quizz.slug, 'id' : quizz.id, 'nbr' : 1 }) }}">
                     <button class="btn btn-success" type="button">Jouer !</button>
                 </a>
 

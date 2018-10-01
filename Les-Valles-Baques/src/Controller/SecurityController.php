@@ -27,9 +27,10 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //? si l'utilisateur n'est pas enregister le lui donne par défault:
+            // ? partie à revoir aussi pour l'avatar bug
             if (null === $user->getId()) {
                 //? AppRole id = 2 donc ROLE_USER
-                if($user->getAvatar() !== null ){
+                if ($user->getAvatar() !== null) {
                     $file = $user->getAvatar();
                     $fileName = md5(uniqid()) . "." . $file->guessExtension();
                     $file->move($this->getParameter('avatar_directory'), $fileName);
@@ -37,7 +38,7 @@ class SecurityController extends AbstractController
                 }
                 
                 $role = $repository->findOneBy(['id' => 2]);
-                dump($role);
+
                 $user->setAppRole($role);
                 //? et le status Actif
                 $user->setIsActif(true);
@@ -83,8 +84,15 @@ class SecurityController extends AbstractController
     /**
      * @Route("/connexion", name="security_login", methods={"GET","POST"})
      */
-    public function login()
+    public function login(AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('security/login.html.twig');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
     }
 }

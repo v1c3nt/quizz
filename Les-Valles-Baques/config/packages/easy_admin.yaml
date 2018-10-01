@@ -385,9 +385,10 @@ easy_admin:
                     - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', label: 'Email', type: 'email'}
-                    - { property: 'avatar', label : 'Photo', type: image, base_path: '/img/'}
+                    - { property: 'avatar', label : 'Photo', type: image, base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'password', label: 'Mot de Passe'}
                     - { property: 'isActif', label: 'Activer'}
             # La view des Membres
             show: 
@@ -397,9 +398,10 @@ easy_admin:
                     - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', lable: 'Email', type: 'email'}
-                    - { property: 'avatar', label: 'Photo', type: image, base_path: '/img/'}
+                    - { property: 'avatar', label: 'Photo', type: image, base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'password', label: 'Mot de Passe'}
                     - { property: 'isActif', label: 'Activer'}
             # La view d'une modification d'un Membre
             edit:
@@ -409,9 +411,10 @@ easy_admin:
                     - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', lable: 'Email', type: 'email'}
-                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'avatar', label: 'Photo', type: 'image', base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'password', label: 'Mot de Passe'}
                     - { property: 'isActif', label: 'Activer'}
             # La view d'un ajout d'un Quizz
             new:
@@ -421,9 +424,10 @@ easy_admin:
                     - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', lable: 'Email', type: 'email'}
-                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'avatar', label: 'Photo', base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
+                    - { property: 'password', label: 'Mot de Passe'}
                     - { property: 'isActif', label: 'Activer'}
         
         #UserCrew:

@@ -40,13 +40,13 @@ class UserType extends AbstractType
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])
-         
+        
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();
 
                 if ($user->getId()) {
-                    dump('edition');
+
                     $form->add(
                         'password',
                         RepeatedType::class,
@@ -70,7 +70,6 @@ class UserType extends AbstractType
                         )
                         );
                 } else { //sinon je suis en creation
-                    dump('creation');
                     $form->add(
                         'password',
                         RepeatedType::class,

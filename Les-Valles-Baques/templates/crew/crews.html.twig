@@ -3,101 +3,101 @@
 {% block title %}Mes groupes{% endblock %}
 
 {% block body %}
-<style></style>
 
-<main class="bubble col-12 col-md-8 offset-md-2">
-    <div class="bubble">
+    <main class="bubble col-12 col-md-8 offset-md-2">
+        <div class="bubble">
 
-        <h3 class="m-1 border border-primary brad p-2 bubble-title">
-            <u>Mes groupes</u>
-        </h3>
-    </div>
-    <div class="bubble">
+            <h3 class="m-1 border border-primary brad p-2 bubble-title">
+                <u>Mes groupes</u>
+            </h3>
+        </div>
+        <div class="bubble">
 
-        <div>
-            <div class="brad m-1">
-                <table class="table">
-                    <thead>
+            <div>
+                <div class="brad m-1">
+                    <table class="table">
+                        <thead>
 
-                        <tr>
-                            <th scope="col">
-                                <u>Avatar</u>
-                            </th>
-                            <th scope="col">
-                                <u>Nom</u>
-                            </th>
-                            <th class=" d-none d-lg-table-cell" scope="col">
-                                <u>Ancienneté</u>
-                            </th>
-                            <th scope="col">
-                                <u>Rôle</u>
-                            </th>
-                            <th scope="col">
-                                <u>Action</u>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for m in mycrew %}
-                        <tr>
-                            <th scope="row">
+                            <tr>
+                                <th scope="col">
+                                    <u>Avatar</u>
+                                </th>
+                                <th scope="col">
+                                    <u>Nom</u>
+                                </th>
+                                <th class=" d-none d-lg-table-cell" scope="col">
+                                    <u>Ancienneté</u>
+                                </th>
+                                <th scope="col">
+                                    <u>Rôle</u>
+                                </th>
+                                <th scope="col">
+                                    <u>Action</u>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in mycrew %}
+                                <tr>
+                                    <th scope="row">
 
-                                {% if m.avatar is not empty %}
-                                <img src="{{ vich_uploader_asset(m, 'avatarFile') | imagine_filter('mini_square') }}"
-                                    alt="avatar de {{ m.name }}" class="brad">
-                                {% else %}
-                                <img src="{{ asset('/images/avatar1.png') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}"
-                                    class="brad">
-                                {% endif %}
+                                        {% if m.avatar is not empty %}
+                                            <img src="{{ vich_uploader_asset(m, 'avatarFile') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}" class="brad">
+                                        {% else %}
+                                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('mini_square') }}" alt="avatar de {{ m.name }}" class="brad">
+                                        {% endif %}
 
-                            </th>
-                            <td>
-                                <a href="{{ path('crew_show', { 'id': m.id }) }}">{{ m.name }}</a>
-                            </td>
-                            <td class=" d-none d-lg-table-cell">
-                                {% for crew in usercrews %}
-                                {% if crew.crew.id == m.id %}
+                                    </th>
+                                    <td>
+                                        <a href="{{ path('crew_show', { 'id': m.id, 'slug': m.slug }) }}">{{ m.name }}</a>
+                                    </td>
+                                    <td class=" d-none d-lg-table-cell">
+                                        {% for crew in usercrews %}
+                                            {% if crew.crew.id == m.id %}
 
-                                {{ crew.createdAt.diff(date())|date("%d j - %m m - %y a") }}
+                                                {{ crew.createdAt.diff(date())|date("%d j - %m m - %y a") }}
 
+                                            {% endif %}
+                                        {% endfor %}
 
-                                {% endif %}
+                                    </td>
+                                    {% for crew in usercrews %}
+                                        {% if crew.crew.id == m.id %}
+                                            <td>
+                                                {{ crew.roleCrew.name }}
+                                            </td>
+                                            <td>
+                                                {% if 1 == crew.roleCrew.id %}
+                                                    <a href="{{ path('crew_edit', {'id': crew.crew.id, 'slug': crew.crew.slug }) }}">
+                                                        {#TODO codé une alerte avec vérification de la suppression ? #}
+                                                        <u>éditer</u>
+                                                    </a>
+                                                    <br/>
+                                                    <a href="{{ path('crew_delete', {'id': crew.crew.id, 'slug': crew.crew.slug}) }}">
+                                                        <u>supprimer</u>
+                                                    </a>
+                                                {% elseif 2 == crew.roleCrew.id %}
+                                                    <a href="#">
+                                                        <u>éditer</u>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ path('crew_remove_member', { 'id': m.id , 'user': app.user }) }}">
+                                                        <i class="fas fa-step-forward m-1"></i>
+                                                        <u>quitter</u>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
+                            </tbody>
+                        </table>
+                        {{ include('crew/crewTableFooter.html.twig') }}
 
-                            </td>
-                            {% for crew in usercrews %}
-                            {% if crew.crew.id == m.id %}
-                            <td>
-                                {{ crew.roleCrew.name }}
-                            </td>
-                            <td>
-                                {% if 1 == crew.roleCrew.id %}
-                                <a href="{{ path('crew_edit', {'id': crew.crew.id }) }}">
-                                    {#TODO codé une alerte avec vérification de la suppression ? #}
-                                    <u>éditer</u>
-                                </a>
-                                <br />
-                                <a href="{{ path('crew_delete', {'id': crew.crew.id}) }}">
-                                    <u>supprimer</u>
-                                </a>
-                                {% elseif 2 == crew.roleCrew.id %}
-                                <a href="#"><u>éditer</u></a>
-                                {% else %}
-                                <a href="{{ path('crew_remove_member', { 'id': m.id , 'user': app.user }) }}"><i class="fas fa-step-forward m-1"></i><u>quitter</u></a>
-                                {%
-                                endif %}
-                            </td>
-                            {% endif %}
-                            {% endfor %}
-                            {% endfor %}
-                    </tbody>
-                </table>
-                {{ include('crew/crewTableFooter.html.twig') }}
+                    </div>
+                </div>
 
             </div>
         </div>
-
-    </div>
-    </div>
-</main>
+    </main>
 {% endblock %}

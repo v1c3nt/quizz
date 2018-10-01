@@ -28,9 +28,8 @@ class IsLikeController extends AbstractController
         $statement->bindValue('id', $id);
         $statement->execute();
         $aa = $statement->fetchAll();
-        dump($aa);
         exit;*/
-        dump($likeRepo->countLikeByQuizz($id));
+        
 
         $Like = $likeRepo->findOneBy(['quizz' => $id, 'user' => $user->getId()]);
         if ($Like === null) {
@@ -43,7 +42,7 @@ class IsLikeController extends AbstractController
             ((true === $Like->getLikeIt()) ? $Like->setLikeIt(false) : $Like->setLikeIt(true));
         }
         $manager->persist($Like);
-        dump($Like->getLikeIt());
+
         $manager->flush();
 
         $quizz = $quizzRepo->findOneBy(['id' => $id ]);
