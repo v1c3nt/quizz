@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuizzRepository")
@@ -366,5 +367,4 @@ class Quizz
 
         return $this;
     }
-
 }

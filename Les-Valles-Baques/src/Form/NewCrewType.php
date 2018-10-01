@@ -9,13 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+
 class NewCrewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
-            ->add('slug')
+            ->add('slug', null, [
+                'required' => false])
             ->add('description')
             ->add('avatar', null, [
                 'data_class' => null,

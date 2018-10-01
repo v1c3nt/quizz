@@ -9,7 +9,7 @@
         <h2 class="bubble-title">{{ points }}/10 c'est #TODO#{#TODO mettre des pharses #}</h2>
         <h3>sur le quizz:{{quizz.title}}</h3>
 
-        <a href="{{ path('add_like', {'id': quizz.id }) }}">
+        <a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
             <h4>J'adore ce quizz
                 <i class="fas fa-thumbs-up ml-1"></i>
             </h4>

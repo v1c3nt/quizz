@@ -40,7 +40,7 @@ class UserType extends AbstractType
             ->setAttributes([
             'novalidate'=>'novalidate',
             ])
-         
+        
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();

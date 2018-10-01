@@ -82,17 +82,18 @@ class UserController extends AbstractController
 
     /**
      * @Route("/profile/{id}/{username}_edite_mot_de_passe", name="edit_password", methods="GET|POST")
+     ** A revoir pour édition car finalement logout erreur fichier non trouvé lors de l'envoie + pas de changement de mot de passe
      */
-
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
     {
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('avatar');
         $form->remove('userName');
         $form->remove('email');
-        $form->remove('avatar');
         $form->remove('presentation');
+
 
         $form->handleRequest($request);
 

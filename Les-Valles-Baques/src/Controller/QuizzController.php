@@ -35,12 +35,13 @@ use App\Entity\Crew;
 use App\Form\CrewQuizzsType;
 
 
+use App\Service\Slugger;
 
 class QuizzController extends AbstractController
 {
 
     /**
-     * @Route("/quizz/show/{id}", name="quizz_show")
+     * @Route("/quizz/show/{slug}", name="quizz_show")
      */
     public function show(Quizz $quizz) : Response
     {
@@ -48,14 +49,14 @@ class QuizzController extends AbstractController
 
         return $this->render('quizz/show.html.twig', [
             'quizz' => $quizz,
-            'questions' => $question
+            'questions' => $question,
         ]);
     }
 
     /**
      * @Route("/quizz/propose/nouveau", name="new_quizz")
      */
-    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr)
+    public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, Slugger $slugger)
     {
         $user = $this->getUser();
         $crews = $ucr->findBy(['user' => $user]);
@@ -64,9 +65,9 @@ class QuizzController extends AbstractController
 
         $form = $this->createForm(QuizzType::class, $quizz);
 
-        /** 
+        /**
         $crewsChoices[] = [0 => 'publique'];
-        //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices 
+        //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
         foreach ($crews as $crew) {
             $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
         }
@@ -92,15 +93,18 @@ class QuizzController extends AbstractController
             $quizz->setAuthor($user);
 
             $crews = $quizz->getCrewQuizzs();
-           
-            // TODO ajouter un slugger
-            $quizz->setSlug('test');
+    
+            //TODO ajouter l'id du groupe du user
+
+            $convertedTitle = $slugger->slugify($quizz->getTitle());
+            $quizz->setSlug($convertedTitle);
+
             // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-            dump($user);
+            
             //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
             $manager->flush();
-            /** 
+            /**
             foreach ($crewsQuizz as $crewQuizz) {
                 dump([$crewQuizz]);
                 $quizzAutho = new CrewQuizzs;
@@ -112,11 +116,12 @@ class QuizzController extends AbstractController
 
             }
             dump($request);
-            
+
              */
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
                 'id' => $quizz->getId(),
+                'slug' =>$quizz->getSlug(),
                 'quizz' => $quizz,
                 'nbr' => 0,
             ]);
@@ -129,9 +134,9 @@ class QuizzController extends AbstractController
 
     /**
      * TODO {id} a changer par slug.
-     * @Route("/question/quizz/{id}/{nbr}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
+     * @Route("/question/{nbr}/quizz/{id}/{slug}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr, $slug) : Response
     {
         $question = new Question();
 
@@ -146,9 +151,12 @@ class QuizzController extends AbstractController
             $question->setQuizz($quizz);
             $question->setErrore(0);
             $question->setNbr($nbr);
+            ;
+            
             $manager->persist($question);
-
             $manager->flush();
+            
+            //? addFlash à revoir
             $this->addFlash('success', 'Question ' . $nbr . ' ajoutée');
             if ($question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Courage la dernière !');
@@ -177,6 +185,7 @@ class QuizzController extends AbstractController
                     'quizz' => $quizz,
                     'nbr' => $nbr,
                     'questions' => $questions,
+                    'slug'=>$slug,
                 ]);
             }
 
@@ -190,16 +199,17 @@ class QuizzController extends AbstractController
             'quizz' => $quizz,
             'nbr' => $nbr,
             'questions' => $questions,
+            'slug'=>$slug,
         ]);
     }
 
     /**
      * TODO replacer id par slug
      * a voir pour bloqué l
-     * @Route("quizz_{id}/question_{nbr}", name="quizz_play", defaults={"nbr"=1})
+     * @Route("quizz_{id}/{slug}/question_{nbr}", name="quizz_play", defaults={"nbr"=1})
      *
      */
-    public function play($id, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
+    public function play($id, $slug, Request $request, QuestionRepository $questionRepo, SessionInterface $session)
     {
         if (null === $session->get('results' . $id . '') || empty($session->get('results' . $id . '')) || 11 === count($session->get('results' . $id . ''))) {
             $results[] = 'quizz_' . $id;
@@ -250,11 +260,13 @@ class QuizzController extends AbstractController
                     'question' => $question,
                     'nbr' => $nbr,
                     'id' => $id,
+                    'slug'=>$slug,
                 ]);
             }
 
             return $this->redirectToRoute('quizz_results', [
-                'id' => $id
+                'id' => $id,
+                'slug'=>$slug,
             ]);
         }
 
@@ -267,10 +279,10 @@ class QuizzController extends AbstractController
     /**
      * TODO replacer id par slug
      * a voir pour bloqué l
-     * @Route("resultats/quizz_{id}", name="quizz_results")
+     * @Route("resultats/quizz_{id}/{slug}", name="quizz_results")
      *
      */
-    public function results($id, QuizzRepository $quizzRepo, ObjectManager $manager, SessionInterface $session, StatisticRepository $statRepo)
+    public function results($id, $slug, QuizzRepository $quizzRepo, ObjectManager $manager, SessionInterface $session, StatisticRepository $statRepo)
     {
         $user = $user = $this->getUser();
 
@@ -312,6 +324,7 @@ class QuizzController extends AbstractController
             'answers' => $answers,
             'quizz' => $quizz,
             'points' => $points,
+            'slug'=>$slug,
         ]);
     }
 
