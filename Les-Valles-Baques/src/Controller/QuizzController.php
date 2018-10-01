@@ -68,7 +68,6 @@ class QuizzController extends AbstractController
         $user = $this->getUser();
         $crews = $ucr->findBy(['user' => $user]);
         $crew = $crewRepo->findAll();
-
         $quizz = new Quizz();
 
         $form = $this->createForm(QuizzType::class, $quizz);
@@ -86,7 +85,7 @@ class QuizzController extends AbstractController
             'expanded' => true,
             'multiple' => true,
             'label' => 'visibilité',// être plus explicite
-            'help' => 'choisi'
+            'help' => 'choisi Publique pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupe.'
         ]);
 
 
@@ -97,7 +96,6 @@ class QuizzController extends AbstractController
             $arrayCrews = $quizz->getArrayCrew();
                 //? si le tableau contient ne contient pas NULL, il est donc privée.
             ( true !== ( in_array(null, $arrayCrews) ) ) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
-            
 
                 //TODO ajouter l'id du groupe du user
 
@@ -108,6 +106,8 @@ class QuizzController extends AbstractController
                 
                 //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
+            dump($arrayCrews);
+
             $manager->flush();
 
             foreach ($arrayCrews as $crew) {
@@ -116,7 +116,6 @@ class QuizzController extends AbstractController
                 $authorization = $quizzAutho->setQuizz($quizz);
 
                 $manager->persist($authorization);
-
                 $manager->flush();
             }
 
