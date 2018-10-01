@@ -4,256 +4,264 @@
 {# TODO requet custom pour reduire le nombre de requets #}
 {% block body %}
 
-    <main class="bubble col-12 col-md-8 offset-md-2">
-        <div class="bubble col-8 offset-2">
-            <h1 class="bubble-title">Mon
-                <u>groupe</u>
-            </h1>
+<main class="bubble col-12 col-md-8 offset-md-2">
+    <div class="bubble col-8 offset-2">
+        <h1 class="bubble-title">Mon
+            <u>groupe</u>
+        </h1>
+    </div>
+    <div class="m-1 border border-primary brad p-2">
+        <u>
+            <h3>{{ userCrews[0].crew.name }}</h3>
+        </u>
+    </div>
+    {% for message in app.flashes('success') %}
+    <div class="m-flash alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% for message in app.flashes('danger') %}
+    <div class="m-flash alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        {# Si createur la div modifier s'affiche #}
+        <div class="col-2 p-2">
+            {% if null != crew.avatar %}
+
+            <img src="{{ vich_uploader_asset(crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+                class="brad m-2">
+            {% else %}
+            <img src="{{ asset('/images/avatar1.png') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}"
+                class="brad  m-2">
+            {% endif %}
         </div>
-        <div class="m-1 border border-primary brad p-2">
-            <u>
-                <h3>{{ userCrews[0].crew.name }}</h3>
-            </u>
-        </div>
-        {% for message in app.flashes('success') %}
-            <div class="m-flash alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
+        <div class=" bubble-title col-9 p-2 ">
 
-        {% for message in app.flashes('danger') %}
-            <div class="m-flash alert alert-danger">
-                {{ message }}
-            </div>
-        {% endfor %}
-
-        <div class="row">
-            {# Si createur la div modifier s'affiche #}
-            <div class="col-2 p-2">
-                {% if null != crew.avatar %}
-
-                    <img src="{{ vich_uploader_asset(crew, 'avatarFile') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}" class="brad m-2">
-                {% else %}
-                    <img src="{{ asset('/images/avatar1.png') | imagine_filter('small_square') }}" alt="avatar de {{ userCrews[0].crew.name }}" class="brad  m-2">
-                {% endif %}
-            </div>
-            <div class=" bubble-title col-9 p-2 ">
-
-                <p>
-                    <u>
-                        <ins>crée le :</ins>
-                    </u>
-                    {{ userCrews[0].crew.createdAt|date('d/m/Y') }}</p>
-                <p>
-                    <u>
-                        <ins>Description:</ins>
-                    </u>
-                    {{ userCrews[0].crew.description }}</p>
-            </div>
+            <p>
+                <u>
+                    <ins>crée le :</ins>
+                </u>
+                {{ userCrews[0].crew.createdAt|date('d/m/Y') }}</p>
+            <p>
+                <u>
+                    <ins>Description:</ins>
+                </u>
+                {{ userCrews[0].crew.description }}</p>
         </div>
     </div>
-</div>
+    </div>
+    </div>
 
-<div id="accordion">
-    <h3 class="m-1 border border-primary brad p-2">
-        <u>quizz</u>
-        du groupe</h3>
-    <div class="brad m-1">
-        <table class="table">
-            <thead class="thead">
-                <tr>
-                    <th scope="col">
-                        <u>Quizzes</u>
-                    </th>
-                    <th class=" d-none d-lg-table-cell" scope="col">
-                        <u>Catégories</u>
-                    </th>
-                    <th scope="col">
-                        <u>Niveaux</u>
-                    </th>
-                    <th class=" d-none d-md-table-cell" scope="col">
-                        <u>Like</u>
-                    </th>
-                    <th scope="col">
-                        <u>score</u>
-                    </th>
-                    <th scope="col">
-                        <u>Jouer</u>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {% for q in quizzs %}
+    <div id="accordion">
+        <h3 class="m-1 border border-primary brad p-2">
+            <u>quizz</u>
+            du groupe</h3>
+        <div class="brad m-1">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">
+                            <u>Quizzes</u>
+                        </th>
+                        <th class=" d-none d-lg-table-cell" scope="col">
+                            <u>Catégories</u>
+                        </th>
+                        <th scope="col">
+                            <u>Niveaux</u>
+                        </th>
+                        <th class=" d-none d-md-table-cell" scope="col">
+                            <u>Like</u>
+                        </th>
+                        <th scope="col">
+                            <u>score</u>
+                        </th>
+                        <th scope="col">
+                            <u>Jouer</u>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%dump(quizzs)%}
+{% for q in quizzs %}
+                        
+                    <tr>
                         <th scope="row">
-                            {{q.title}}
+                            {{q.Quizz.title}}
                         </th>
                         <td class="d-none d-lg-table-cell">
                             {#TODO a effacer le temps de régler les sql#}
-                            {% if q.category.name is defined %}
-                                {{q.category.name}}
+                            {% if q.Quizz.category.name is defined %}
+                            {{q.Quizz.category.name}}
                             {% endif %}
-
+                            
                         </td>
-
-                        <td>{{q.level.name}}</td>
+                        
+                        <td>{{q.Quizz.level.name}}</td>
                         <td class="d-none d-md-table-cell">
-                            {{ q.nbrLikes }}
+                            {{ q.Quizz.nbrLikes }}
                         </td>
-
+                        
                         <td>
-                            {{ myScores[q.id]|round(1, 'floor') }}
-
+                            {# myScores[q.Quizz.id]|round(1, 'floor') #}
+                            
                         </td>
                         <td>
                             {% if is_granted('ROLE_USER') %}
-                                <a href="{{path('quizz_show',{'id':q.id})}}">
-                                    <button class="btn btn-success" type="button">
-                                        Go !
-                                    </button>
-                                </a>
-                            {% else %}
+                            <a href="{#path('quizz_show',{'id':q.id})#}">
                                 <button class="btn btn-success" type="button">
-                                    <a href="{{path('security_signup')}}"></a>Inscris-toi pour jouer</a>
+                                    Go !
+                                </button>
+                            </a>
+                            {% else %}
+                            <button class="btn btn-success" type="button">
+                                <a href="{{path('security_signup')}}"></a>Inscris-toi pour jouer</a>
                             </button>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-<h3 class="m-1 border border-primary brad p-2">
-    <u>membre</u>
-    du groupe</h3>
-<div class="brad m-1">
-    <table class="table">
-        <thead>
-            <th>
-                <u>avatar</u>
-            </th>
-            <th>
-                <u>nom</u>
-            </th>
-            <th class=" d-none d-lg-table-cell">
-                <u>ancienneté</u>
-            </th>
-            <th>
-                <u>Statut</u>
-            </th>
-            {% if roleUserActif <= 2 %}
-                <th>
-                    <u>renvoyer</u>
-                </th>
-            {% endif %}
-            {% if roleUserActif <= 1 %}
-                <th colspan="2">
-                    <u>promouvoir</u>
-                </th>
-            {% endif %}
-        </thead>
-
-        <tbody>
-            {% for crew in userCrews %}
-
-                {% if crew.user == app.user %}{% set roleUserActif = crew.roleCrew.id %}
-                {% endif %}
-                <tr>
-                    <th scope="col">
-                        {#TODO créer un service pour avatar perso ou defaut avatar #}
-                        {% if null != crew.user.avatar %}
-                            <img src="{{ vich_uploader_asset(crew.user, 'avatarFile') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad m-2 ">
-                        {% else %}
-                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}" class="brad  m-2">
-                        {% endif %}
+        <h3 class="m-1 border border-primary brad p-2">
+            <u>membre</u>
+            du groupe</h3>
+        <div class="brad m-1">
+            <table class="table">
+                <thead>
+                    <th>
+                        <u>avatar</u>
                     </th>
-                    <th scope="col">{{ crew.user.userName }}</th>
-                    <th class=" d-none d-lg-table-cell" scope="col">{{
+                    <th>
+                        <u>nom</u>
+                    </th>
+                    <th class=" d-none d-lg-table-cell">
+                        <u>ancienneté</u>
+                    </th>
+                    <th>
+                        <u>Statut</u>
+                    </th>
+                    {% if roleUserActif <= 2 %} <th>
+                        <u>renvoyer</u>
+                        </th>
+                        {% endif %}
+                        {% if roleUserActif <= 1 %} <th colspan="2">
+                            <u>promouvoir</u>
+                            </th>
+                            {% endif %}
+                </thead>
+
+                <tbody>
+                    {% for crew in userCrews %}
+
+                    {% if crew.user == app.user %}{% set roleUserActif = crew.roleCrew.id %}
+                    {% endif %}
+                    <tr>
+                        <th scope="col">
+                            {#TODO créer un service pour avatar perso ou defaut avatar #}
+                            {% if null != crew.user.avatar %}
+                            <img src="{{ vich_uploader_asset(crew.user, 'avatarFile') | imagine_filter('icon_square') }}"
+                                alt="avatar de {{ crew.user.userName }}" class="brad m-2 ">
+                            {% else %}
+                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('icon_square') }}" alt="avatar de {{ crew.user.userName }}"
+                                class="brad  m-2">
+                            {% endif %}
+                        </th>
+                        <th scope="col">{{ crew.user.userName }}</th>
+                        <th class=" d-none d-lg-table-cell" scope="col">{{
                             crew.createdAt.diff(date())|date("%d jours-
                             %m mois- %y ans")
                             }}</th>
-                    <th scope="col">{{ crew.roleCrew.name }}</th>
+                        <th scope="col">{{ crew.roleCrew.name }}</th>
 
-                    <!-- ? Si l'utilisateur actif a un role 1 ou 2 alors j'affiche la colonne "renvoyer" -->
-                    {% if roleUserActif <= 2 %}
-                        <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas "renvoyer" -->
-                        {% if crew.roleCrew.id == 1 %}
+                        <!-- ? Si l'utilisateur actif a un role 1 ou 2 alors j'affiche la colonne "renvoyer" -->
+                        {% if roleUserActif <= 2 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas
+                            "renvoyer" -->
+                            {% if crew.roleCrew.id == 1 %}
                             <th colspan="2">
                                 <u>c'est</u>
                                 qui le
                                 <u>patron</u>
                                 ?</th>
-                        {% else %}
+                            {% else %}
 
                             <th scope="col">
-                                <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}" class="h3">
+                                <a href="{{ path('crew_remove_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                    class="h3">
                                     <u>
                                         <i class="fas fa-sign-out-alt"></i>
                                     </u>
                                 </a>
                             </th>
-                        {% endif %}
-                    {% endif %}
+                            {% endif %}
+                            {% endif %}
 
-                    <!-- ? Si l'utilisateur actif a un role 1 j'affiche la colonne "promouvoir" -->
-                    {% if roleUserActif <= 1 %}
-                        <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas "promouvoir"" -->
+                            <!-- ? Si l'utilisateur actif a un role 1 j'affiche la colonne "promouvoir" -->
+                            {% if roleUserActif <= 1 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas
+                                "promouvoir"" -->
                         {% if crew.roleCrew.id == 1 %}
                             <th colspan="
                                 2">
                                 <u>c'est</u>
                                 <u>moi l'patron</u>
                                 !</th>
-                        {% else %}
-                            <th scope="col">
-                                <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}" class="h3">
-                                    <i class="fas fa-medal m-1"></i>
-                                    <u class="h6">leader</u>
-                                </a>
-                            </th>
+                                {% else %}
+                                <th scope="col">
+                                    <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                        class="h3">
+                                        <i class="fas fa-medal m-1"></i>
+                                        <u class="h6">leader</u>
+                                    </a>
+                                </th>
 
-                            {% if crew.roleCrew.id != 1 %}
+                                {% if crew.roleCrew.id != 1 %}
 
                                 <th scope="col">
-                                    <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}" class="h3">
+                                    <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                        class="h3">
                                         <i class="fas fa-chess-king m-1"></i>
                                         <u class="h6">createur</u>
                                     </a>
                                 </th>
 
-                            {% else %}
+                                {% else %}
 
                                 <th scope="col">
-                                    <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}" class="h3">
+                                    <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                        class="h3">
                                         <i class="fas fa-user-astronaut"></i>
                                         <u class="h6">membre</u>
                                     </a>
                                 </th>
 
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                                {% endif %}
+                                {% endif %}
+                                {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    {% if userCrews | length < 2 %}
-        <span href="#" class="text-primary h3">
-            <i class="fas fa-sad-tear  mr-1"></i><br/>
-            <u>Oh
-            </u>... tu es tout seul ?
-            <a href="{{ path('list_users_free', {'id' : crew.id, 'slug':crew.slug } ) }}">invite du monde
-                <i class="fas fa-users"></i>
-            </a>
-        </span>
-    {% elseif roleUserActif <= 2 %}
-        <a href="{{ path('list_users_free', {'id' : crew.id, 'slug':crew.slug } ) }}">invite plus du monde
-            <i class="fas fa-users m-1"></i>
-        </a>
-        pour faire grandir ton groupe
-    {% endif %}
+            {% if userCrews | length < 2 %} <span href="#" class="text-primary h3">
+                <i class="fas fa-sad-tear  mr-1"></i><br />
+                <u>Oh
+                </u>... tu es tout seul ?
+                <a href="{{ path('list_users_free', {'id' : crew.id, 'slug':crew.slug } ) }}">invite du monde
+                    <i class="fas fa-users"></i>
+                </a>
+                </span>
+                {% elseif roleUserActif <= 2 %} <a href="{{ path('list_users_free', {'id' : crew.id, 'slug':crew.slug } ) }}">invite
+                    plus du monde
+                    <i class="fas fa-users m-1"></i>
+                    </a>
+                    pour faire grandir ton groupe
+                    {% endif %}
 
 </main>
 {% endblock %}

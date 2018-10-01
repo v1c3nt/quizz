@@ -108,12 +108,9 @@ class QuizzController extends AbstractController
                 
                 //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
-            dump($quizz);
-            exit;
             $manager->flush();
 
             foreach ($arrayCrews as $crew) {
-                dump([$crew]);
                 $quizzAutho = new CrewQuizzs;
                 $authorization = $quizzAutho->setCrew($crew);
                 $authorization = $quizzAutho->setQuizz($quizz);
@@ -122,7 +119,6 @@ class QuizzController extends AbstractController
 
                 $manager->flush();
             }
-            dump($request);
 
              
             //? après la création du questionnaire j'oriente vers la  création des questions.
