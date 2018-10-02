@@ -1,7 +1,9 @@
+@import "~bootstrap/scss/bootstrap";
+
 $red: #18171b;
 $yellow: #18171b;
 $green: #b729d9;
-$color5: #1299da;  
+$color5: #1299da;
 //$red: #d92139;
 //$yellow: #fec748;
 //$green: #aec33a;
@@ -9,6 +11,7 @@ $color5: #1299da;
 .green {
     color: $green
 }
+
 $color4:#ff8400;
 $color6: #002547;
 $blue: #1299da;
@@ -82,16 +85,8 @@ button.btn.btn-danger {
     }
 }
 
-@import "~bootstrap/scss/bootstrap";
 
-/* Triangle pour la forme où est encadrée la Catégorie sur la page list Quizz*/
-@mixin triangle ($size, $color) {
-    width: 0;
-    height: 0;
-    border-top: $size solid transparent;
-    border-bottom: $size solid transparent;
-    border-left: $size solid $color;
-}
+
 
 body {
     background-color: $color6;
@@ -109,6 +104,7 @@ form {
 a {
     color: inherit;
 }
+
 a:hover {
     color: $color4;
 }
@@ -159,8 +155,8 @@ i {
 }
 
 .vodka {
-   position: absolute;
-   right: 1em;
+    position: absolute;
+    right: 1em;
 
 }
 
@@ -216,7 +212,7 @@ thead.thead {
 .table thead th {
     background-color: $color6;
     border-bottom-color: $color4;
-    
+
 }
 
 
@@ -224,7 +220,7 @@ thead.thead {
     background-color: $color6;
     border-top-color: $color4;
     vertical-align: middle;
-    
+
 }
 
 .p-relat {
