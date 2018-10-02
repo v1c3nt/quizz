@@ -103,6 +103,11 @@ class Quizz
 
     private $arrayCrew = [];
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $completedAt;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -378,6 +383,18 @@ class Quizz
     public function setArrayCrew(?array $arrayCrew): self
     {
         $this->arrayCrew = $arrayCrew;
+
+        return $this;
+    }
+
+    public function getCompletedAt(): ?\DateTimeInterface
+    {
+        return $this->completedAt;
+    }
+
+    public function setCompletedAt(?\DateTimeInterface $completedAt): self
+    {
+        $this->completedAt = $completedAt;
 
         return $this;
     }
