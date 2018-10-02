@@ -106,7 +106,6 @@ class QuizzController extends AbstractController
                 
                 //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
-            dump($arrayCrews);
 
             $manager->flush();
 
@@ -139,7 +138,7 @@ class QuizzController extends AbstractController
      * TODO {id} a changer par slug.
      * @Route("/question/{nbr}/quizz/{id}/{slug}", name="questions_quizz", methods={"POST|GET"}, defaults={"nbr"=0})
      */
-    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr, $slug) : Response
+    public function addQuestions(Request $request, ObjectManager $manager, $id, QuestionRepository $questionRepo, Quizz $quizz, $nbr, $slug, QuizzRepository $qr) : Response
     {
         $question = new Question();
 
@@ -148,8 +147,7 @@ class QuizzController extends AbstractController
 
         $questions = $questionRepo->findBy(['quizz' => $quizz->getId()]);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
-            dump($question);
+ 
             //? je crée une variable pour compter le nombre de questions créées
             $nbr++;
 
@@ -159,9 +157,8 @@ class QuizzController extends AbstractController
 
             $manager->persist($question);
             $manager->flush();
-            
-            //? addFlash ajout de question
 
+            //? addFlash ajout de question
             if ($question->getNbr() > 9) {
                 $this->addFlash('primary', 'Question ' . ($nbr) . ' ajoutée! Courage la dernière !');
             } elseif ($question->getNbr() > 8) {
@@ -193,6 +190,10 @@ class QuizzController extends AbstractController
                 ]);
             }
 
+            $now = new \DateTime();
+            $quizz->setCompletedAt($now);
+            $manager->flush();
+
             return $this->redirectToRoute('quizz_list_sort', [
                 'sort ' => 'id'
             ]);
@@ -223,9 +224,7 @@ class QuizzController extends AbstractController
         $nbr = count($session->get('results' . $id . ''));
 
         $user = $this->getUser();
-        dump([$id,$nbr]);
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
-        dump($question);
         $responses[] =
             [$question->getProp1() => 'prop1'];
         $responses[] =
@@ -329,6 +328,8 @@ class QuizzController extends AbstractController
         if (10 === $points) {
             $congrats = 'Alors là tu me bluffes, Bravo !';
         } elseif (8 <= $points) {
+            $congrats = 'Mention très bien !';
+        } elseif (6 <= $points) {
             $congrats = 'Pas mal !';
         } elseif (5 === $points) {
             $congrats = 'Juste la moyenne.';
@@ -337,7 +338,6 @@ class QuizzController extends AbstractController
         } else {
             $congrats = 'A ce niveau-là, ce n\'est plus de la révision !';
         }
-
 
         return $this->render('quizz/results.html.twig', [
             'answers' => $answers,
@@ -356,10 +356,16 @@ class QuizzController extends AbstractController
     {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy(['isPrivate' => null], [$sort => 'DESC']);
+        $quizzsAll = $quizzs->findBy(['isPrivate' => false], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
+        $quizzs = [];
 
+        foreach ($quizzsAll as $quizz) {
+            
+            ( $quizz->getCompletedAt() !== NULL )? $quizzs[] = $quizz : "";
+            
+        }
         foreach ($quizzs as $key => $quizz) {
             $idQ = $quizz->getId();
 

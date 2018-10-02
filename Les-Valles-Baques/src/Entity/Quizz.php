@@ -29,7 +29,7 @@ class Quizz
      *      minMessage = "Tu manques d'instiration ... ok mais la c'est trop court ",
      *      maxMessage = "C'est pas la taille l'important. La c'est trop long ",
      * )
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128, unique=true)
      */
     private $title;
 
@@ -102,6 +102,11 @@ class Quizz
     private $crewQuizzs;
 
     private $arrayCrew = [];
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $completedAt;
 
     public function __construct()
     {
@@ -378,6 +383,18 @@ class Quizz
     public function setArrayCrew(?array $arrayCrew): self
     {
         $this->arrayCrew = $arrayCrew;
+
+        return $this;
+    }
+
+    public function getCompletedAt(): ?\DateTimeInterface
+    {
+        return $this->completedAt;
+    }
+
+    public function setCompletedAt(?\DateTimeInterface $completedAt): self
+    {
+        $this->completedAt = $completedAt;
 
         return $this;
     }

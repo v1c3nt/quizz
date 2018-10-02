@@ -1,21 +1,27 @@
-$red: #d92139;
-$yellow: #fec748;
-$green: #aec33a;
+$red: #18171b;
+$yellow: #18171b;
+$green: #b729d9;
+$color5: #1299da;  
+//$red: #d92139;
+//$yellow: #fec748;
+//$green: #aec33a;
 
 .green {
     color: $green
 }
-
-$blue: #002547;
+$color4:#ff8400;
+$color6: #002547;
+$blue: #1299da;
 $true: #23a71e;
 
 
+$info: #002547;
 $primary: #253f58;
-$success: #aec33a;
-$danger: #002547;
+$success: #ff8400;
+$secondary: #002547 !important;
 // the ~ allows you to reference things in node_modules
 
-$danger: $red;
+$danger: red;
 $font-family-sans-serif:'Alice';
 
 body {
@@ -28,11 +34,11 @@ body {
 }
 
 .red {
-    color: $red;
+    color: #d92139;
 }
 
 .badge {
-    color: $blue !important;
+    color: $color5 !important;
 }
 
 .true {
@@ -40,7 +46,7 @@ body {
 }
 
 .false {
-    border: solid 5px $red;
+    border: solid 5px red;
 }
 
 main {
@@ -66,8 +72,9 @@ button.btn.btn-success {
 }
 
 button.btn.btn-danger {
-    border-color: $green;
     margin-left: 1em;
+    border-color: $color4 !important;
+
 
     &:hover {
         background-color: $green;
@@ -87,7 +94,7 @@ button.btn.btn-danger {
 }
 
 body {
-    background-color: $blue;
+    background-color: $color6;
 }
 
 u {
@@ -102,6 +109,15 @@ form {
 a {
     color: inherit;
 }
+a:hover {
+    color: $color4;
+}
+
+
+
+i {
+    color: $color4;
+}
 
 //? border radius 1rem
 .brad {
@@ -115,6 +131,7 @@ a {
 }
 
 .bubble {
+    border: 2px solid $color4;
     background-color: $yellow;
     color: $blue;
     text-align: center;
@@ -123,7 +140,7 @@ a {
     padding: 0.5em;
 
     &-title {
-        color: $red;
+        color: $green;
     }
 
     &-cat {
@@ -141,6 +158,12 @@ a {
     position: absolute;
 }
 
+.vodka {
+   position: absolute;
+   right: 1em;
+
+}
+
 header {
     background-color: $red;
     color: $green;
@@ -151,7 +174,7 @@ header {
     }
 
     a:hover {
-        color: $blue;
+        color: $green;
         text-decoration: none;
     }
 }
@@ -159,7 +182,7 @@ header {
 
 button.btn.btn-success,
 button.btn.btn-danger {
-    border: 2px solid black;
+    border: 2px solid $red;
     box-shadow: 2px 0px 0px 0px black;
 }
 
@@ -176,38 +199,33 @@ button.btn.btn-danger {
 }
 */
 thead.thead {
-    background-color: $blue;
+    background-color: $color6;
     color: $green;
 }
 
 .table {
-    color: $yellow;
+    color: $color5;
 }
 
 .table th {
-    background-color: $blue;
-    border-top-color: $red;
-    vertical-align: middle;
+    background-color: $color6;
+    border-color: $color4;
+    vertical-align: middle
 }
 
 .table thead th {
-    background-color: $blue;
-    border-bottom-color: $red;
-
+    background-color: $color6;
+    border-bottom-color: $color4;
+    
 }
 
 
 .table td {
-    background-color: $blue;
-    border-top-color: $red;
+    background-color: $color6;
+    border-top-color: $color4;
     vertical-align: middle;
-
+    
 }
-
-.table tr:hover {
-    background-color: #0d1e2e;
-}
-
 
 .p-relat {
     float: right;
@@ -218,7 +236,7 @@ thead.thead {
 //? header
 
 header {
-    border-bottom: solid 0.5rem $blue;
+    border-bottom: solid 0.5rem $color6;
     position: fixed;
     width: 100%;
     z-index: 250;
@@ -235,24 +253,24 @@ header {
 header .nav-tabs {
     border: none;
     justify-content: center;
-    border-bottom: solid 1px $blue;
+    border-bottom: solid 1px $color6;
 
 }
 
 header .nav .nav-item .nav-link {
     background-color: $red;
-    border: solid 2px $blue;
-    border-bottom: solid 1px $red;
+    border: solid 2px $color6;
+    border-bottom: solid 1px $color6;
     margin: 0 1em;
     //margin-bottom: -2px;
-    color: $blue;
+    color: $color5;
 
 }
 
 header .nav .nav-item .active {
     background-color: #002547;
     color: $green;
-    border: solid 2px $blue;
+    border: solid 2px $color6;
 }
 
 header .nav .nav-item:focus {
@@ -260,18 +278,18 @@ header .nav .nav-item:focus {
     z-index: 50;
     background-color: #002547;
     color: $green;
-    border: solid 2px $blue;
+    border: solid 2px $color6;
 }
 
 header .nav .nav-item .disabled {
-    background-color: $red;
+    background-color: $color6;
     margin: 0 1em;
-    border: $blue;
+    border: $color6;
     color: #1F1C1E;
 }
 
 .header-menu {
-    width: 95%;
+    width: 100%;
     margin: auto;
 }
 
@@ -330,7 +348,7 @@ header .nav .nav-item .disabled {
     bottom: 2px;
     right: 2px;
     */
-    top: 1.3rem;
+    top: 1.4rem;
     position: absolute;
     z-index: 50;
     display: block;

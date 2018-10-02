@@ -31,19 +31,18 @@ class QuizzRepository extends ServiceEntityRepository
 //    /**
 //     * @return Quizz[] Returns an array of Quizz objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function findPublicCompleted()
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('q.isPrivate = false')
+            ->andWhere('q.completedAt is not NULL')
+           
+            
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Quizz

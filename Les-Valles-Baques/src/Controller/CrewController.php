@@ -34,6 +34,7 @@ class CrewController extends AbstractController
         foreach ($crews as $crew) {
             foreach ($crew->getMembers() as $member) {
                 if ($member->getUser() === $user) {
+                    $roleUserCrew = $member->getRoleCrew();
                     $myCrew[] = $crew;
                     $access = true;
                 };
@@ -43,7 +44,8 @@ class CrewController extends AbstractController
             return $this->render('crew/crews.html.twig', [
                 'controller_name' => 'CrewController',
                 'usercrews' => $userCrews,
-                'mycrew' => $myCrew
+                'mycrew' => $myCrew,
+                'roleCrew' => $roleUserCrew,
             ]);
         } else {
             return $this->redirectToRoute('home');
@@ -53,7 +55,7 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe_{id}/{slug}", name="crew_show")
      */
-    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, QuizzRepository $qr, $slug, CrewQuizzsRepository $cqr )
+    public function showCrew(CrewRepository $cr, $id, UserCrewRepository $ucr, QuizzRepository $qr, $slug, CrewQuizzsRepository $cqr)
     {
         $user = $this->getUser();
         /**
@@ -62,7 +64,7 @@ class CrewController extends AbstractController
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
 
-        
+
 
         if (!$userCrews) {
             throw $this->createNotFoundException('Il n\'y a rien par ici.');
@@ -77,15 +79,15 @@ class CrewController extends AbstractController
         }
         if ($access === true) {
             $crew = $cr->findOneBy(['id' => $id]);
-            $privatQuizzs = $qr->findBy(['isPrivate'=>1]);
-            $quizzs = $cqr->findBy(['crew'=>$crew]);
+            $privatQuizzs = $qr->findBy(['isPrivate' => 1]);
+            $quizzs = $cqr->findBy(['crew' => $crew]);
 
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
                 'crew' => $crew,
-                'user'=>$user,
+                'user' => $user,
                 'roleUserActif' => $roleUserActif,
-                'quizzs'=> $quizzs
+                'quizzs' => $quizzs
             ]);
         } else {
             return $this->redirectToRoute('home');
@@ -130,7 +132,7 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
-                'slug' =>$crew->getSlug(),
+                'slug' => $crew->getSlug(),
             ]);
         }
 
@@ -142,56 +144,87 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe/{id}/edition", name="crew_edit")
      */
-    public function editCrew(ObjectManager $manager, $id, Request $request, CrewRepository $cr, UserCrewRepository $ucr)
+    public function editCrew(ObjectManager $manager, $id, Request $request, CrewRepository $cr, UserCrewRepository $ucr, RoleCrewRepository $rcr)
     {
         $user = $this->getUser();
         $crew = $cr->findOneBy(['id' => $id]);
         $oldAvatar = $crew->getAvatar();
 
-        //TODO prevoir un service pour meilleur maintenance
-        $userActive = $this->getUser();
-        $crew = $cr->findOneById($id);
-        //? je recherche le role 1 => leader
+        $creater = $rcr->findOneById(1);
 
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
 
         //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
         foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 1) {
-                if ($userCrew->getUser() === $userActive) {
+            if ($userCrew->getUser() === $user) {
+                $userRoleCrew = $userCrew->getRoleCrew();
+                if ($userCrew->getRoleCrew()->getId() <= 1) {
                     $access = true;
                     $crewId = $userCrew->getCrew()->getId();
                 }
             }
         }
-        $form = $this->createForm(NewCrewType::class, $crew);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $crew->getAvatar()) {
-                $crew->setAvatar($oldAvatar);
-            } else {
-                $file = $crew->getAvatar();
-                $fileName = md5(uniqid()) . "." . $file->guessExtension();
-                $file->move($this->getParameter('avatar_directory'), $fileName);
-                $crew->setAvatar($fileName);
+
+        /**
+         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
+         */
+        if ($access === true) {
+        //TODO prevoir un service pour meilleur maintenance
+            $userActive = $this->getUser();
+            $crew = $cr->findOneById($id);
+        //? je recherche le role 1 => leader
+
+            $userCrews = $ucr->findBy(['crew' => $id]);
+            $access = false;
+
+        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
+            foreach ($userCrews as $userCrew) {
+                if ($userCrew->getRoleCrew()->getId() <= 1) {
+                    if ($userCrew->getUser() === $userActive) {
+                        $access = true;
+                        $crewId = $userCrew->getCrew()->getId();
+                    }
+                }
             }
+            $form = $this->createForm(NewCrewType::class, $crew);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (null === $crew->getAvatar()) {
+                    $crew->setAvatar($oldAvatar);
+                } else {
+                    $file = $crew->getAvatar();
+                    $fileName = md5(uniqid()) . "." . $file->guessExtension();
+                    $file->move($this->getParameter('avatar_directory'), $fileName);
+                    $crew->setAvatar($fileName);
+                }
 
             //TODO a modifier quand slug OK
-            $crew->setSlug('slug');
+                $crew->setSlug('slug');
 
-            $manager->persist($crew);
-            $manager->flush();
+                $manager->persist($crew);
+                $manager->flush();
 
+                return $this->redirectToRoute('crew_show', [
+                    'id' => $crew->getId(),
+                    'slug' => $crew->getSlug(),
+                    'roleCrew' => $userRoleCrew,
+                ]);
+            }
+        } else {
+
+        //TODO ajouet un add flash
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
-                'slug'=>$crew->getSlug(),
+                'slug' => $crew->getSlug(),
+                'roleCrew' => $userRoleCrew,
             ]);
-        }
 
+        }
         return $this->render('crew/editCrew.html.twig', [
             'form' => $form->createView(),
             'crew' => $crew,
+            'roleCrew' => $userRoleCrew,
         ]);
     }
 
@@ -268,7 +301,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
-            'slug'=>$crew->getSlug(),
+            'slug' => $crew->getSlug(),
         ]);
     }
 
@@ -301,8 +334,8 @@ class CrewController extends AbstractController
         if ($access === true) {
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
-            
-            
+
+
             if ($userCrew->getRoleCrew() !== $creater) {
                 $userCrew->setRoleCrew($roleCrew);
 
@@ -313,14 +346,14 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
-                    'slug'=>$crew->getSlug(),
+                    'slug' => $crew->getSlug(),
                 ]);
             }
             $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
-    
+
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
-                'slug'=>$crew->getSlug(),
+                'slug' => $crew->getSlug(),
             ]);
         }
 
@@ -328,7 +361,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
-            'slug'=>$crew->getSlug(),
+            'slug' => $crew->getSlug(),
         ]);
     }
 
@@ -372,7 +405,7 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
-                    'slug'=>$crew->getSlug(),
+                    'slug' => $crew->getSlug(),
                 ]);
             }
 
@@ -380,13 +413,13 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
-                'slug'=>$crew->getSlug(),
+                'slug' => $crew->getSlug(),
             ]);
         }
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
-            'slug'=>$crew->getSlug(),
+            'slug' => $crew->getSlug(),
         ]);
     }
 
@@ -435,7 +468,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
-            'slug'=>$crew->getSlug(),
+            'slug' => $crew->getSlug(),
         ]);
     }
 
@@ -470,9 +503,7 @@ class CrewController extends AbstractController
                 $manager->flush();
                 $this->addFlash('success', 'J\'espere que tu as dis au revoir avant de partir ');
 
-                return $this->redirectToRoute('home', [
-                    
-                ]);
+                return $this->redirectToRoute('home', []);
             }
 
             //? si l'utilisateur n'est pas un créateur
@@ -483,7 +514,7 @@ class CrewController extends AbstractController
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
-                    'slug'=>$crew->getSlug(),
+                    'slug' => $crew->getSlug(),
                 ]);
             }
 
@@ -491,7 +522,7 @@ class CrewController extends AbstractController
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
-                'slug'=>$crew->getSlug(),
+                'slug' => $crew->getSlug(),
             ]);
         }
 
@@ -499,7 +530,7 @@ class CrewController extends AbstractController
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
-            'slug'=>$crew->getSlug(),
+            'slug' => $crew->getSlug(),
         ]);
     }
 }
