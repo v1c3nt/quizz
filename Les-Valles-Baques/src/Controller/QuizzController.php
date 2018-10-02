@@ -356,7 +356,7 @@ class QuizzController extends AbstractController
     {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy(['isPrivate' => null], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy(['isPrivate' => false], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
 

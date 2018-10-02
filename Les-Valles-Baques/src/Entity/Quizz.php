@@ -29,7 +29,7 @@ class Quizz
      *      minMessage = "Tu manques d'instiration ... ok mais la c'est trop court ",
      *      maxMessage = "C'est pas la taille l'important. La c'est trop long ",
      * )
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=128, unique=true)
      */
     private $title;
 
