@@ -25,11 +25,12 @@ class HomeController extends AbstractController
 
          */
         //
-        $quizzes = $quizzes->findBy(['isPrivate'=>false]);
+        $quizzes = $quizzes->findPublicCompleted();
         $new = count($quizzes);
 
         $newQuizzes[] = $quizzes[$new-3];
         $newQuizzes[] = $quizzes[$new-2];
+        $newQuizzes[] = $quizzes[$new-1];
 
         $randomKey = array_rand($quizzes);
         $randomQuizz = $quizzes[$randomKey];

@@ -75,7 +75,6 @@ class QuizzController extends AbstractController
   
         //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
         foreach ($crews as $crew) {
-
             $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
         }
         $form->add('arrayCrew', choiceType::class, [
@@ -85,26 +84,26 @@ class QuizzController extends AbstractController
             'expanded' => true,
             'multiple' => true,
             'label' => 'visibilité',// être plus explicite
-            'help' => 'choisi Publique pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupe.'
+            'help' => 'Choisi "Publique" pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupes.'
         ]);
 
 
         $form->handleRequest($request);
-            //? j'ajoute le User connecté comme auteur du quizz
+        //? j'ajoute le User connecté comme auteur du quizz
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz->setAuthor($user);
             $arrayCrews = $quizz->getArrayCrew();
-                //? si le tableau contient ne contient pas NULL, il est donc privée.
+            //? si le tableau contient ne contient pas NULL, il est donc privée.
             (true !== (in_array(null, $arrayCrews))) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
 
-                //TODO ajouter l'id du groupe du user
+            //TODO ajouter l'id du groupe du user
 
             $convertedTitle = $slugger->slugify($quizz->getTitle());
             $quizz->setSlug($convertedTitle);
                 
-                // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
+            // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
                 
-                //  $quizz->setCrew('user.crew')
+            //  $quizz->setCrew('user.crew')
             $manager->persist($quizz);
 
             $manager->flush();
@@ -153,7 +152,8 @@ class QuizzController extends AbstractController
 
             $question->setQuizz($quizz);
             $question->setErrore(0);
-            $question->setNbr($nbr);;
+            $question->setNbr($nbr);
+            ;
 
             $manager->persist($question);
             $manager->flush();
@@ -356,15 +356,13 @@ class QuizzController extends AbstractController
     {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzsAll = $quizzs->findBy(['isPrivate' => false], [$sort => 'DESC']);
+        $quizzsAll = $quizzs->findBy(['isPrivate' => 0], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
         $quizzs = [];
 
         foreach ($quizzsAll as $quizz) {
-            
-            ( $quizz->getCompletedAt() !== NULL )? $quizzs[] = $quizz : "";
-            
+            ($quizz->getCompletedAt() !== null)? $quizzs[] = $quizz : "";
         }
         foreach ($quizzs as $key => $quizz) {
             $idQ = $quizz->getId();

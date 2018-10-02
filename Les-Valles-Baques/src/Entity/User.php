@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields="email", errorPath="/connexion",message="ah il semblerait que nous nous connaissions déjà ... je suis deçu que tu m'es oublié ")
+ * @UniqueEntity(fields="email", errorPath="/connexion",message="Ah il semblerait que nous nous connaissions déjà ... je suis deçu que tu m'es oublié ")
  * @UniqueEntity(fields="userName", message="Désolé {{ value }} quelqu'un utilise déjà ce Nom ")
  * @Vich\Uploadable
  */
@@ -44,9 +44,12 @@ class User implements UserInterface, \Serializable
     private $userName;
 
     /*
-    !ajouter le AtAssert\Regex ("/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{5,})\S/")*/
+    *!ajouter le @Assert\Regex ("/^(?=\S*?[a-zA-Z])(?=\S*?[0-9]).{5,}\S/")
+*/
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex ("/^(?=\S*?[a-zA-Z])(?=\S*?[0-9]).{5,}\S/"),
+     * @ORM\Column(type="string", length=255),
      *? @Assert\NotBlank(groups={"registration"})
      *
      */
@@ -59,7 +62,7 @@ class User implements UserInterface, \Serializable
     private $avatar;
 
     /**
-     * ! a mettre plus tard 
+     * ! a mettre plus tard
      * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -169,7 +172,6 @@ class User implements UserInterface, \Serializable
     {
         $this->avatar = $avatar;
         return $this->avatar;
-
     }
 
     public function getIsActif() : ? bool
@@ -389,7 +391,6 @@ class User implements UserInterface, \Serializable
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
-
         }
     }
 

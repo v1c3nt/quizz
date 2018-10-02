@@ -46,7 +46,6 @@ class UserType extends AbstractType
                 $form = $event->getForm();
 
                 if ($user->getId()) {
-
                     $form->add(
                         'password',
                         RepeatedType::class,
@@ -86,11 +85,11 @@ class UserType extends AbstractType
                         ),
                         'first_options'  => array(
                             'label' => 'Mot de passe *',
-                            'help' => '6 caratères dont 1 majuscule, 1 minuscule et 1 chiffre, c\'est long mais c\'est pour toi',
+                            'help' => '6 caratères, dont une lettre et un chiffre, c\'est long mais c\'est pour toi',
                         ),
                         'second_options' => array(
                             'label' => 'Encore le mot de passe *(c\'est juste pour être sûr !)',
-                            'help' => 'Les most de passe doivent correspondre',
+                            'help' => 'Les mots de passe doivent correspondre',
                         ),
                     )
                 )

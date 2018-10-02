@@ -37,8 +37,6 @@ class QuizzRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('q')
             ->andWhere('q.isPrivate = false')
             ->andWhere('q.completedAt is not NULL')
-           
-            
             ->getQuery()
             ->getResult()
         ;
