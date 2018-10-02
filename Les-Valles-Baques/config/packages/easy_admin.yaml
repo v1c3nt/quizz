@@ -121,7 +121,7 @@ easy_admin:
                 fields:
                     - { property: 'id', label: 'Id'}
                     - { property: 'name', label: 'Nom'}
-                    - { property: 'avatar', label: 'Photo', base_path: '/img/'}
+                    - { property: 'avatarFile', label: 'Photo', type: 'vich_image', base_path: '/images/avatars/'}
                     - { property: 'members', label: 'Membres'}
                     - { property: 'quizzs', label: 'Quizzes'} 
                     - { property: 'createdAt', label: 'Création le :'}
@@ -376,6 +376,7 @@ easy_admin:
             class: App\Entity\User
             help: 'Voici la liste de tous les Utlisateurs inscrits'
             label: Membres
+
             # La view de la liste des Membres
             list: 
                 title: 'Les Membres'
@@ -411,7 +412,7 @@ easy_admin:
                     - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', lable: 'Email', type: 'email'}
-                    - { property: 'avatar', label: 'Photo', type: 'image', base_path: '/images/avatars/'}
+                    - { property: 'avatarFile', label: 'Photo', type: 'vich_image', base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
                     - { property: 'password', label: 'Mot de Passe'}
@@ -421,13 +422,13 @@ easy_admin:
                 title: 'Nouveau Membre'
                 help: null
                 fields:
-                    - { property: 'id', label: 'Id'} 
                     - { property: 'userName', label: 'Nom'}
                     - { property: 'email', lable: 'Email', type: 'email'}
-                    - { property: 'avatar', label: 'Photo', base_path: '/images/avatars/'}
+                    - { property: 'avatarFile', label: 'Photo', type: 'vich_image', base_path: '/images/avatars/'}
                     - { property: 'presentation', label: 'Présentation'} 
                     - { property: 'createdAt', label: 'Création le'}
-                    - { property: 'password', label: 'Mot de Passe'}
+                    - { property: 'password', type: 'text', label: 'Mot de Passe'}
+                    - { property: 'appRole', label: 'Role'}
                     - { property: 'isActif', label: 'Activer'}
         
         #UserCrew:
