@@ -270,18 +270,21 @@ header .nav .nav-item .disabled {
     color: #1F1C1E;
 }
 
+.header-menu {
+    width: 95%;
+    margin: auto;
+}
+
 //? Log menu
 .log-menu {
     line-height: 2em;
     padding-top: 1em;
     color: $blue;
-    
-
+    float: right;
 }
 
 //? profil page
 
-.info-profil {}
 
 .progress {
 

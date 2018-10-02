@@ -18,13 +18,8 @@
 <body>
 
     <header>
-        <div class="d-flex flex-nowrap">
-            <div class="col-12 col-md-5 offset-md-4">
-                <h1 class="text-center">
-                    <a href="{{ path('home') }}">Les VallesBaQues</a>
-                </h1>
-            </div>
-            <div class="d-none d-lg-block col-4 log-menu text-center ">
+        <div class="">
+            <div class="d-none d-lg-block col-4 log-menu text-center">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <nav>
                     <a href="{{ path ('user_profile', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
@@ -42,6 +37,7 @@
                 </nav>
 
                 {% if is_granted('ROLE_ADMIN') %}
+                <nav>
                 <a href="{{ path('admin') }}" class="h6 mr-3">gérer le Site
                     <i class="fas fa-cogs"></i>
                 </a>
@@ -55,7 +51,13 @@
                 <a href="{{ path ('security_login')}}" class="h6 mr-3">Connexion
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
+                </nav>
                 {% endif %}
+            </div>
+            <div class="col-12 col-md-5 offset-md-4">
+                <h1 class="text-center">
+                    <a href="{{ path('home') }}">Les VallesBaQues</a>
+                </h1>
             </div>
         </div>
         {# burger #}
@@ -102,9 +104,9 @@
         </div>
 
         {# fin burger #}
-        <div class="d-none d-lg-block header-menu">
+        <div class="d-none d-lg-block ">
 
-            <ul class="nav nav-tabs h5 pt-3 ">
+            <ul class="nav nav-tabs h5 pt-3 header-menu">
                 <li class="nav-item">
                     <a class="nav-link {% block category %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
                 </li>
