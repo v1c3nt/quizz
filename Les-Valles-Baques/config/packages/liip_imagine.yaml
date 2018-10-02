@@ -78,6 +78,24 @@ liip_imagine :
                 # 4px larger to create a 2px border around the final image
                 background : { size : [48, 48], position : top, color : '#fff' }
 
+        menu_square :
+
+            # adjust the image quality to 75%
+            quality : 85
+
+            # list of transformations to apply (the "filters")
+            filters :
+
+                # create a thumbnail: set size to 30x30 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail  : { size : [30, 30], mode : outbound }
+
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                background : { size : [30, 30], position : top, color : '#fff' }
+
+
+
         question :
 
             # adjust the image quality to 75%

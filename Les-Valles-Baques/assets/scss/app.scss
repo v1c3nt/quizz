@@ -16,9 +16,11 @@ $danger: #002547;
 // the ~ allows you to reference things in node_modules
 
 $danger: $red;
+$font-family-sans-serif:'Alice';
 
 body {
     overflow-y: scroll;
+    font-family: 'Alice';
 }
 
 .green {
@@ -273,6 +275,7 @@ header .nav .nav-item .disabled {
     line-height: 2em;
     padding-top: 1em;
     color: $blue;
+    
 
 }
 

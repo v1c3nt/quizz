@@ -95,7 +95,7 @@ class QuizzController extends AbstractController
             $quizz->setAuthor($user);
             $arrayCrews = $quizz->getArrayCrew();
                 //? si le tableau contient ne contient pas NULL, il est donc privée.
-            ( true !== ( in_array(null, $arrayCrews) ) ) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
+            (true !== (in_array(null, $arrayCrews))) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
 
                 //TODO ajouter l'id du groupe du user
 
@@ -110,15 +110,16 @@ class QuizzController extends AbstractController
 
             $manager->flush();
 
-            foreach ($arrayCrews as $crew) {
-                $quizzAutho = new CrewQuizzs;
-                $authorization = $quizzAutho->setCrew($crew);
-                $authorization = $quizzAutho->setQuizz($quizz);
+            if (true === $quizz->getIsPrivate()) {
+                foreach ($arrayCrews as $crew) {
+                    $quizzAutho = new CrewQuizzs;
+                    $authorization = $quizzAutho->setCrew($crew);
+                    $authorization = $quizzAutho->setQuizz($quizz);
 
-                $manager->persist($authorization);
-                $manager->flush();
+                    $manager->persist($authorization);
+                    $manager->flush();
+                }
             }
-
              
             //? après la création du questionnaire j'oriente vers la  création des questions.
             return $this->redirectToRoute('questions_quizz', [
@@ -222,9 +223,9 @@ class QuizzController extends AbstractController
         $nbr = count($session->get('results' . $id . ''));
 
         $user = $this->getUser();
-
+        dump([$id,$nbr]);
         $question = $questionRepo->findOneBy(['quizz' => $id, 'nbr' => $nbr]);
-
+        dump($question);
         $responses[] =
             [$question->getProp1() => 'prop1'];
         $responses[] =
@@ -352,10 +353,10 @@ class QuizzController extends AbstractController
      * @Route("/quizz/{sort}", name="quizz_list_sort", defaults={"sort"="title"})
      */
     public function index($sort, CategoryRepository $categories, QuizzRepository $quizzs, StatisticRepository $statRepo)
-    { 
+    {
         $user = $this->getUser();
         $categories = $categories->findBy([], ['name' => 'ASC']);
-        $quizzs = $quizzs->findBy(['isPrivate' => NULL ], [$sort => 'DESC']);
+        $quizzs = $quizzs->findBy(['isPrivate' => null], [$sort => 'DESC']);
         $stats = $statRepo->findByUser($user);
         $myScores = [];
 

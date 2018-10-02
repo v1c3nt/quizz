@@ -7,6 +7,7 @@
         {% block title %}{% endblock %}
     </title>
     {% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Alice" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
@@ -18,23 +19,28 @@
 
     <header>
         <div class="d-flex flex-nowrap">
-            <div class="col-12 col-md-6 offset-md-3 my-2 mt-3">
+            <div class="col-12 col-md-5 offset-md-4">
                 <h1 class="text-center">
                     <a href="{{ path('home') }}">Les VallesBaQues</a>
                 </h1>
             </div>
-            <div class="d-none d-lg-block col-3 log-menu text-center ">
+            <div class="d-none d-lg-block col-4 log-menu text-center ">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <nav>
                     <a href="{{ path ('user_profile', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
+                        {% if null != app.user.avatar %}
+                        <img src="{{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('menu_square') }}" alt=""
+                            class="brad mx-1">
+                        {% else %}
                         <i class="fas fa-user"></i>
+                        {% endif %}
                     </a>
 
                     <a href="{{ path('logout') }}" class="h6 mr-3">Déconnexion
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </nav>
-                
+
                 {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('admin') }}" class="h6 mr-3">gérer le Site
                     <i class="fas fa-cogs"></i>
