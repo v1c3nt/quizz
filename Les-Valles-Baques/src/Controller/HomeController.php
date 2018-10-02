@@ -27,7 +27,7 @@ class HomeController extends AbstractController
         //
 
         $quizzes = $quizzes->findBy(['isPrivate'=>0]);
-
+        
         $new = count($quizzes);
 
         $newQuizzes[] = $quizzes[$new-3];
