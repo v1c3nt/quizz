@@ -29,6 +29,7 @@ class UserType extends AbstractType
                 'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
             ])
             ->add('avatar', null, [
+                'attr'=>['palceholder'=>'choose file'],
                 'data_class' => null,
                 'required' => false,
                 'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'

@@ -118,6 +118,12 @@ i {
     overflow: hidden;
 }
 
+#user_avatar {
+    border: solid 2px $red;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+
 .dflex {
     display: flex;
     align-items: center;

@@ -26,15 +26,15 @@ var app = {
                 activeHeader: "fas fa-minus-circle mr-2"
             };
 
-            
+
             $('.resum')
-                  .hover(function () {
+                .hover(function () {
                     $(this)
-                    .children('.divDetails')
-                    .toggleClass("actived")
-                    .next()
-                      .stop(true, true)
-                      .slideToggle();
+                        .children('.divDetails')
+                        .toggleClass("actived")
+                        .next()
+                        .stop(true, true)
+                        .slideToggle();
                 });
 
             $("#accordion").accordion({
