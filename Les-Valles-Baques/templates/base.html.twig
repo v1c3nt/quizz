@@ -1,116 +1,112 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>
-        {% block title %}{% endblock %}
-    </title>
-    {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Alice" rel="stylesheet">
-    <link rel="icon" href="{{ asset('images/favicon.ico') }}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-    {% endblock %}
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Alice" rel="stylesheet">
 
-<body>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+        {% endblock %}
+    </head>
 
-    <header>
-        <div class="">
-            <div class="d-none d-lg-block col-4 log-menu text-center">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <nav>
-                    <a href="{{ path ('user_profile', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
-                        {% if null != app.user.avatar %}
-                        <img src="{{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('menu_square') }}" alt=""
-                            class="brad mx-1">
+    <body>
+
+        <header>
+            <div class="">
+                <div class="d-none d-lg-block col-4 log-menu text-center">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <nav>
+                            <a href="{{ path ('user_profile', { 'username' : app.user }) }}" class="h6 mr-3">Mon Profil
+                                {% if null != app.user.avatar %}
+                                    <img src="{{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('menu_square') }}" alt="" class="brad mx-1">
+                                {% else %}
+                                    <i class="fas fa-user"></i>
+                                {% endif %}
+                            </a>
+
+                            <a href="{{ path('logout') }}" class="h6 mr-3">Déconnexion
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </nav>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <nav>
+                                <a href="{{ path('admin') }}" class="h6 mr-3">gérer le Site
+                                    <i class="fas fa-cogs"></i>
+                                </a>
+                            {% endif %}
                         {% else %}
-                        <i class="fas fa-user"></i>
-                        {% endif %}
-                    </a>
 
-                    <a href="{{ path('logout') }}" class="h6 mr-3">Déconnexion
-                        <i class="fas fa-sign-out-alt"></i>
-                    </a>
-                </nav>
+                            <a href="{{ path('security_signup') }}" class="h6 mr-3">Inscription
+                                <i class="fas fa-user-plus"></i>
+                            </a>
 
-                {% if is_granted('ROLE_ADMIN') %}
-                <nav>
-                <a href="{{ path('admin') }}" class="h6 mr-3">gérer le Site
-                    <i class="fas fa-cogs"></i>
-                </a>
-                {% endif %}
-                {% else %}
-
-                <a href="{{ path('security_signup') }}" class="h6 mr-3">Inscription
-                    <i class="fas fa-user-plus"></i>
-                </a>
-
-                <a href="{{ path ('security_login')}}" class="h6 mr-3">Connexion
-                    <i class="fas fa-sign-in-alt"></i>
-                </a>
-                </nav>
-                {% endif %}
-            </div>
-            <div class="col-12 col-md-5 offset-md-4">
-                <h1 class="text-center">
-                    <a href="{{ path('home') }}">Les VallesBaQues</a>
-                </h1>
-            </div>
-        </div>
-        {# burger #}
-        <div class="pos-f-t d-lg-none">
-            <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-red p-3">
-                    <div class="dflex">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de "
-                            class="rounded-circle">
-                        {% endif %}
-                        <a href="{{ path('home') }}" class="ml-2 pt-2">
-                            <h5 class="text-green h4">Accueil
-                            </h5>
-                        </a>
-                    </div>
-                    <span class="text-muted ml-2">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path ('user_profile', { 'username' : app.user }) }}">Mon Profil</a>
-                        |
-                        <a href="{{ path('logout') }}">Déconnexion</a>
-                        {% else %}
-                        <a href="{{ path('security_signup') }}">Inscription</a>
-                        |
-                        <a href="{{ path ('security_login')}}">Connexion</a>
-                        {% endif %}
-                    </span>
-
-                    <ul>
-                        <li>
-                            <a href="{{ path('category') }}">Catégories</a>
-                        </li>
-                        <li>Niveaux</li>
-                    </ul>
+                            <a href="{{ path ('security_login')}}" class="h6 mr-3">Connexion
+                                <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        </nav>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-md-5 offset-md-4">
+                    <h1 class="text-center">
+                        <a href="{{ path('home') }}">Les VallesBaQues</a>
+                    </h1>
                 </div>
             </div>
-            <nav class="navbar navbar-dark bg-green text-green">
+            {# burger #}
+            <div class="pos-f-t d-lg-none">
+                <div class="collapse" id="navbarToggleExternalContent">
+                    <div class="bg-red p-3">
+                        <div class="dflex">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <img src="{{ asset('/images/vince.jpg') | imagine_filter('mini_square') }}" alt="avatar de " class="rounded-circle">
+                            {% endif %}
+                            <a href="{{ path('home') }}" class="ml-2 pt-2">
+                                <h5 class="text-green h4">Accueil
+                                </h5>
+                            </a>
+                        </div>
+                        <span class="text-muted ml-2">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path ('user_profile', { 'username' : app.user }) }}">Mon Profil</a>
+                                |
+                                <a href="{{ path('logout') }}">Déconnexion</a>
+                            {% else %}
+                                <a href="{{ path('security_signup') }}">Inscription</a>
+                                |
+                                <a href="{{ path ('security_login')}}">Connexion</a>
+                            {% endif %}
+                        </span>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-                    aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
-        </div>
+                        <ul>
+                            <li>
+                                <a href="{{ path('category') }}">Catégories</a>
+                            </li>
+                            <li>Niveaux</li>
+                        </ul>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-green text-green">
 
-        {# fin burger #}
-        <div class="d-none d-lg-block ">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+            </div>
 
-            <ul class="nav nav-tabs h5 pt-3 header-menu">
-                <li class="nav-item">
-                    <a class="nav-link {% block category %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
-                </li>
-                {#<li class="nav-item dropdown">
+            {# fin burger #}
+            <div class="d-none d-lg-block ">
+
+                <ul class="nav nav-tabs h5 pt-3 header-menu">
+                    <li class="nav-item">
+                        <a class="nav-link {% block category %}{% endblock %}" href="{{ path('category') }}">Les Catégories</a>
+                    </li>
+                    {#<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                         aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu">
@@ -127,22 +123,20 @@
                 </li>
                 #}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item ">
-                    <a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">Les
-                        Quizzes</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un
-                        Quizz</a>
-                </li>
+                    <li class="nav-item ">
+                        <a class="nav-link {% block quizz %}{% endblock %}" href="{{ path('quizz_list_sort') }}">Les Quizzes</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link {% block new_quizz %}{% endblock %}" href="{{ path('new_quizz') }}">Poster un Quizz</a>
+                    </li>
 
-                {% if (app.user.userCrews is not empty) %}
-                <li class="nav-item ">
-                    <a class="nav-link {% block my_crew %}{% endblock %}" href="{{ path('crews_show') }}">
-                        <u>Mes groupes</u>
-                    </a>
-                </li>
-                {% endif %}
+                    {% if (app.user.userCrews is not empty) %}
+                        <li class="nav-item ">
+                            <a class="nav-link {% block my_crew %}{% endblock %}" href="{{ path('crews_show') }}">
+                                <u>Mes groupes</u>
+                            </a>
+                        </li>
+                    {% endif %}
 
                 {% endif %}
 
