@@ -540,10 +540,7 @@ class CrewController extends AbstractController
     {
         $crewsList = $crewRepo->findBy(['isPrivate' => 0]);
         $usersCrew = $ucr->findAll();
-        dump($crewsList);
-        dump($usersCrew);
         $quizzsCrew = $cqr->findAll();
-        dump($quizzsCrew);
         $quizzs = [];
         $users = [];
 
@@ -555,7 +552,6 @@ class CrewController extends AbstractController
             isset($quizzs[$quizz->getCrew()->getId()])? "" : $quizzs[$quizz->getCrew()->getId()] = 0 ;
             $quizzs[$quizz->getCrew()->getId()] = $quizzs[$quizz->getCrew()->getId()]  + 1  ;
         }
-dump([$users, $quizzs]);
         return $this->render('crew/crewList.html.twig',[
             'crews' => $crewsList,
             'quizzs' =>$quizzs,
