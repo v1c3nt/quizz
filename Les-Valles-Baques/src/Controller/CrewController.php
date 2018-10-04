@@ -79,15 +79,14 @@ class CrewController extends AbstractController
         }
         if ($access === true) {
             $crew = $cr->findOneBy(['id' => $id]);
-            $privatQuizzs = $qr->findBy(['isPrivate' => 1]);
-            $quizzs = $cqr->findBy(['crew' => $crew]);
+            $quizzs = $cqr->findByCrew($crew);
 
             return $this->render('crew/crew.html.twig', [
                 'userCrews' => $userCrews,
                 'crew' => $crew,
                 'user' => $user,
                 'roleUserActif' => $roleUserActif,
-                'quizzs' => $quizzs
+                'quizzs' => $quizzs,
             ]);
         } else {
             return $this->redirectToRoute('home');
@@ -532,5 +531,36 @@ class CrewController extends AbstractController
             'id' => $crew->getId(),
             'slug' => $crew->getSlug(),
         ]);
+    }
+
+    /**
+     * @Route("/groupe/trouve_un_groupe", name="crews_list")
+     */
+    public function listCrews( Crewrepository $crewRepo, UserCrewRepository $ucr, CrewQuizzsRepository $cqr )
+    {
+        $crewsList = $crewRepo->findBy(['isPrivate' => 0]);
+        $usersCrew = $ucr->findAll();
+        dump($crewsList);
+        dump($usersCrew);
+        $quizzsCrew = $cqr->findAll();
+        dump($quizzsCrew);
+        $quizzs = [];
+        $users = [];
+
+        foreach ($usersCrew as $user) {
+            isset($users[$user->getCrew()->getId()])? "" : $users[$user->getCrew()->getId()] = 0 ;
+            $users[$user->getCrew()->getId()] = $users[$user->getCrew()->getId()]  + 1  ;
+        }
+        foreach ($quizzsCrew as $quizz) {
+            isset($quizzs[$quizz->getCrew()->getId()])? "" : $quizzs[$quizz->getCrew()->getId()] = 0 ;
+            $quizzs[$quizz->getCrew()->getId()] = $quizzs[$quizz->getCrew()->getId()]  + 1  ;
+        }
+dump([$users, $quizzs]);
+        return $this->render('crew/crewList.html.twig',[
+            'crews' => $crewsList,
+            'quizzs' =>$quizzs,
+            'members' => $users
+        ]);
+
     }
 }

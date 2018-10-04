@@ -114,11 +114,11 @@
                         </td>
                         
                         <td>
-                            {# myScores[q.Quizz.id]|round(1, 'floor') #}
+                            {{ [q.Quizz.avgScore]|round(1, 'floor') }}
                         </td>
                         <td>
                             {% if is_granted('ROLE_USER') %}
-                            <a href="{#path('quizz_show',{'id':q.id})#}">
+                            <a href="{{path('quizz_show',{'id':q.id})}}">
                                 <button class="btn btn-success" type="button">
                                     Go !
                                 </button>
@@ -188,8 +188,8 @@
                         <th scope="col">{{ crew.roleCrew.name }}</th>
 
                         <!-- ? Si l'utilisateur actif a un role 1 ou 2 alors j'affiche la colonne "renvoyer" -->
-                        {% if roleUserActif <= 2 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas
-                            "renvoyer" -->
+                        {% if roleUserActif <= 2 %}
+                         <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas "renvoyer" -->
                             {% if crew.roleCrew.id == 1 %}
                             <th colspan="2">
                                 <u>c'est</u>
@@ -210,8 +210,8 @@
                             {% endif %}
 
                             <!-- ? Si l'utilisateur actif a un role 1 j'affiche la colonne "promouvoir" -->
-                            {% if roleUserActif <= 1 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas
-                                "promouvoir"" -->
+                            {% if roleUserActif <= 1 %} 
+                            <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas la case "promouvoir" -->
                         {% if crew.roleCrew.id == 1 %}
                             <th colspan="
                                 2">

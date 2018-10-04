@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+{% block quizz %}{% endblock %}
+{% block title %}Les groupes{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="bubble">
+            <h2 class="bubble-title">Les Groupe</h2>
+            {#
+            <div class="container">
+                <ul class="list-inline">
+                    <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
+                    <li class="list-inline-item">
+                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'nbrLikes'}) }}">Like</li>
+                    </a>
+                </ul>
+            </div>
+            #}
+            <a href="{{ path('crew_creat') }}">
+                <button class="btn btn-success" type="button">Crée ton <u>groupe</u>
+                </button>
+            </a>
+
+            <table class="table mt-5">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">
+                            <u>avatar</u>
+                        </th>
+                        <th class=" d-none d-lg-table-cell" scope="col">
+                            <u>nom</u>
+                        </th>
+                        <th scope="col">
+                            <u>nombre de membres</u>
+                        </th>
+                        <th class=" d-none d-md-table-cell" scope="col">
+                            <u>nombre de Quizzs</u>
+                        </th>
+                        {#
+                        <th scope="col">
+                            <u>postulé</u>
+                        </th>#}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for c in crews %}
+                        <th scope="row">
+                            {% if c.avatar is not empty %}
+                            <img src="{{ vich_uploader_asset(c, 'avatarFile') | imagine_filter('mini_square') }}" alt="avatar de {{ c.name }}"
+                                class="brad">
+                            {% else %}
+                            <img src="{{ asset('/images/avatar1.png') | imagine_filter('mini_square') }}" alt="avatar de {{ c.name }}"
+                                class="brad">
+                            {% endif %}
+                        </th>
+                        <td>{{c.name}}</td>
+                        <td class="d-none d-md-table-cell">
+                            {{ members[c.id] }}
+                        </td>
+
+                        <td>
+                            {% if quizzs[c.id] is defined %}
+                            {{ quizzs[c.id] }}
+                            {% else %}0
+                            {% endif %}
+                        </td>
+                        {#
+                        <td>
+                            {% if is_granted('ROLE_USER') %}
+                            <a href="#">
+                                <button class="btn btn-success" type="button">
+                                    Go !
+                                </button>
+                            </a>
+                            {% else %}
+                            <button class="btn btn-success" type="button">
+                                <a href="{{path('security_signup')}}"></a>Inscris-toi pour jouer</a>
+                            </button>
+                            {% endif %}
+                        </td>#}
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

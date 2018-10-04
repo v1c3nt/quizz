@@ -22,29 +22,19 @@ class CrewQuizzsRepository extends ServiceEntityRepository
 //    /**
 //     * @return CrewQuizzs[] Returns an array of CrewQuizzs objects
 //     */
-    /*
-    public function findByExampleField($value)
+ 
+    public function findByCrew($crew)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        //? quizz private 
+        ->innerJoin('c.Quizz', 'q')
+            ->andWhere('c.crew = :val')
+            ->andWhere('q.isPrivate = true')
+            ->setParameter('val', $crew)
+            ->orderBy('q.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CrewQuizzs
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+ 
 }
