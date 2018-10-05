@@ -28,7 +28,7 @@ class UserType extends AbstractType
                 'label' => 'Email *',
                 'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
             ])
-            ->add('avatar', null, [
+            ->add('avatarFile', VichImageType::class, [
                 'attr'=>['palceholder'=>'choose file'],
                 'data_class' => null,
                 'required' => false,

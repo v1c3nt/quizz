@@ -3,73 +3,66 @@
 {% block title %}Les Catégories !{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="col-10 offset-1">
-            <div class="bubble">
-                <h2 class="bubble-title">Les Catégories</h2>
-                <div class="bubble-cat">
 
-                    {% macro recursiveCategory(category) %}
-                        {% import _self as self %}
+<h2 class="bubble-title">Les Catégories</h2>
+<div class="bubble-cat">
 
-                        <li>
-                            <a href="{{ path('category_show', { 'id': category.id }) }}">
-                                {% if null == category.Parent %}Toute la Catégorie :
-                                    {{ category }}
-                                {% else %}
-                                    {{ category }}
-                                    <span class="h6">
-                                        (
-                                        {% if 0 == category.quizzs | length %}
-                                            {{ category.quizzs|length }}
-                                            Quizz
-                                            <i class="fas fa-sad-cry ml-2"></i>
-                                        {% elseif 1 == category.quizzs|length %}
-                                            {{ category.quizzs|length }}
-                                            Seul Quizz
-                                            <i class="fas fa-sad-tear ml-2"></i>
-                                        {% elseif 10 < category.quizzs|length %}
-                                            (
-                                            {{ category.quizzs|length }}
-                                            quizzs
-                                            <i class="fas fa-grin ml-2"></i>
-                                        {% elseif 10 > category.quizzs|length %}
-                                            {{ category.quizzs|length }}
-                                            Quizzes
-                                            <i class="fas fa-laugh-beam ml-2"></i>
+    {% macro recursiveCategory(category) %}
+    {% import _self as self %}
 
-                                        {% endif %}
-                                        )
-                                    </span>
-                                {% endif %}
-                            </a>
-                        </li>
+    <li>
+        <a href="{{ path('category_show', { 'id': category.id }) }}">
+            {% if null == category.Parent %}Toute la Catégorie :
+            {{ category }}
+            {% else %}
+            {{ category }}
+            <span class="h6">
+                (
+                {% if 0 == category.quizzs | length %}
+                {{ category.quizzs|length }}
+                Quizz
+                <i class="fas fa-sad-cry ml-2"></i>
+                {% elseif 1 == category.quizzs|length %}
+                {{ category.quizzs|length }}
+                Seul Quizz
+                <i class="fas fa-sad-tear ml-2"></i>
+                {% elseif 10 < category.quizzs|length %} ( {{ category.quizzs|length }} quizzs <i class="fas fa-grin ml-2"></i>
+                    {% elseif 10 > category.quizzs|length %}
+                    {{ category.quizzs|length }}
+                    Quizzes
+                    <i class="fas fa-laugh-beam ml-2"></i>
 
-                        <ul>
-                            {% if category.children | length %}
-                                {% for child in category.children %}
-                                    {{ self.recursiveCategory(child) }}
-                                {% endfor %}
-                            {% endif %}
-                    </ul>
+                    {% endif %}
+                    )
+            </span>
+            {% endif %}
+        </a>
+    </li>
 
-                {% endmacro %}
+    <ul>
+        {% if category.children | length %}
+        {% for child in category.children %}
+        {{ self.recursiveCategory(child) }}
+        {% endfor %}
+        {% endif %}
+    </ul>
 
-                {% from _self import recursiveCategory %}
+    {% endmacro %}
 
-                <div class="col-6 offset-3" id="accordion">
+    {% from _self import recursiveCategory %}
 
-                    {% for c in categories %}
-                        {% if null == c.parent %}
-                            <h4>{{ c.name }}
-                                <h4>
-                                    <ul>
-                                        {{ recursiveCategory(c) }}
-                                    </ul>
-                                {% endif %}
-                            {% endfor %}
+    <div class="col-6 offset-3" id="accordion">
 
-                        </div>
-                    </div>
-                </div>
-            {% endblock %}
+        {% for c in categories %}
+        {% if null == c.parent %}
+        <h4>{{ c.name }}
+            <h4>
+                <ul>
+                    {{ recursiveCategory(c) }}
+                </ul>
+                {% endif %}
+                {% endfor %}
+
+    </div>
+
+    {% endblock %}

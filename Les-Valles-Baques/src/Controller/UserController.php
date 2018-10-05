@@ -57,15 +57,7 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $user->getAvatar()) {
-                $user->setAvatar($oldAvatar);
-            } else {
-                $file = $user->getAvatar();
-                $fileName = md5(uniqid()) . "." . $file->guessExtension();
-                $file->move($this->getParameter('avatar_directory'), $fileName);
-                $user->setAvatar($fileName);
-            }
-
+          
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 

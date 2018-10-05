@@ -3,9 +3,7 @@
 {% block title %}Les membres{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="col-12 col-lg-10 offset-lg-1">
-        <div class="bubble">
+
             <h2 class="bubble-title">
                 {% if crew != null %}
                 ajouter un membre à :<br />
@@ -67,9 +65,5 @@
                     {% endfor %}
                 </tbody>
             </table>
-
-        </div>
-    </div>
-</div>
 
 {% endblock %}

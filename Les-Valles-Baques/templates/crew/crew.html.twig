@@ -9,21 +9,19 @@
         <h1 class="bubble-title">Mon
             <u>groupe</u>
         </h1>
-        
+
     </div>
     <div class="m-1 border border-primary brad p-2">
-{% if roleUserActif <= 1 %}
-
-        <div class="vodka h5 m-1">
-<a href="{{ path('crew_edit', {'id': userCrews[0].crew.id }) }}">
+        {% if roleUserActif <= 1 %} <div class="vodka h5 m-1">
+            <a href="{{ path('crew_edit', {'id': userCrews[0].crew.id }) }}">
                 <i class="fas fa-user-edit mr-1"></i>
                 <u>modifier</u>
             </a>
-        </div>
-            
-        {% endif %}
-<h3 class="d-inline"><u>{{ userCrews[0].crew.name }}</u></h3>
-        
+    </div>
+
+    {% endif %}
+    <h3 class="d-inline"><u>{{ userCrews[0].crew.name }}</u></h3>
+
     </div>
     {% for message in app.flashes('success') %}
     <div class="m-flash alert alert-success">
@@ -106,13 +104,13 @@
                             {% if q.Quizz.category.name is defined %}
                             {{q.Quizz.category.name}}
                             {% endif %}
-                            
+
                         </td>
                         <td>{{q.Quizz.level.name}}</td>
                         <td class="d-none d-md-table-cell">
                             {{ q.Quizz.nbrLikes }}
                         </td>
-                        
+
                         <td>
                             {{ [q.Quizz.avgScore]|round(1, 'floor') }}
                         </td>
@@ -188,8 +186,8 @@
                         <th scope="col">{{ crew.roleCrew.name }}</th>
 
                         <!-- ? Si l'utilisateur actif a un role 1 ou 2 alors j'affiche la colonne "renvoyer" -->
-                        {% if roleUserActif <= 2 %}
-                         <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas "renvoyer" -->
+                        {% if roleUserActif <= 2 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas
+                            "renvoyer" -->
                             {% if crew.roleCrew.id == 1 %}
                             <th colspan="2">
                                 <u>c'est</u>
@@ -210,15 +208,29 @@
                             {% endif %}
 
                             <!-- ? Si l'utilisateur actif a un role 1 j'affiche la colonne "promouvoir" -->
-                            {% if roleUserActif <= 1 %} 
-                            <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas la case "promouvoir" -->
-                        {% if crew.roleCrew.id == 1 %}
-                            <th colspan="
-                                2">
-                                <u>c'est</u>
-                                <u>moi l'patron</u>
-                                !</th>
+                            {% if roleUserActif <= 1 %} <!-- ? Si l'utilisateur actif a un role 1 je n'affiche pas la
+                                case "promouvoir" -->
+                                {% if crew.roleCrew.id == 1 %}
+                                <th colspan="2"><u>c'est</u><u> moi l'patron</u> !</th>
+
+                                {% elseif crew.roleCrew.id == 2 %}
+                                <!-- ? Si l'utilisateur actif a un role 2 j'affiche pas les cases "membre & créateur" -->
+                                <th scope="col">
+                                    <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                        class="h3">
+                                        <i class="fas fa-user-astronaut"></i>
+                                        <u class="h6">membre</u>
+                                    </a>
+                                </th>
+                                <th scope="col">
+                                    <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
+                                        class="h3">
+                                        <i class="fas fa-chess-king m-1"></i>
+                                        <u class="h6">createur</u>
+                                    </a>
+                                </th>
                                 {% else %}
+                                <!-- ? Si l'utilisateur actif a un role 3 j'affiche pas les cases "leader & créateur" -->
                                 <th scope="col">
                                     <a href="{{ path('crew_add_leader', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
                                         class="h3">
@@ -226,9 +238,6 @@
                                         <u class="h6">leader</u>
                                     </a>
                                 </th>
-
-                                {% if crew.roleCrew.id != 1 %}
-
                                 <th scope="col">
                                     <a href="{{ path('crew_add_creater', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
                                         class="h3">
@@ -237,19 +246,9 @@
                                     </a>
                                 </th>
 
-                                {% else %}
+                                {% endif %}
+                                {% endif %}
 
-                                <th scope="col">
-                                    <a href="{{ path('crew_return_member', {'user': crew.user, 'id': crew.crew.id, 'slug':crew.crew.slug }) }}"
-                                        class="h3">
-                                        <i class="fas fa-user-astronaut"></i>
-                                        <u class="h6">membre</u>
-                                    </a>
-                                </th>
-
-                                {% endif %}
-                                {% endif %}
-                                {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

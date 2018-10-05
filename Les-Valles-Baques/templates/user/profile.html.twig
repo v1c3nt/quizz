@@ -1,167 +1,175 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Profil de
-    {{ user }}
-    !{% endblock %}
+{{ user }}
+!{% endblock %}
 
 {% block body %}
 
-    <main class="bubble col-8 offset-2">
-        <div class="bubble col-8 offset-2">
-            <h1 class="bubble-title">Mon profil</h1>
+<h1 class="bubble-title">Mon profil</h1>
+</div>
+<div class="mt-4 "></div>
+
+<div class="container fluid ">
+    <div class="row">
+        <div class="vodka h5 m-1">
+            <a href="{{ path('edit_user_profile', {'id': app.user.id , 'username': app.user.username}) }}">
+                <i class="fas fa-user-edit mr-1"></i>
+                <u>modifier</u>
+            </a>
         </div>
-        <div class="mt-4 "></div>
 
-        <div class="container fluid ">
-            <div class="row">
-                <div class="vodka h5 m-1">
-                    <a href="{{ path('edit_user_profile', {'id': app.user.id , 'username': app.user.username}) }}">
-                        <i class="fas fa-user-edit mr-1"></i>
-                        <u>modifier</u>
-                    </a>
-                </div>
-
-                <div class="col-4 d-none d-lg-block">
-                    {% if null != user.avatar %}
-                        <img src="{{  vich_uploader_asset(user, 'avatarFile') | imagine_filter('medium_square') }}" alt="avatar de {{ user.username }}" class="brad">
-                    {% else %}
-                        <div class="bigSize">
-                            <i class="fas fa-portrait"></i>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class=" col-12 col-lg-4 d-lg-none ">
-                    {% if null != user.avatar %}
-                        <img src="{{ vich_uploader_asset(user, 'avatarFile')  | imagine_filter('small_square') }}" alt="avatar de {{ user.username }}" class="brad">
-                    {% else %}
-                        <div class="bigSize">
-                            <i class="fas fa-portrait"></i>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <dir class="col-12 col-lg-8 text-left">
-                    <ul>
-                        <li class="h5 mb-2">
-                            <ins>
-                                <u>Nom:</u>
-                            </ins>
-                            {{ user.username }}
-                        </li>
-                        <li class="h5 mb-2">
-                            <ins>
-                                <u>Email:</u>
-                            </ins>
-
-                            {{ user.email }}
-                        </li>
-                        <li class="h5 mb-2">
-                            <ins>
-                                <u>Présentation:</u>
-                            </ins>
-
-                            {{ user.presentation }}
-                        </li>
-                    </ul>
-                </dir>
+        <div class="col-4 d-none d-lg-block">
+            {% if user.avatar%}
+            <img src=" {{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('medium_square') }}" alt="user.usrname"
+                avatar de {{ user.username }}"
+    class=" brad">
+            {% else %}
+            <div class="bigSize">
+                <i class="fas fa-portrait"></i>
             </div>
+            {% endif %}
         </div>
-        <div id="accordion">
-            <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
-            <div clas="brad m-1">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Avatar</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Depuis</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for mc in myCrews %}
-                            <tr>
-                                <td><img src="{{ vich_uploader_asset(mc.crew, 'avatarFile') | imagine_filter('mini_square') }}" alt="avatar de {{ mc.crew.name }}" class="brad"></td>
-                                <td scope="row">
-                                    <a href="{{ path('crew_show' , {'id': mc.crew.id, 'slug': mc.crew.slug }) }}">{{ mc.crew.name }}</a>
-                                </td>
-                                <td>{{ mc.crew.createdAt|date("d-m-Y")}}</td>
-
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                {% if myCrews is empty %}
-                    <span href="#" class="h4 m-2">
-                        <i class="fas fa-sad-tear mr-1"></i>
-                        Tu n'as pas encore de groupe ?
-                    </span>
-                    <br/>
-                {% endif %}
-                {{ include('crew/crewTableFooter.html.twig') }}
-
+        <div class=" col-12 col-lg-4 d-lg-none ">
+            {% if null != user.avatar %}
+            <img src="{{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('menu_square') }}""
+                    class="
+                brad">
+            {% else %}
+            <div class="bigSize">
+                <i class="fas fa-portrait"></i>
             </div>
-            <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
-            <div class="brad m-1">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Quizzes</th>
-                            <th scope="col">Catégories</th>
-                            <th scope="col">Niveaux</th>
-                            <th scope="col">Résultats</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ms in myStats %}
-                            <tr>
-                                <th scope="row">
-                                    <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{ ms.quizz.title }}</a>
-                                </th>
-                                <td>{{ ms.quizz.category }}</td>
-                                <td>{{ ms.quizz.level }}</td>
-                                <td>{{ ms.result }}
-                                    {% if ms.result == 10 %}
-                                        <i class="fas fa-check-circle green ml-2"></i>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <h3 class="m-1 border border-primary brad p-2">Mes Quizzes</h3>
-            <div>
-                <div class="brad m-1">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Quizzes</th>
-                                <th scope="col">Catégories</th>
-                                <th scope="col">Niveaux</th>
-                                <th scope="col">Like</th>
-                                <th scope="col">Résultats moyen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for ms in myStats %}
-                                <tr>
-                                    <th scope="row">
-                                        <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{ ms.quizz.title }}</a>
-                                    </th>
-                                    <td>{{ ms.quizz.category }}</td>
-                                    <td>{{ ms.quizz.level }}</td>
-                                    <td>{{ ms.quizz.nbrLikes }}</td>
-                                    <td>{{ ms.result }}
-                                        {% if ms.result == 10 %}
-                                            <i class="fas fa-check-circle green ml-2"></i>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-    {% endblock %}
+            {% endif %}
+        </div>
+
+        <dir class="col-12 col-lg-8 text-left">
+            <ul>
+                <li class="h5 mb-2">
+                    <ins>
+                        <u>Nom:</u>
+                    </ins>
+                    {{ user.username }}
+                </li>
+                <li class="h5 mb-2">
+                    <ins>
+                        <u>Email:</u>
+                    </ins>
+
+                    {{ user.email }}
+                </li>
+                <li class="h5 mb-2">
+                    <ins>
+                        <u>Présentation:</u>
+                    </ins>
+
+                    {{ user.presentation }}
+                </li>
+            </ul>
+        </dir>
+    </div>
+</div>
+<div id="accordion">
+    <h3 class="m-1 border border-primary brad p-2">Mes Groupes</h3>
+    <div clas="brad m-1">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Depuis</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mc in myCrews %}
+                <tr>
+                    {%dump(mc)%}
+                    <td> {% if null != mc.crew.avatar %}
+                        <img src="{{ vich_uploader_asset(mc.crew, 'avatarFile')  | imagine_filter('small_square') }}"
+                            alt="avatar de {{ mc.crew.name }}" class="brad">
+                        {% endif %}</td>
+                    <td scope="row">
+                        <a href="{{ path('crew_show' , {'id': mc.crew.id, 'slug': mc.crew.slug }) }}">{{
+                            mc.crew.name }}</a>
+                    </td>
+                    <td>{{ mc.crew.createdAt|date("d-m-Y")}}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if myCrews is empty %}
+        <span href="#" class="h4 m-2">
+            <i class="fas fa-sad-tear mr-1"></i>
+            Tu n'as pas encore de groupe ?
+        </span>
+        <br />
+        {% endif %}
+        {{ include('crew/crewTableFooter.html.twig') }}
+
+    </div>
+    <h3 class="m-1 my-2 border border-primary brad p-2">Mes Stats</h3>
+    <div class="brad m-1">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Quizzes</th>
+                    <th scope="col">Catégories</th>
+                    <th scope="col">Niveaux</th>
+                    <th scope="col">Résultats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ms in myStats %}
+                <tr>
+                    <th scope="row">
+                        <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{
+                            ms.quizz.title }}</a>
+                    </th>
+                    <td>{{ ms.quizz.category }}</td>
+                    <td>{{ ms.quizz.level }}</td>
+                    <td>{{ ms.result }}
+                        {% if ms.result == 10 %}
+                        <i class="fas fa-check-circle green ml-2"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3 class="m-1 border border-primary brad p-2">Mes Quizzes</h3>
+    <div>
+        <div class="brad m-1">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Quizzes</th>
+                        <th scope="col">Catégories</th>
+                        <th scope="col">Niveaux</th>
+                        <th scope="col">Like</th>
+                        <th scope="col">Résultats moyen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ms in myStats %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ path('quizz_show' , {'id': ms.quizz.id, 'slug': ms.quizz.slug }) }}">{{
+                                ms.quizz.title }}</a>
+                        </th>
+                        <td>{{ ms.quizz.category }}</td>
+                        <td>{{ ms.quizz.level }}</td>
+                        <td>{{ ms.quizz.nbrLikes }}</td>
+                        <td>{{ ms.result }}
+                            {% if ms.result == 10 %}
+                            <i class="fas fa-check-circle green ml-2"></i>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% endblock %}

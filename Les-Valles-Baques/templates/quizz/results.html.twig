@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block body %}
-    <div class="bubble col-8 offset-2">
         <h2 class="bubble-title">
             {% if 10 == points %}
                 <i class="fas fa-grin-stars"></i>
@@ -33,7 +32,6 @@
             </h4>
         </a>
 
-    </div>
     {% for key, q in quizz.questions %}
         <div class="bubble col-8 offset-2 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
             <p class="h5">{{ q.body }}</p>

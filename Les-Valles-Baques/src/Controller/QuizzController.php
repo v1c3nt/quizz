@@ -370,10 +370,11 @@ class QuizzController extends AbstractController
             $myScores[$idQ] = $statRepo->avgResultByQuizz($idQ)[0]['AVG(result)'];
         }
 
-        return $this->render('quizz/indexbis.html.twig', [
+        return $this->render('quizz/quizzsList.html.twig', [
             'categories' => $categories,
             'quizzs' => $quizzs,
             'myScores' => $myScores,
         ]);
     }
+
 }

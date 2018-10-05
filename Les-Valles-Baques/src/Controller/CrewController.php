@@ -21,6 +21,7 @@ use App\Repository\CrewQuizzsRepository;
 
 class CrewController extends AbstractController
 {
+
     /**
      * @Route("/mes_groupes", name="crews_show")
      */
@@ -69,8 +70,8 @@ class CrewController extends AbstractController
         if (!$userCrews) {
             throw $this->createNotFoundException('Il n\'y a rien par ici.');
         }
-        
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre si oui access passe a true
+            
+            //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre si oui access passe a true
         foreach ($userCrews as $userCrew) {
             if ($userCrew->getUser() === $user) {
                 $access = true;
@@ -115,8 +116,8 @@ class CrewController extends AbstractController
                 $file->move($this->getParameter('avatar_directory'), $fileName);
                 $crew->setAvatar($fileName);
             }
-            //TODO a modifier quand slug OK
-            //$crew->setSlug('slug');
+                    //TODO a modifier quand slug OK
+                    //$crew->setSlug('slug');
             $manager->persist($crew);
             $manager->flush();
 
@@ -153,8 +154,8 @@ class CrewController extends AbstractController
 
         $userCrews = $ucr->findBy(['crew' => $id]);
         $access = false;
-
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
+                        
+                        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
         foreach ($userCrews as $userCrew) {
             if ($userCrew->getUser() === $user) {
                 $userRoleCrew = $userCrew->getRoleCrew();
@@ -169,15 +170,15 @@ class CrewController extends AbstractController
          * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
          */
         if ($access === true) {
-        //TODO prevoir un service pour meilleur maintenance
+                            //TODO prevoir un service pour meilleur maintenance
             $userActive = $this->getUser();
             $crew = $cr->findOneById($id);
-        //? je recherche le role 1 => leader
+                            //? je recherche le role 1 => leader
 
             $userCrews = $ucr->findBy(['crew' => $id]);
             $access = false;
-
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
+                            
+                            //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
             foreach ($userCrews as $userCrew) {
                 if ($userCrew->getRoleCrew()->getId() <= 1) {
                     if ($userCrew->getUser() === $userActive) {
@@ -197,8 +198,8 @@ class CrewController extends AbstractController
                     $file->move($this->getParameter('avatar_directory'), $fileName);
                     $crew->setAvatar($fileName);
                 }
-
-            //TODO a modifier quand slug OK
+                                
+                                //TODO a modifier quand slug OK
                 $crew->setSlug('slug');
 
                 $manager->persist($crew);
@@ -211,8 +212,8 @@ class CrewController extends AbstractController
                 ]);
             }
         } else {
-
-        //TODO ajouet un add flash
+                                
+                                //TODO ajouet un add flash
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
                 'slug' => $crew->getSlug(),
@@ -227,6 +228,19 @@ class CrewController extends AbstractController
         ]);
     }
 
+
+    private function checkRole($userActive, $userCrews, $roleActif, $user = null)
+    {
+        foreach ($userCrews as $userCrew) {
+            if ($userCrew->getRoleCrew()->getId() <= $roleActif) {
+                if ($userCrew->getUser() === $userActive) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * @route("/groupe/{id}/supprimer", name="crew_delete" )
      */
@@ -234,23 +248,10 @@ class CrewController extends AbstractController
     {
         $userActive = $this->getUser();
         $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
+        //? je vérifie le role crew ($roleActive) de l'utilisateur connecté ($userActive)
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 1)) {
 
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 1) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
-        /**
-         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
-         */
-        if ($access === true) {
             $crew = $crewRepo->findOneById($id);
-
             $em = $this->getDoctrine()->getManager();
             $em->remove($crew);
             $em->flush();
@@ -258,6 +259,7 @@ class CrewController extends AbstractController
             return $this->redirectToRoute('crews_show');
         }
 
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' je pense que tu n\'as pas les droits pour ça');
         return $this->redirectToRoute('crews_show');
     }
 
@@ -266,26 +268,13 @@ class CrewController extends AbstractController
      */
     public function addMember(Crewrepository $crewRepo, $user, $id, ObjectManager $manager, UserCrewRepository $ucr, UserRepository $ur, RoleCrewRepository $rcr)
     {
-        $userActive = $this->getUser();
         $crew = $crewRepo->findOneById($id);
         $roleCrew = $rcr->findOneById(3);
-
+        $userActive = $this->getUser();
         $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
+//? je vérifie le role crew ($roleActive) de l'utilisateur connecté ($userActive)
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 2)) {
 
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle (créateur ou leader) oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 2) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
-        /**
-         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
-         */
-        if ($access === true) {
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = new UserCrew;
             $userCrew->setCrew($crew);
@@ -296,8 +285,14 @@ class CrewController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', ' Pense à souhaiter la bienvenue à ' . $user->getUserName());
+
+            return $this->redirectToRoute('crew_show', [
+                'id' => $crew->getId(),
+                'slug' => $crew->getSlug(),
+            ]);
         }
 
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' je pense que tu n\'as pas les droits pour ça');
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
             'slug' => $crew->getSlug(),
@@ -317,20 +312,10 @@ class CrewController extends AbstractController
         $creater = $rcr->findOneById(1);
 
         $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
 
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 1) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
-        
-        //? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
-        if ($access === true) {
+        //? je vérifie le role crew ($roleActive) de l'utilisateur connecté ($userActive)
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 1)) {
+
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
 
@@ -341,14 +326,14 @@ class CrewController extends AbstractController
                 $manager->persist($userCrew);
                 $manager->flush();
 
-                $this->addFlash('success', ' Pense à féliciter ' . $user->getUserName() . ' pour à promotion ');
+                $this->addFlash('success', ' Pense à féliciter ' . $user->getUserName() . ' pour sa promotion ');
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
                     'slug' => $crew->getSlug(),
                 ]);
             }
-            $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
+            $this->addFlash('success', $user->getUserName() . ' tu est le seul créateur tu ne peux pas partir');
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
@@ -356,7 +341,7 @@ class CrewController extends AbstractController
             ]);
         }
 
-        $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' est le seul créateur il ne peux pas partir');
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
@@ -373,41 +358,32 @@ class CrewController extends AbstractController
         $userActive = $this->getUser();
         $crew = $crewRepo->findOneById($id);
         //? je recherche le role 2 => leader
-        $roleCrew = $rcr->findOneById(3);
-        $creater = $rcr->findOneById(1);
-
-        $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
-
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 1) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
+        $roleCrewMember = $rcr->findOneById(3);
         /**
-         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
+         *$creater = $rcr->findOneById(1);
          */
-        if ($access === true) {
+         
+        $userCrews = $ucr->findBy(['crew' => $id]);
+
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 1)) {
+
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
-            if ($userCrew->getRoleCrew() !== $creater) {
-                $userCrew->setRoleCrew($roleCrew);
+ 
+            if ($userCrew->getRoleCrew()->getId() !== 1) {
+                $userCrew->setRoleCrew($roleCrewMember);
 
                 $manager->persist($userCrew);
                 $manager->flush();
 
-                $this->addFlash('success', $user->getUserName() . ' n\'est plus un Dieu ');
+                $this->addFlash('success', $user->getUserName() . ' est redevenu un membre ');
 
                 return $this->redirectToRoute('crew_show', [
                     'id' => $crew->getId(),
                     'slug' => $crew->getSlug(),
                 ]);
             }
-
+        
             $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
 
             return $this->redirectToRoute('crew_show', [
@@ -416,6 +392,7 @@ class CrewController extends AbstractController
             ]);
         }
 
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' je pense que tu n\'as pas les droits pour ça');
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
             'slug' => $crew->getSlug(),
@@ -435,21 +412,8 @@ class CrewController extends AbstractController
         $leader = $rcr->findOneById(2);
 
         $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 1)) {
 
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle créateur oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 1) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
-        /**
-         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
-         */
-        if ($access === true) {
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
             $userCrew->setRoleCrew($creater);
@@ -465,6 +429,7 @@ class CrewController extends AbstractController
             $this->addFlash('success', $user->getUserName() . ' est devenu un Dieu ! ');
         }
 
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' je pense que tu n\'as pas les droits pour ça');
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
             'slug' => $crew->getSlug(),
@@ -480,23 +445,12 @@ class CrewController extends AbstractController
         $crew = $crewRepo->findOneById($id);
         $creater = $rcr->findOneById(1);
         $userCrews = $ucr->findBy(['crew' => $id]);
-        $access = false;
 
-        //? je boucle sur tous les ensemble crews+user qui ont cette et je verifie si l'utilisateur et bien un membre s'il a le rôle (créateur ou leader) oui access passe a true
-        foreach ($userCrews as $userCrew) {
-            if ($userCrew->getRoleCrew()->getId() <= 2 || $userCrew->getUser() === $userActive) {
-                if ($userCrew->getUser() === $userActive) {
-                    $access = true;
-                    $crewId = $userCrew->getCrew()->getId();
-                }
-            }
-        }
-        /**
-         * ? Si l'utilisateur connecté a bien le droit de supprimer le membre et si ce m'embre n'est créateur.
-         */
-        if ($access === true) {
+        if ($this->checkRole($userActive, $userCrews, $roleActif = 2))  {
             $user = $ur->findOneBy(['userName' => $user, ]);
             $userCrew = $ucr->findOneBy(['crew' => $crew, 'user' => $user, ]);
+
+            //? si l'utilisateur connecté souhaite quitter le groupe et qu'il n'est pas créateur
             if ($userActive->getUserName() === $user && $userCrew->getRoleCrew() !== $creater) {
                 $manager->remove($userCrew);
                 $manager->flush();
@@ -505,7 +459,7 @@ class CrewController extends AbstractController
                 return $this->redirectToRoute('home', []);
             }
 
-            //? si l'utilisateur n'est pas un créateur
+            //? si l'utilisateur n'est pas un créateur 
             if ($userCrew->getRoleCrew() !== $creater) {
                 $manager->remove($userCrew);
                 $manager->flush();
@@ -517,7 +471,7 @@ class CrewController extends AbstractController
                 ]);
             }
 
-            $this->addFlash('success', $user->getUserName() . ' est le seul créateur il ne peut pas partir');
+            $this->addFlash('success', $user->getUserName() . ' tu est le seul créateur tu ne peux pas partir');
 
             return $this->redirectToRoute('crew_show', [
                 'id' => $crew->getId(),
@@ -525,7 +479,7 @@ class CrewController extends AbstractController
             ]);
         }
 
-        $this->addFlash('danger', 'Oups ... désolé je me suis perdu peux reéssayer? ');
+        $this->addFlash('danger', 'Désolé ' . $userActive->getUserName() . ' je pense que tu n\'as pas les droits pour ça');
 
         return $this->redirectToRoute('crew_show', [
             'id' => $crew->getId(),
@@ -536,7 +490,7 @@ class CrewController extends AbstractController
     /**
      * @Route("/groupe/trouve_un_groupe", name="crews_list")
      */
-    public function listCrews( Crewrepository $crewRepo, UserCrewRepository $ucr, CrewQuizzsRepository $cqr )
+    public function listCrews(Crewrepository $crewRepo, UserCrewRepository $ucr, CrewQuizzsRepository $cqr)
     {
         $crewsList = $crewRepo->findBy(['isPrivate' => 0]);
         $usersCrew = $ucr->findAll();
@@ -545,16 +499,16 @@ class CrewController extends AbstractController
         $users = [];
 
         foreach ($usersCrew as $user) {
-            isset($users[$user->getCrew()->getId()])? "" : $users[$user->getCrew()->getId()] = 0 ;
-            $users[$user->getCrew()->getId()] = $users[$user->getCrew()->getId()]  + 1  ;
+            isset($users[$user->getCrew()->getId()]) ? "" : $users[$user->getCrew()->getId()] = 0;
+            $users[$user->getCrew()->getId()] = $users[$user->getCrew()->getId()] + 1;
         }
         foreach ($quizzsCrew as $quizz) {
-            isset($quizzs[$quizz->getCrew()->getId()])? "" : $quizzs[$quizz->getCrew()->getId()] = 0 ;
-            $quizzs[$quizz->getCrew()->getId()] = $quizzs[$quizz->getCrew()->getId()]  + 1  ;
+            isset($quizzs[$quizz->getCrew()->getId()]) ? "" : $quizzs[$quizz->getCrew()->getId()] = 0;
+            $quizzs[$quizz->getCrew()->getId()] = $quizzs[$quizz->getCrew()->getId()] + 1;
         }
-        return $this->render('crew/crewList.html.twig',[
+        return $this->render('crew/crewList.html.twig', [
             'crews' => $crewsList,
-            'quizzs' =>$quizzs,
+            'quizzs' => $quizzs,
             'members' => $users
         ]);
 

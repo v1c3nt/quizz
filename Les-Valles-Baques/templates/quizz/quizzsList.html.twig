@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block quizz %}active{% endblock %}
+{% block title %}Les Quizzes{% endblock %}
+
+{% block body %}
+
+<h2 class="bubble-title">Les Quizzes</h2>
+<div class="container">
+    <ul class="list-inline">
+        <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
+        <li class="list-inline-item">
+            <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
+        <li class="list-inline-item">
+            <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
+        <li class="list-inline-item">
+            <a href="{{ path ('quizz_list_sort' , {'sort' : 'nbrLikes'}) }}">Like</li>
+        </a>
+    </ul>
+</div>
+
+{{ include('quizz/tableQuizzs.html.twig') }}
+
+<a href="{{ path('new_quizz') }}">
+    <button class="btn btn-success" type="button">Propose ton Nouveau Quizz
+    </button>
+</a>
+
+
+
+{% endblock %}

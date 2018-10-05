@@ -3,84 +3,58 @@
 {% block title %}Les Quizzes{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="col-10 offset-1">
-            <div class="bubble">
-                <h2 class="bubble-title">Les Quizzes</h2>
-                <p>de la catégorie
-                    <h4 class="bubble-title">
-                        {{ category.name }}
-                    </h4>
-                </p>
-                {# TODO modifier les liens
 
-            <div class="container">
-                <ul class="list-inline">
-                    <!-- li class="list-inline-item"><a href="{{ path ('quizz_list_sort' , {'sort' : 'title' }) }}">A à Z</li>|</a -->
-                    <li class="list-inline-item">
-                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'id'}) }}">Date</li>|</a>
-                    <li class="list-inline-item">
-                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'level' }) }}">Niveau</li>|</a>
-                    <!-- TODO modifier id par like quand islike oprérationnel-->
-                    <li class="list-inline-item">
-                        <a href="{{ path ('quizz_list_sort' , {'sort' : 'isLike'}) }}">Like</li>
-                    </a>
-                </ul>
-            </div>
-            <a href="{{ path('new_quizz') }}">
-                <button class="btn btn-danger" type="button">Propose ton Nouveau Quizz
-                </button>
-            </a>
-            #}
+<h2 class="bubble-title">Les Quizzes</h2>
+<p>de la catégorie
+    <h4 class="bubble-title">
+        {{ category.name }}
+    </h4>
+</p>
 
-                <table class="table mt-5">
-                    <thead class="thead">
-                        <tr>
-                            <th scope="col">Quizzes</th>
-                            <th scope="col">Moyenne</th>
-                            <th scope="col">Niveaux</th>
-                            <th scope="col">Like</th>
-                            <th scope="col">Jouer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {% for q in quizzs %}
-                                <th scope="row">
-                                    {{q.title}}
-                                </th>
-                                <td>
-                                    {# TODO codé en dur a modifier #}
-                                    {{ random(10) }}/10
+<table class="table mt-5">
+    <thead class="thead">
+        <tr>
+            <th scope="col">Quizzes</th>
+            <th scope="col">Moyenne</th>
+            <th scope="col">Niveaux</th>
+            <th scope="col">Like</th>
+            <th scope="col">Jouer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for q in quizzs %}
+            <th scope="row">
+                {{q.title}}
+            </th>
+            <td>
+                {# TODO codé en dur a modifier #}
+                {{ random(10) }}/10
 
-                                </td>
-                                <td>{{q.level.name}}</td>
-                                <td>
-                                    {# TODO codé en dur a modifier #}
-                                    {{ random(30) }}</td>
-                                <td>
-                                    {% if is_granted('ROLE_USER') %}
-                                        <a href="{{path('quizz_show',{'id':q.id, 'slug':q.slug})}}">
-                                            <button class="btn btn-success" type="button">
-                                                Go !
-                                            </button>
-                                        </a>
-                                    {% else %}
+            </td>
+            <td>{{q.level.name}}</td>
+            <td>
+                {# TODO codé en dur a modifier #}
+                {{ random(30) }}</td>
+            <td>
+                {% if is_granted('ROLE_USER') %}
+                <a href="{{path('quizz_show',{'id':q.id, 'slug':q.slug})}}">
+                    <button class="btn btn-success" type="button">
+                        Go !
+                    </button>
+                </a>
+                {% else %}
 
-                                        <a href="{{path('security_signup')}}">
-                                            <button class="btn btn-success" type="button">Inscris-toi pour jouer</button>
-                                        </a>
+                <a href="{{path('security_signup')}}">
+                    <button class="btn btn-success" type="button">Inscris-toi pour jouer</button>
+                </a>
 
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
 
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
+    </tbody>
+</table>
 
 {% endblock %}

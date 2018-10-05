@@ -1,0 +1,64 @@
+<table class="table mt-5">
+    <thead class="thead">
+        <tr>
+            <th scope="col">
+                <u>Quizzes</u>
+            </th>
+            <th class=" d-none d-lg-table-cell" scope="col">
+                <u>Catégories</u>
+            </th>
+            <th scope="col">
+                <u>Niveaux</u>
+            </th>
+            <th class=" d-none d-md-table-cell" scope="col">
+                <u>Like</u>
+            </th>
+            <th scope="col">
+                <u>score</u>
+            </th>
+            <th scope="col">
+                <u>Jouer</u>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for q in quizzs %}
+            <th scope="row">
+                {{q.title}}
+            </th>
+            <td class="d-none d-lg-table-cell">
+                {#TODO a effacer le temps de régler les sql#}
+                {% if q.category.name is defined %}
+                {{q.category.name}}
+                {% endif %}
+
+            </td>
+
+            <td>{{q.level.name}}</td>
+            <td class="d-none d-md-table-cell">
+                {{ q.nbrLikes }}
+            </td>
+
+            <td>
+                {{ myScores[q.id]|round(1, 'floor') }}
+
+            </td>
+            <td>
+                {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('quizz_show',{'slug':q.slug}) }}">
+                    <button class="btn btn-success" type="button">
+                        Go !
+                    </button>
+                </a>
+                {% else %}
+                <button class="btn btn-success" type="button">
+                    <a href="{{ path('security_signup') }}"></a>Inscris-toi pour jouer</a>
+                </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
