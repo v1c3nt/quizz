@@ -42,15 +42,18 @@ class QuizzRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Quizz
+    
+    public function findInProgress($value)
     {
+        $id = $value->getId();
+
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('q.completedAt is NULL')
+            ->andWhere('q.author = :val')
+            ->setParameter('val', $id)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
 }
