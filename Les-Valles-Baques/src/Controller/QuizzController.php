@@ -38,6 +38,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use App\Repository\UserRepository;
 
 class QuizzController extends AbstractController
 {
@@ -66,72 +67,107 @@ class QuizzController extends AbstractController
     public function new(Request $request, ObjectManager $manager, UserCrewRepository $ucr, CrewQuizzsRepository $cqr, CrewRepository $crewRepo, Slugger $slugger)
     {
         $user = $this->getUser();
-        $crews = $ucr->findBy(['user' => $user]);
-        $crew = $crewRepo->findAll();
-        $quizz = new Quizz();
 
-        $form = $this->createForm(QuizzType::class, $quizz);
-        $crewsChoices[] = ['publique' => null];
+        //? Si l'utilisateur n'as pas de quizz en cours de création alors j'affiche le formulaire de création.
+        $quizzInProgress = $this->getDoctrine()->getRepository(Quizz::class)->findInProgress($user);
+        if ( null === $quizzInProgress ){
+
+            $crews = $ucr->findBy(['user' => $user]);
+            $crew = $crewRepo->findAll();
+            $quizz = new Quizz();
+
+            $form = $this->createForm(QuizzType::class, $quizz);
+            $crewsChoices[] = ['publique' => null];
   
-        //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
-        foreach ($crews as $crew) {
-            $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
-        }
-        $form->add('arrayCrew', choiceType::class, [
-            'choices' => [
-                $crewsChoices
-            ],
-            'expanded' => true,
-            'multiple' => true,
-            'label' => 'visibilité',// être plus explicite
-            'help' => 'Choisi "Publique" pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupes.'
-        ]);
+            //? je boucle sur les crews de l'utilisateur et je les ajoute dans le tableau crewsChoices
+            foreach ($crews as $crew) {
+                $crewsChoices[] = [$crew->getCrew()->getName() => $crew->getCrew()];
+            }
+            $form->add('arrayCrew', choiceType::class, [
+                'choices' => [
+                    $crewsChoices
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'label' => 'visibilité',// être plus explicite
+                'help' => 'Choisi "Publique" pour que ton quizz soit visible par tous ou choisi un ou plusieurs groupes.'
+            ]);
 
 
-        $form->handleRequest($request);
-        //? j'ajoute le User connecté comme auteur du quizz
-        if ($form->isSubmitted() && $form->isValid()) {
-            $quizz->setAuthor($user);
-            $arrayCrews = $quizz->getArrayCrew();
+            $form->handleRequest($request);
+            //? j'ajoute le User connecté comme auteur du quizz
+            if ($form->isSubmitted() && $form->isValid()) {
+                $quizz->setAuthor($user);
+                $arrayCrews = $quizz->getArrayCrew();
             //? si le tableau contient ne contient pas NULL, il est donc privée.
-            (true !== (in_array(null, $arrayCrews))) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
+                (true !== (in_array(null, $arrayCrews))) ? $quizz->setIsPrivate(1) : $quizz->setIsPrivate(0);
 
             //TODO ajouter l'id du groupe du user
 
-            $convertedTitle = $slugger->slugify($quizz->getTitle());
-            $quizz->setSlug($convertedTitle);
+                $convertedTitle = $slugger->slugify($quizz->getTitle());
+                $quizz->setSlug($convertedTitle);
                 
-            // TODO comment géer la partie privée si l'utilisateur a plusieurs crew ?
-                
+           
             //  $quizz->setCrew('user.crew')
-            $manager->persist($quizz);
+                $manager->persist($quizz);
 
-            $manager->flush();
+                $manager->flush();
 
-            if (true === $quizz->getIsPrivate()) {
-                foreach ($arrayCrews as $crew) {
-                    $quizzAutho = new CrewQuizzs;
-                    $authorization = $quizzAutho->setCrew($crew);
-                    $authorization = $quizzAutho->setQuizz($quizz);
+                if (true === $quizz->getIsPrivate()) {
+                    foreach ($arrayCrews as $crew) {
+                        $quizzAutho = new CrewQuizzs;
+                        $authorization = $quizzAutho->setCrew($crew);
+                        $authorization = $quizzAutho->setQuizz($quizz);
 
-                    $manager->persist($authorization);
-                    $manager->flush();
+                        $manager->persist($authorization);
+                        $manager->flush();
+                    }
                 }
-            }
              
             //? après la création du questionnaire j'oriente vers la  création des questions.
-            return $this->redirectToRoute('questions_quizz', [
-                'id' => $quizz->getId(),
-                'slug' => $quizz->getSlug(),
-                'quizz' => $quizz,
-                'nbr' => 0,
+                return $this->redirectToRoute('questions_quizz', [
+                    'id' => $quizz->getId(),
+                    'slug' => $quizz->getSlug(),
+                    'quizz' => $quizz,
+                    'nbr' => 0,
+                ]);
+            }
+
+            return $this->render('quizz/new.html.twig', [
+                'form' => $form->createView()
             ]);
+
         }
 
-        return $this->render('quizz/new.html.twig', [
-            'form' => $form->createView()
+        return $this->redirectToRoute('quizz_creat_inprogress', [
+           
         ]);
     }
+
+    /**
+     * @Route("/quizz_encours_de_creation", name="quizz_creat_inprogress")
+     */
+    public function QuizzInProgress(QuestionRepository $qr)
+    {
+        $user = $this->getUser();
+
+        //? Si l'utilisateur n'as pas de quizz en cours de création alors j'affiche le formulaire de création.
+        $quizzInProgress = $this->getDoctrine()->getRepository(Quizz::class)->findInProgress($user);
+        $questions = [];
+        dump($quizzInProgress);
+
+        foreach ($quizzInProgress as $key => $quizz) {
+            $id = $quizz->getId();
+            $questions[$id] = $qr->findQuestionsByIdQuizz($id);
+        }
+        
+        return $this->render('quizz/inprogress.html.twig', [
+            'quizzs' => $quizzInProgress,
+            'questions' => $questions,
+        ]);
+
+    }
+
 
     /**
      * TODO {id} a changer par slug.
@@ -152,8 +188,7 @@ class QuizzController extends AbstractController
 
             $question->setQuizz($quizz);
             $question->setErrore(0);
-            $question->setNbr($nbr);
-            ;
+            $question->setNbr($nbr);;
 
             $manager->persist($question);
             $manager->flush();
@@ -362,7 +397,7 @@ class QuizzController extends AbstractController
         $quizzs = [];
 
         foreach ($quizzsAll as $quizz) {
-            ($quizz->getCompletedAt() !== null)? $quizzs[] = $quizz : "";
+            ($quizz->getCompletedAt() !== null) ? $quizzs[] = $quizz : "";
         }
         foreach ($quizzs as $key => $quizz) {
             $idQ = $quizz->getId();
@@ -377,4 +412,33 @@ class QuizzController extends AbstractController
         ]);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @route("/quizz/{id}/{slug}/supprimer", name="quizz_delete" )
+     */
+    public function deleteCrew($id, QuizzRepository $qr )
+    {
+        $userActive = $this->getUser();
+        $quizz = $qr->findOneById($id);
+        
+        /**
+         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
+         */
+        if ( $userActive === $quizz->getAuthor() ) {
+           
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($quizz);
+            $em->flush();
+
+
+
+            return $this->redirectToRoute('crews_show');
+        }
+
+        return $this->redirectToRoute('crews_show');
+    }
+
+
+>>>>>>> continueQuizz
 }

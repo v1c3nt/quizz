@@ -47,4 +47,16 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findQuestionsByIdQuizz($id)
+    {
+        return $this->createQueryBuilder('q')
+            ->innerJoin('q.quizz', 'z')
+            ->andWhere('z.completedAt is NULL')
+            ->andWhere('q.quizz = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block quizz %}quizzs{% endblock %}
+{% block title %}<u>quizz</u> en construction
+
+{% endblock %}
+
+{% block body %}
+<div class="bubble col-8 offset-2">
+    <h2 class="bubble-title">Ces quizzs ne sont pas finis <br /> est que tu ne veux pas les finir avant d'en commencer
+        un nouveau ?
+    </h2>
+
+    <div class="bubble">
+        <a href=" {{ path('new_quizz') }} " class="h3"><u>commencer</u> un nouveau Quizz</a>
+        <div class="" id="accordion">
+
+            {% for qz in quizzs %}
+
+            <h3 class="m-1 my-2 border border-primary brad p-2">{{qz.title}}</h3>
+
+
+            <div class="brad m-1">
+                <a class="h4 p-2" href="{{ path('questions_quizz', { 'id': qz.id, 'slug': qz.slug, 'nbr':questions[qz.id]|length  }) }}"><i
+                        class="fas fa-door-open m-2"></i><u>reprendre</u></a>
+                <a class="h4 p-2" href="{{ path('quizz_delete', { 'id': qz.id, 'slug': qz.slug }) }}"><i class="fas fa-trash m-2"></i><u>supprimer</u></a>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Question</th>
+                            <th scope="col">réponse 1</th>
+                            <th scope="col">réponse 2</th>
+                            <th scope="col">réponse 3</th>
+                            <th scope="col">réponse 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for qt in questions[qz.id] %}
+                        <tr>
+                            <td>{{ qt.body }}</td>
+                            <td>{{ qt.prop1 }}</td>
+                            <td>{{ qt.prop2 }}</td>
+                            <td>{{ qt.prop3 }}</td>
+                            <td>{{ qt.prop4 }}</td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+
+                </table>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
