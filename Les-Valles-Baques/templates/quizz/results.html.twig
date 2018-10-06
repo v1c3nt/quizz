@@ -33,9 +33,9 @@
         </a>
 
     {% for key, q in quizz.questions %}
-        <div class="bubble col-8 offset-2 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
+        <div class="bubble">
             <p class="h5">{{ q.body }}</p>
-            <div class="bubble col-8 offset-2">
+<div class="brad p-3 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
                 {% if 'prop1' == answers[key + 1] %}
                     <h5 class="green">Tout Bon
                         <i class="fas fa-check-circle"></i>
