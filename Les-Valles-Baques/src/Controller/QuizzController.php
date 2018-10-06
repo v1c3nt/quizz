@@ -436,5 +436,4 @@ class QuizzController extends AbstractController
         return $this->redirectToRoute('crews_show');
     }
 
-
 }
