@@ -6,14 +6,24 @@
 
 {% block body %}
 <div class="bubble col-8 offset-2">
-    <h2 class="bubble-title">Ces quizzs ne sont pas finis <br /> est que tu ne veux pas les finir avant commencer un
-        nouveau ?</h2>
+    <h2 class="bubble-title">Ces quizzs ne sont pas finis <br /> est que tu ne veux pas les finir avant d'en commencer
+        un nouveau ?
+    </h2>
 
     <div class="bubble">
+        <a href=" {{ path('new_quizz') }} " class="h3"><u>commencer</u> un nouveau Quizz</a>
         <div class="" id="accordion">
+
             {% for qz in quizzs %}
-<h3 class="m-1 my-2 border border-primary brad p-2">{{qz.title}}</h3>
+
+            <h3 class="m-1 my-2 border border-primary brad p-2">{{qz.title}}</h3>
+
+
             <div class="brad m-1">
+                <a class="h4 p-2" href="{{ path('questions_quizz', { 'id': qz.id, 'slug': qz.slug, 'nbr':questions[qz.id]|length  }) }}"><i
+                        class="fas fa-door-open m-2"></i><u>reprendre</u></a>
+                <a class="h4 p-2" href="{{ path('quizz_delete', { 'id': qz.id, 'slug': qz.slug }) }}"><i class="fas fa-trash m-2"></i><u>supprimer</u></a>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -43,67 +53,7 @@
         </div>
     </div>
 </div>
-</div>
 
 
-{#
-<a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
-    <h4>J'adore ce quizz
-        <i class="fas fa-thumbs-up ml-1"></i>
-    </h4>
-</a>
 
-</div>
-{% for key, q in quizz.questions %}
-<div class="bubble col-8 offset-2 {% if 'prop1' == answers[key+1] %}true{% else %}false{% endif %}">
-    <p class="h5">{{ q.body }}</p>
-    <div class="bubble col-8 offset-2">
-        {% if 'prop1' == answers[key + 1] %}
-        <h5 class="green">Tout Bon
-            <i class="fas fa-check-circle"></i>
-        </h5>
-        {% else %}
-        <h5 class="red">Raté
-            <i class="fas fa-times-circle"></i>
-        </h5>
-        {% endif %}
-        <ins>la bonne réponse était :</ins>
-        <span>{{ q.prop1 }}
-            {% if 'prop1' == answers[key + 1] %}{% endif %}
-        </span>
-    </div>
-    {% if 'prop1' != answers[key + 1] %}
-    <div class="col-8 offset-2">Tu as répondu :
-        {% if 'prop1' == answers[key + 1] %}
-        la bonne réponse
-        {% elseif 'prop2' == answers[key+1] %}{{ q.prop2 }}
-        {% elseif 'prop3' == answers[key+1] %}{{ q.prop3 }}
-        {% elseif 'prop4' == answers[key+1] %}{{ q.prop4 }}
-        {% endif %}
-    </div>
-    {% endif %}
-    {% if q.anecdote != null %}
-    <p>
-        <u>
-            <ins>anectode</ins>
-        </u>
-        {{ q.anecdote }}</p>
-    {% endif %}
-    {% if q.source != null %}
-    <p>
-        <u>
-            <ins>Source</ins>
-        </u>
-        {{ q.source }}</p>
-    {% endif %}
-</div>
-{% endfor %}
-
-{#TODO afficher un div avec les statistiques du joueur sur ce quizz
-<div class="bubble col-8 offset-2">
-    <p class="h5">Stats </p>
-</div>
-
-
-#}
 {% endblock %}

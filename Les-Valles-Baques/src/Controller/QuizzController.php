@@ -411,4 +411,31 @@ class QuizzController extends AbstractController
             'myScores' => $myScores,
         ]);
     }
+
+    /**
+     * @route("/quizz/{id}/{slug}/supprimer", name="quizz_delete" )
+     */
+    public function deleteCrew($id, QuizzRepository $qr )
+    {
+        $userActive = $this->getUser();
+        $quizz = $qr->findOneById($id);
+        
+        /**
+         * ? Si l'utilisateur connecté a bien les droit d'ajout j'ajoute le membre.
+         */
+        if ( $userActive === $quizz->getAuthor() ) {
+           
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($quizz);
+            $em->flush();
+
+
+
+            return $this->redirectToRoute('crews_show');
+        }
+
+        return $this->redirectToRoute('crews_show');
+    }
+
+
 }
