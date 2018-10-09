@@ -5,27 +5,50 @@
 
 {% block body %}
 
-          
-                <h2 class="bubble-title">Bienvenue</h2>
-                <p>
-                    Pour jouer, pour apprendre ou pour réviser rien de mieux qu'un petit questionnaire. Crée ton questionnaire en 2 minutes et défie tes amis.
-                </p>
-          
-            <div class="bubble">
-                <h3 class="bubble-title">Les Derniers Quizzes</h3>
-                {% for q in newQuizzes %}
-                    <ul>
-                        <li class="li_none">
-                            <a href="{{ path('quizz_show', {'id': q.id, 'slug': q.slug }) }}">{{ q.title }}</a>
-                        </li>
-                    </ul>
-                {% endfor %}
-            </div>
-            <div class="bubble">
-                <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
-                <p>
-                    <a href="{{ path('quizz_show', {'id' : randomQuizz.id, 'slug': randomQuizz.slug }) }}">{{ randomQuizz.title }}</a>
-                </p>
 
+<h2 class="bubble-title">Bienvenue</h2>
+<p>
+    Pour jouer, pour apprendre ou pour réviser rien de mieux qu'un petit questionnaire. Crée ton questionnaire en 2
+    minutes et défie tes amis.
+</p>
+
+<div class="bubble">
+    <h3 class="bubble-title">Les Derniers Quizzes</h3>
+</div>
+
+</main>
+<div class="wrapper">
+    <ul class="stage">
+        {% for q in newQuizzes %}
+        <li class="scene">
+            <div class="movie ">
+                <div class="poster brad">
+                    <img src=" {{  ('images/linux260.png') }}" alt="Image de {{ q.title }}">
+                    <h2 class="text-center bubble-title">{{ q.title }}</h2>
+                    <p>{{ q.description}}</p>
+                </div>
+                <div class="info brad">
+
+                        <h3 class="bubble-title pt-1">{{ q.title }}</h3>
+                        <span>test span 1</span>
+                        <span>test span 2</span>
+                        <span>test span 3 </span>
+                  
+                    <p>
+                        <a href="{{ path('quizz_show', {'id': q.id, 'slug': q.slug }) }}"><button class="btn btn-success" type="button">Jouer !</button></a>
+</p>
+                    </div>
             </div>
-        {% endblock %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<main class="bubble">
+    <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
+    <p>
+        <a href="{{ path('quizz_show', {'id' : randomQuizz.id, 'slug': randomQuizz.slug }) }}">{{ randomQuizz.title }}</a>
+    </p>
+
+    {% endblock %}

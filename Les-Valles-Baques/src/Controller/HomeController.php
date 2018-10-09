@@ -7,13 +7,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\QuizzRepository;
 use App\Repository\UserCrewRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Repository\QuestionRepository;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
      */
-    public function index(QuizzRepository $quizzes, UserCrewRepository $uCrews, SessionInterface $session)
+    public function index(QuizzRepository $qr, UserCrewRepository $uCrews, SessionInterface $session)
     {
         $user = $this->getUser();
         /**
@@ -25,15 +26,9 @@ class HomeController extends AbstractController
 
          */
         //
-        $quizzes = $quizzes->findPublicCompleted();
-        $new = count($quizzes);
-
-        $newQuizzes[] = $quizzes[$new-3];
-        $newQuizzes[] = $quizzes[$new-2];
-        $newQuizzes[] = $quizzes[$new-1];
-
-        $randomKey = array_rand($quizzes);
-        $randomQuizz = $quizzes[$randomKey];
+        $newQuizzes = $qr->findThreePublicCompleted();
+       dump($newQuizzes);
+        $randomQuizz = $qr->findRandomPublicCompleted();
 
         return $this->render('home/index.html.twig', [
             'title' => 'Les VallesBaques',

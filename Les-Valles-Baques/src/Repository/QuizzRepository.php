@@ -28,10 +28,6 @@ class QuizzRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-//    /**
-//     * @return Quizz[] Returns an array of Quizz objects
-//     */
-
     public function findPublicCompleted()
     {
         return $this->createQueryBuilder('q')
@@ -39,6 +35,35 @@ class QuizzRepository extends ServiceEntityRepository
             ->andWhere('q.completedAt is not NULL')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function findThreePublicCompleted()
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.isPrivate = false')
+            ->andWhere('q.completedAt is not NULL')
+            ->orderBy('q.id' , 'DESC')
+            ->getQuery()
+            ->setMaxResults(3)
+            ->getResult()
+        ;
+    }
+
+    public function findRandomPublicCompleted()
+    {
+        $quizzes = $this->findPublicCompleted();
+
+        $new = count($quizzes);
+        $randomKey = $quizzes[array_rand($quizzes)]->getId();
+
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.isPrivate = false')
+            ->andWhere('q.completedAt is not NULL')
+            ->where('q.id = :ids')
+            ->setParameter('ids', $randomKey)
+            ->getQuery()
+            ->setMaxResults(1)->getOneOrNullResult()
         ;
     }
 

@@ -1,20 +1,19 @@
 @import "~bootstrap/scss/bootstrap";
 
-$red: #18171b;
-$yellow: #18171b;
-$green: #b729d9;
-$color5: #1299da;
-//$red: #d92139;
-//$yellow: #fec748;
-//$green: #aec33a;
+$color1: #18171b;
+$color2: #b729d9;
+$color3: #1299da;
+$color4:#ff8400;
+$color5: #002547;
+
+//$color1: #d92139;
+//$color1: #fec748;
+//$color2: #aec33a;
 
 .green {
-    color: $green
+    color: $color2
 }
 
-$color4:#ff8400;
-$color6: #002547;
-$blue: #1299da;
 $true: #23a71e;
 
 
@@ -41,7 +40,7 @@ body {
 }
 
 .badge {
-    color: $color5 !important;
+    color: $color3 !important;
 }
 
 .true {
@@ -65,12 +64,12 @@ main {
 #btn-signup,
 #btn-login,
 button.btn.btn-success {
-    border-color: $green;
+    border-color: $color2;
     margin-left: 1em;
 
     &:hover {
-        background-color: $blue;
-        color: $red;
+        background-color: $color3;
+        color: $color1;
     }
 }
 
@@ -80,13 +79,13 @@ button.btn.btn-danger {
 
 
     &:hover {
-        background-color: $green;
-        color: $red;
+        background-color: $color2;
+        color: $color1;
     }
 }
 
 body {
-    background-color: $color6;
+    background-color: $color5;
 }
 
 u {
@@ -119,7 +118,7 @@ i {
 }
 
 #user_avatar {
-    border: solid 2px $red;
+    border: solid 2px $color1;
     border-radius: 0.5em;
     overflow: hidden;
 }
@@ -131,20 +130,21 @@ i {
 
 .bubble {
     border: 2px solid $color4;
-    background-color: $yellow;
-    color: $blue;
+    background-color: $color1;
+    color: $color3;
     text-align: center;
     margin-top: 1em;
     border-radius: 1rem;
     padding: 0.5em;
 
     &-title {
-        color: $green;
+        color: $color2;
+        text-align: center;
     }
 
     &-cat {
-        background-color: $yellow;
-        color: $blue;
+        background-color: $color1;
+        color: $color3;
         margin-top: 1em;
         border-radius: 1em;
         padding: 0.5em;
@@ -164,16 +164,16 @@ i {
 }
 
 header {
-    background-color: $red;
-    color: $green;
+    background-color: $color1;
+    color: $color2;
 
     .burgger {
 
-        background-color: $green;
+        background-color: $color2;
     }
 
     a:hover {
-        color: $green;
+        color: $color2;
         text-decoration: none;
     }
 }
@@ -181,7 +181,7 @@ header {
 
 button.btn.btn-success,
 button.btn.btn-danger {
-    border: 2px solid $red;
+    border: 2px solid $color1;
     box-shadow: 2px 0px 0px 0px black;
     background-color: $color4;
 }
@@ -199,29 +199,29 @@ button.btn.btn-danger {
 }
 */
 thead.thead {
-    background-color: $color6;
-    color: $green;
+    background-color: $color5;
+    color: $color2;
 }
 
 .table {
-    color: $color5;
+    color: $color3;
 }
 
 .table th {
-    background-color: $color6;
+    background-color: $color5;
     border-color: $color4;
     vertical-align: middle
 }
 
 .table thead th {
-    background-color: $color6;
+    background-color: $color5;
     border-bottom-color: $color4;
 
 }
 
 
 .table td {
-    background-color: $color6;
+    background-color: $color5;
     border-top-color: $color4;
     vertical-align: middle;
 
@@ -234,7 +234,7 @@ thead.thead {
 //? header
 
 header {
-    border-bottom: solid 0.5rem $color6;
+    border-bottom: solid 0.5rem $color5;
     position: fixed;
     width: 100%;
     z-index: 250;
@@ -251,38 +251,38 @@ header {
 header .nav-tabs {
     border: none;
     justify-content: center;
-    border-bottom: solid 1px $color6;
+    border-bottom: solid 1px $color5;
 
 }
 
 header .nav .nav-item .nav-link {
-    background-color: $red;
-    border: solid 2px $color6;
-    border-bottom: solid 1px $color6;
+    background-color: $color1;
+    border: solid 2px $color5;
+    border-bottom: solid 1px $color5;
     margin: 0 1em;
     //margin-bottom: -2px;
-    color: $color5;
+    color: $color3;
 
 }
 
 header .nav .nav-item .active {
     background-color: #002547;
-    color: $green;
-    border: solid 2px $color6;
+    color: $color2;
+    border: solid 2px $color5;
 }
 
 header .nav .nav-item:focus {
     margin-bottom: 1px;
     z-index: 50;
     background-color: #002547;
-    color: $green;
-    border: solid 2px $color6;
+    color: $color2;
+    border: solid 2px $color5;
 }
 
 header .nav .nav-item .disabled {
-    background-color: $color6;
+    background-color: $color5;
     margin: 0 1em;
-    border: $color6;
+    border: $color5;
     color: #1F1C1E;
 }
 
@@ -295,7 +295,7 @@ header .nav .nav-item .disabled {
 .log-menu {
     line-height: 2em;
     padding-top: 1em;
-    color: $blue;
+    color: $color3;
     float: right;
 }
 
@@ -305,15 +305,15 @@ header .nav .nav-item .disabled {
 .progress {
 
     width: 90%;
-    background-color: $red;
-    border: solid 2px $blue;
+    background-color: $color1;
+    border: solid 2px $color3;
     margin: auto;
     height: 1.5em;
 }
 
 //? footer
 #footer {
-    color: $green;
+    color: $color2;
 }
 
 //? question page
@@ -350,8 +350,8 @@ header .nav .nav-item .disabled {
     position: absolute;
     z-index: 50;
     display: block;
-    background: $blue;
-    color: $yellow;
+    background: $color3;
+    color: $color1;
 
 }
 
@@ -363,3 +363,77 @@ header .nav .nav-item .disabled {
 .li_none {
     list-style-type: none;
 }
+
+/****************************************/
+//? anim hoome
+/***************************************/
+
+.wrapper {
+    margin: 0 auto 100px auto;
+    max-width: 960px;
+    height: 405px;
+}
+
+.stage {
+    list-style: none;
+    padding: 0;
+
+}
+
+/*************************************
+Build the scene and rotate on hover
+**************************************/
+
+.scene {
+    width: 260px;
+    height: 400px;
+    margin: 30px;
+    float: left;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    perspective: 1000px;
+}
+
+.movie {
+    width: 260px;
+    height: 400px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translateZ(-130px);
+    -moz-transform: translateZ(-130px);
+    transform: translateZ(-130px);
+    -webkit-transition: -webkit-transform 350ms;
+    -moz-transition: -moz-transform 350ms;
+    transition: transform 350ms;
+}
+.movie p{
+    padding: 0 2em;
+}
+
+.movie:hover {
+    transform: rotateY(-78deg) translateZ(20px);
+}
+
+.movie .poster,
+.movie .info {
+    position: absolute;
+    width: 260px;
+    height: 400px;
+    background-color: $color1;
+    color: $color3;
+    backface-visibility: hidden;
+}
+
+.movie .poster {
+    transform: translateZ(130px);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.movie .info {
+    transform: rotateY(90deg) translateZ(130px);
+    border: 1px solid #B8B5B5;
+    font-size: 0.75em;
+}
+

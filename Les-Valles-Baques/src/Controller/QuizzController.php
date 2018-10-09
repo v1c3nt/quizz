@@ -49,7 +49,7 @@ class QuizzController extends AbstractController
     public function show(Quizz $quizz = null) : Response
     {
         $question = $quizz->getQuestions();
-
+        dump($question);exit;
         if (!$question) {
             throw $this->createNotFoundException('Il n\'y a aucun Quizz par ici.');
         }
