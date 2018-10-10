@@ -82,7 +82,6 @@
             <tbody>
                 {% for mc in myCrews %}
                 <tr>
-                    {%dump(mc)%}
                     <td> {% if null != mc.crew.avatar %}
                         <img src="{{ vich_uploader_asset(mc.crew, 'avatarFile')  | imagine_filter('small_square') }}"
                             alt="avatar de {{ mc.crew.name }}" class="brad">
