@@ -368,15 +368,26 @@ header .nav .nav-item .disabled {
 //? anim hoome
 /***************************************/
 
-.wrapper {
+.wrapper-2rows {
     margin: 0 auto 100px auto;
-    max-width: 960px;
-    height: 405px;
+    max-width: 95%;
+    
+}
+
+.wrapper-row {
+    margin: 0 auto 100px auto;
+    max-width: 275px;
+ 
 }
 
 .stage {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+
 
 }
 
@@ -388,13 +399,13 @@ Build the scene and rotate on hover
     width: 260px;
     height: 400px;
     margin: 30px;
-    float: left;
+    //float: left;
     -webkit-perspective: 1000px;
     -moz-perspective: 1000px;
     perspective: 1000px;
 }
 
-.movie {
+.quizz-show {
     width: 260px;
     height: 400px;
     -webkit-transform-style: preserve-3d;
@@ -407,16 +418,16 @@ Build the scene and rotate on hover
     -moz-transition: -moz-transform 350ms;
     transition: transform 350ms;
 }
-.movie p{
+.quizz-show p{
     padding: 0 2em;
 }
 
-.movie:hover {
+.quizz-show:hover {
     transform: rotateY(-78deg) translateZ(20px);
 }
 
-.movie .poster,
-.movie .info {
+.quizz-show .poster,
+.quizz-show .info {
     position: absolute;
     width: 260px;
     height: 400px;
@@ -425,15 +436,151 @@ Build the scene and rotate on hover
     backface-visibility: hidden;
 }
 
-.movie .poster {
+.quizz-show .poster {
     transform: translateZ(130px);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.movie .info {
+.quizz-show .info {
     transform: rotateY(90deg) translateZ(130px);
     border: 1px solid #B8B5B5;
     font-size: 0.75em;
 }
 
+/******************************
+//? sprite catégories
+******************************/
+.img-cat {
+    width: 260px;
+    height: 160px;
+}
+//? 
+.cat-1 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//?
+.cat-2 {
+    
+}
+//? geek
+.cat-3 {
+    background-image: url('../images/geek.png');
+    background-position: -1px 0;
+}
+
+//? animals 1
+.cat-4 {
+    background-image: url('../images/animals.png');
+    background-position: -1px -1px;
+}
+//?
+.cat-6 {
+    
+}
+//? biere *3
+.cat-6 {
+    background-image: url('../images/food-drink.png');
+    background-position: -540px -5px;
+}
+// ? code
+.cat-7 {
+      background-image: url('../images/code.png');
+      background-position: -5px -5px;
+}
+//? php *3
+.cat-8 {
+    background-image: url('../images/code.png');
+    background-position: -5px -5px;
+}
+//? symfony *4
+.cat-9 {
+    background-position: -5px -5px;
+    background-image: url('../images/code.png');
+}
+//? WordPress *5
+.cat-10 {
+    background-position: -5px -5px;
+    background-image: url('../images/code.png');
+}
+//? Java script *2
+.cat-11 {
+    background-image: url('../images/code.png');
+    background-position: -5px -5px; 
+}
+//? React
+.cat-12 {
+     background-image: url('../images/code.png');
+     background-position: -5px -5px;
+}
+//? html
+.cat-13 {
+     background-image: url('../images/code.png');
+     background-position: -5px -5px;
+}
+//? css
+.cat-14 {
+     background-image: url('../images/code.png');
+     background-position: -5px -5px;
+}
+//? Scss
+.cat-15 {
+     background-image: url('../images/code.png');
+     background-position: -5px -5px;
+}
+//? linux *2
+.cat-17 {
+    background-image: url('../images/geek.png');
+    background-position: -5px -5px;
+}
+//? ios *4
+.cat-18 {
+    background-image: url('../images/geek.png');
+    background-position: -5px -5px;
+}
+//? windows *3
+.cat-19 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? science-fiction
+.cat-20 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? thriller *2
+.cat-23 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? comedie *3
+.cat-24 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? horreur *4
+.cat-25 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? animation *5
+.cat-26 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}
+//? sucree 
+.cat-21 {
+    background-position: -5px -5px;
+    background-image: url('../images/food-drink.png');
+}
+//? salee 
+.cat-22 {
+    background-position: -5px -5px;
+    background-image: url('../images/food-drink.png');
+}
+//? animation *5
+.cat-26 {
+    background-position: -5px -5px;
+    background-image: url('../images/cine.png');
+}

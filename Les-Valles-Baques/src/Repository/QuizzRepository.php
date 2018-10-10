@@ -38,14 +38,14 @@ class QuizzRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findThreePublicCompleted()
+    public function findFourPublicCompleted()
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.isPrivate = false')
             ->andWhere('q.completedAt is not NULL')
             ->orderBy('q.id' , 'DESC')
             ->getQuery()
-            ->setMaxResults(3)
+            ->setMaxResults(4)
             ->getResult()
         ;
     }

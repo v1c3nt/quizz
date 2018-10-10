@@ -26,14 +26,19 @@ class HomeController extends AbstractController
 
          */
         //
-        $newQuizzes = $qr->findThreePublicCompleted();
-       dump($newQuizzes);
+        $newQuizzes = $qr->findFourPublicCompleted();
+        foreach ($newQuizzes as $key => $quizz) {
+
+            $questions[$key] = $newQuizzes[$key]->getQuestions();
+        }
         $randomQuizz = $qr->findRandomPublicCompleted();
+        $questions['random'] = $randomQuizz->getQuestions();
 
         return $this->render('home/index.html.twig', [
             'title' => 'Les VallesBaques',
             'newQuizzes' => $newQuizzes,
             'randomQuizz' => $randomQuizz,
+            'questions' => $questions,
         ]);
     }
 }

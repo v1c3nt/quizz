@@ -12,43 +12,100 @@
     minutes et défie tes amis.
 </p>
 
-<div class="bubble">
+<section class="bubble">
     <h3 class="bubble-title">Les Derniers Quizzes</h3>
-</div>
 
-</main>
-<div class="wrapper">
-    <ul class="stage">
-        {% for q in newQuizzes %}
-        <li class="scene">
-            <div class="movie ">
-                <div class="poster brad">
-                    <img src=" {{  ('images/linux260.png') }}" alt="Image de {{ q.title }}">
-                    <h2 class="text-center bubble-title">{{ q.title }}</h2>
-                    <p>{{ q.description}}</p>
-                </div>
-                <div class="info brad">
+    <div class="wrapper-2rows ">
+        <ul class="stage">
+            {% for key, q in newQuizzes %}
+            <li class="scene">
+                <div class="quizz-show ">
+                    <div class="poster brad">
+
+                        <div class="img-cat cat-{{q.category.id}}"></div>
+                        <h2 class="text-center bubble-title">{{ q.title }}</h2>
+                        <p>{{ q.description}}</p>
+                    </div>
+                    <div class="info brad pr-2">
 
                         <h3 class="bubble-title pt-1">{{ q.title }}</h3>
-                        <span>test span 1</span>
-                        <span>test span 2</span>
-                        <span>test span 3 </span>
-                  
-                    <p>
-                        <a href="{{ path('quizz_show', {'id': q.id, 'slug': q.slug }) }}"><button class="btn btn-success" type="button">Jouer !</button></a>
-</p>
+                        <ul class="h6">
+                            {% for qt in questions[key] | slice(0, 3) %}
+                            <li class="">{{qt.body}}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                        <p class="d-block m-auto">
+                            <h5>Pour voir les 7 prochaines... </h5>
+                            <i class="fas fa-arrow-circle-right"></i>
+                            {% if is_granted('ROLE_USER')%}
+
+                            <a href="{{ path('quizz_play', { 'slug' : q.slug, 'id' : q.id, 'nbr' : 1 }) }}">
+                                <button class="btn btn-success" type="button">Jouer !</button>
+                            </a>
+
+                            {% else %}
+
+                            <a href="{{ path('security_signup') }}"> <button class="btn btn-success" type="button">Incrist-toi
+                                    !</button></a>
+
+                            {% endif %}
+                        </p>
+
                     </div>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
 
-
-<main class="bubble">
+<section class="bubble">
     <h3 class="bubble-title">Un Quizz aléatoire ?</h3>
-    <p>
-        <a href="{{ path('quizz_show', {'id' : randomQuizz.id, 'slug': randomQuizz.slug }) }}">{{ randomQuizz.title }}</a>
-    </p>
 
-    {% endblock %}
+    <div class="wrapper-row">
+        <ul class="stage">
+            <li class="scene">
+                <div class="quizz-show ">
+                    <div class="poster brad">
+                        <div class="img-cat cat-{{randomQuizz.category.id}}"></div>
+                        <h2 class="text-center bubble-title">{{ randomQuizz.title }}</h2>
+                        <p>{{ randomQuizz.description}}</p>
+                    </div>
+                    <div class="info brad">
+
+                        <h3 class="bubble-title pt-1">{{ randomQuizz.title }}</h3>
+                        <ul class="h6">
+                            {% for qt in questions[3] | slice(0, 3) %}
+                            <li>{{qt.body}}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                        <p class="d-block m-auto">
+                            <p class="h5">Pour voir les 7 prochaines...
+                                <i class="fas fa-arrow-circle-right"></i>
+                                {% if is_granted('ROLE_USER')%}
+
+                                <a href="{{ path('quizz_play', { 'slug' : randomQuizz.slug, 'id' : randomQuizz.id, 'nbr' : 1 }) }}">
+                                    <button class="btn btn-success" type="button">Jouer !</button>
+                                </a>
+
+                                {% else %}
+
+                                <a href="{{ path('security_signup') }}"> <button class="btn btn-success" type="button">Incrist-toi
+                                        !</button></a>
+
+                                {% endif %}
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</section>
+
+{% endblock %}
