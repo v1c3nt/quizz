@@ -37,7 +37,7 @@ class Crew
 
     /**
      * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(type="string", length=12)
+     * @ORM\Column(type="string", length=128)
      */
     private $slug;
 

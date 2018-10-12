@@ -7,7 +7,7 @@
 
 
 <h2 class="bubble-title">Bienvenue</h2>
-<p>
+<p class="h5">
     Pour jouer, pour apprendre ou pour réviser rien de mieux qu'un petit questionnaire. Crée ton questionnaire en 2
     minutes et défie tes amis.
 </p>
@@ -20,7 +20,7 @@
             {% for key, q in newQuizzes %}
             <li class="scene">
                 <div class="quizz-show ">
-                    <div class="poster brad">
+                    <div class="poster bubble-quizz">
 
                         <div class="img-cat cat-{{q.category.id}}"></div>
                         <h2 class="text-center bubble-title">{{ q.title }}</h2>
@@ -68,7 +68,7 @@
         <ul class="stage">
             <li class="scene">
                 <div class="quizz-show ">
-                    <div class="poster brad">
+                    <div class="poster bubble-quizz">
                         <div class="img-cat cat-{{randomQuizz.category.id}}"></div>
                         <h2 class="text-center bubble-title">{{ randomQuizz.title }}</h2>
                         <p>{{ randomQuizz.description}}</p>

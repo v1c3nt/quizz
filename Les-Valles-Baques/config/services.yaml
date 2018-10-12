@@ -37,3 +37,6 @@ services:
         arguments:
             $sluggerToLower: true 
 
+    App\Service\FileUploader:
+            arguments:
+                $targetDirectory: '%kernel.project_dir%/public/images/avatars'

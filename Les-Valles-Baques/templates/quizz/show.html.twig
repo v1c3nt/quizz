@@ -4,19 +4,20 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
-        <h4>J'adore ce quizz
-            <i class="fas fa-thumbs-up ml-1"></i>
-        </h4>
-    </a>
-    <h2 class="bubble-title">{{quizz.title}}</h2>
-    <p>{{quizz.description}}</p>
+<a href="{{ path('add_like', {'id': quizz.id, 'slug': quizz.slug }) }}">
+    <h4>J'adore ce quizz
+        <i class="fas fa-thumbs-up ml-1"></i>
+    </h4>
+</a>
+<h2 class="bubble-title">{{quizz.title}}</h2>
+<p>{{quizz.description}}</p>
 
 {% for q in questions | slice(0, 3) %}
 
 <div class="bubble ">
     <p class="h5">{{ q.body }}</p>
 </div>
+{% endfor %}
 <p class="h5">Pour voir les 7 prochaines...
     <i class="fas fa-arrow-circle-right"></i>
     {% if is_granted('ROLE_USER')%}
@@ -26,12 +27,11 @@
     </a>
 
     {% else %}
-   
-<a href="{{ path('security_signup') }}"> <button class="btn btn-success" type="button">Incrist-toi !</button></a>
-    
+
+    <a href="{{ path('security_signup') }}"> <button class="btn btn-success" type="button">Incrist-toi !</button></a>
+
     {% endif %}
 </p>
-{% endfor %}
 
 </div>
 </div>
