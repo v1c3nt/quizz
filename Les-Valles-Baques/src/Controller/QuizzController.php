@@ -49,7 +49,6 @@ class QuizzController extends AbstractController
     public function show(Quizz $quizz = null) : Response
     {
         $question = $quizz->getQuestions();
-        dump($question);exit;
         if (!$question) {
             throw $this->createNotFoundException('Il n\'y a aucun Quizz par ici.');
         }
@@ -155,7 +154,6 @@ class QuizzController extends AbstractController
         //? Si l'utilisateur n'as pas de quizz en cours de création alors j'affiche le formulaire de création.
         $quizzInProgress = $this->getDoctrine()->getRepository(Quizz::class)->findInProgress($user);
         $questions = [];
-        dump($quizzInProgress);
 
         foreach ($quizzInProgress as $key => $quizz) {
             $id = $quizz->getId();

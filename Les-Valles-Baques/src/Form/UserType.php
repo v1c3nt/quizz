@@ -29,10 +29,8 @@ class UserType extends AbstractType
                 'help' => 'Ton adressse ne sera pas visible par les autres utilisateurs'
             ])
             ->add('avatarFile', VichImageType::class, [
-                'attr'=>['palceholder'=>'choose file'],
-                'data_class' => null,
                 'required' => false,
-                'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil'
+                'help' => 'Si tu es pressé(e), pas de souci tu pourras l\'ajouter plus tard dans ton profil',
             ])
             ->add('presentation', null, [
                 'required' => false,
@@ -93,7 +91,10 @@ class UserType extends AbstractType
                             'help' => 'Les mots de passe doivent correspondre',
                         ),
                     )
-                )
+                    );
+                if (empty($user->getAvatar)) {
+                    $form->remove('avatar');
+                }
                 ;
                 }
             });

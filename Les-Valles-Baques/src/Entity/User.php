@@ -62,7 +62,6 @@ class User implements UserInterface, \Serializable
     private $avatar;
 
     /**
-     * ! a mettre plus tard
      * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -116,6 +115,7 @@ class User implements UserInterface, \Serializable
         $this->statistics = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->image = new EmbeddedFile();
     }
 
     public function getId() : ? int
@@ -383,11 +383,11 @@ class User implements UserInterface, \Serializable
     }
 
 
-    public function setAvatarFile(? File $image = null) : void
+    public function setAvatarFile(? File $avatar = null) : void
     {
-        $this->avatarFile = $image;
+        $this->avatarFile = $avatar;
 
-        if (null !== $image) {
+        if (null !== $avatar) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();

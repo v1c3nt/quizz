@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Service\FileUploader;
 
 class UserController extends AbstractController
 {
@@ -26,9 +27,7 @@ class UserController extends AbstractController
      */
     public function showProfil(QuizzRepository $qr, UserCrewRepository $ucr, StatisticRepository $statRepo)
     {
-        //TODO requetCustom !!
         $user = $this->getUser();
-  
 
         $crews = $user->getUserCrews();
         $myQuizzes = $qr->findByAuthor($user);
@@ -46,7 +45,7 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{id}/{username}_edite", name="edit_user_profile", methods="GET|POST")
      */
-    public function editProfil(User $user, $id, Request $request, UserPasswordEncoderInterface $encoder) : Response
+    public function editProfil(User $user, $id, Request $request, FileUploader $fu ) : Response
     {
         $user = $this->getUser();
         $oldAvatar = $user->getAvatar();
@@ -56,8 +55,14 @@ class UserController extends AbstractController
         $form->remove('password');
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-          
+            if ( !empty($form->getData()->getAvatar()) ){
+
+                $fileAvatar = $fu->upload($form->getData()->getAvatar());
+                $form->getData()->setAvatar($fileAvatar);
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 

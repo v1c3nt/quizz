@@ -20,8 +20,8 @@
         </div>
 
         <div class="col-4 d-none d-lg-block">
-            {% if user.avatar%}
-            <img src=" {{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('medium_square') }}" alt="user.usrname"
+            {% if user.avatar %}
+            <img src=" {{  vich_uploader_asset(app.user, 'avatarFile') | imagine_filter('medium_square') }}" alt="
                 avatar de {{ user.username }}"
     class=" brad">
             {% else %}
