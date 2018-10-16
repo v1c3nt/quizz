@@ -405,7 +405,7 @@ Build the scene and rotate on hover
 **************************************/
 
 .scene {
-    width: 260px;
+    width: 255px;
     height: 400px;
     margin: 30px;
     //float: left;
@@ -415,7 +415,7 @@ Build the scene and rotate on hover
 }
 
 .quizz-show {
-    width: 260px;
+    width: 255px;
     height: 400px;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
@@ -438,7 +438,7 @@ Build the scene and rotate on hover
 .quizz-show .poster,
 .quizz-show .info {
     position: absolute;
-    width: 260px;
+    width: 255px;
     height: 400px;
     background-color: $color1;
     color: $color3;
@@ -461,7 +461,7 @@ Build the scene and rotate on hover
 //? sprite catégories
 ******************************/
 .img-cat {
-    width: 260px;
+    width: 255px;
     height: 160px;
 }
 //? 
@@ -586,10 +586,26 @@ Build the scene and rotate on hover
 //? salee 
 .cat-25 {
     background-image: url('../images/food-drink.png');
-    background-position: -265px -5px;
+    background-position: -261px -3px;
 }
 //? animation *5
 .cat-26 {
     background-image: url('../images/cine.png');
     background-position: -5px -5px;
 }
+//? chimie
+.cat-27{
+background-image: url('../images/divers.png');
+    background-position: -5px -5px;
+}
+//? histoire
+.cat-28{
+background-image: url('../images/divers.png');
+    background-position: -265px -5px;
+}
+//? religion
+.cat-29{
+background-image: url('../images/divers.png');
+    background-position: -265px -5px;
+}
+
