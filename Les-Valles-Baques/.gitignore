@@ -25,3 +25,7 @@ yarn-error.log
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###Sprite
+/sprites
+
