@@ -405,7 +405,7 @@ Build the scene and rotate on hover
 **************************************/
 
 .scene {
-    width: 260px;
+    width: 255px;
     height: 400px;
     margin: 30px;
     //float: left;
@@ -415,7 +415,7 @@ Build the scene and rotate on hover
 }
 
 .quizz-show {
-    width: 260px;
+    width: 255px;
     height: 400px;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
@@ -438,7 +438,7 @@ Build the scene and rotate on hover
 .quizz-show .poster,
 .quizz-show .info {
     position: absolute;
-    width: 260px;
+    width: 255px;
     height: 400px;
     background-color: $color1;
     color: $color3;
@@ -461,12 +461,12 @@ Build the scene and rotate on hover
 //? sprite catégories
 ******************************/
 .img-cat {
-    width: 260px;
+    width: 255px;
     height: 160px;
 }
 //? 
 .cat-1 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //?
@@ -491,52 +491,52 @@ Build the scene and rotate on hover
 //? biere *3
 .cat-6 {
     background-image: url('../images/food-drink.png');
-    background-position: -540px -5px;
+    background-position: -530px -6px;
 }
 // ? code
 .cat-7 {
       background-image: url('../images/code.png');
-      background-position: -5px -5px;
+      background-position: -5px -6px;
 }
 //? php *3
 .cat-8 {
     background-image: url('../images/code.png');
-    background-position: -5px -5px;
+    background-position: -5px -6px;
 }
 //? symfony *4
 .cat-9 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/code.png');
 }
 //? WordPress *5
 .cat-10 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/code.png');
 }
 //? Java script *2
 .cat-11 {
     background-image: url('../images/code.png');
-    background-position: -5px -5px; 
+    background-position: -5px -6px; 
 }
 //? React
 .cat-12 {
      background-image: url('../images/code.png');
-     background-position: -5px -5px;
+     background-position: -5px -6px;
 }
 //? html
 .cat-13 {
      background-image: url('../images/code.png');
-     background-position: -5px -5px;
+     background-position: -5px -6px;
 }
 //? css
 .cat-14 {
      background-image: url('../images/code.png');
-     background-position: -5px -5px;
+     background-position: -5px -6px;
 }
 //? Scss
 .cat-15 {
      background-image: url('../images/code.png');
-     background-position: -5px -5px;
+     background-position: -5px -6px;
 }
 //? linux *2
 .cat-17 {
@@ -546,50 +546,66 @@ Build the scene and rotate on hover
 //? ios *4
 .cat-18 {
     background-image: url('../images/geek.png');
-    background-position: -5px -5px;
+    background-position: -5px -6px;
 }
 //? windows *3
 .cat-19 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? science-fiction
 .cat-20 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? thriller *2
 .cat-23 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? comedie *3
 .cat-24x {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? horreur *4
 .cat-25x {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? animation *5
 .cat-26 {
-    background-position: -5px -5px;
+    background-position: -5px -6px;
     background-image: url('../images/cine.png');
 }
 //? sucree 
 .cat-24 {
     background-image: url('../images/food-drink.png');
-    background-position: -5px -5px;
+    background-position: -5px -6px;
 }
 //? salee 
 .cat-25 {
     background-image: url('../images/food-drink.png');
-    background-position: -265px -5px;
+    background-position: -266px -6px;
 }
 //? animation *5
 .cat-26 {
     background-image: url('../images/cine.png');
-    background-position: -5px -5px;
+    background-position: -5px -6px;
 }
+//? chimie
+.cat-27{
+background-image: url('../images/divers.png');
+    background-position: -5px -6px;
+}
+//? histoire
+.cat-28{
+background-image: url('../images/divers.png');
+    background-position: -265px -6px;
+}
+//? religion
+.cat-29{
+background-image: url('../images/divers.png');
+    background-position: -530px -6px;
+}
+
