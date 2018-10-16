@@ -115,7 +115,7 @@ class User implements UserInterface, \Serializable
         $this->statistics = new ArrayCollection();
         $this->quizzs = new ArrayCollection();
         $this->createdAt = new \DateTime();
-        $this->image = new EmbeddedFile();
+        
     }
 
     public function getId() : ? int
