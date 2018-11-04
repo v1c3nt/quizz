@@ -6,6 +6,54 @@ $color3: #1299da;
 $color4:#ff8400;
 $color5: #002547;
 
+//? sprite categories
+$x1: -4px;
+$x2: -166px;
+$x3: ($x2 + 2)*2;
+$x4: ($x2 + 2)*3;
+$x5: ($x2 + 2)*4;
+
+$y1: -5px;
+$y2: -278px;
+$y3: $y2*2;
+$y4: $y2*3;
+$y5: ($y2 + 1)*4;
+$y6: ($y2 + 2)*5;
+//? sprite position categories
+$p1: $y1 $x1;
+$p2: $y2 $x1;
+$p3: $y3 $x1;
+$p4: $y4 $x1;
+$p5: $y5 $x1;
+$p6: $y6 $x1;
+$p7: $y1 $x2;
+$p8: $y2 $x2;
+$p9: $y3 $x2;
+$p10: $y4 $x2;
+$p11: $y5 $x2;
+$p12: $y6 $x2;
+$p13: $y1 $x3;
+$p14: $y2 $x3;
+$p15: $y3 $x3;
+$p16: $y4 $x3;
+$p17: $y5 $x3;
+$p18: $y6 $x3;
+$p19: $y1 $x4;
+$p20: $y2 $x4;
+$p21: $y3 $x4;
+$p22: $y4 $x4;
+$p23: $y5 $x4;
+$p24: $y6 $x4;
+$p25: $y1 $x5;
+$p26: $y2 $x5;
+$p27: $y3 $x5;
+$p28: $y4 $x5;
+$p29: $y5 $x5;
+$p30: $y6 $x5;
+
+
+
+
 .color1 {color: $color1;}
 .color2 {color: $color2;}
 .color3 {color: $color3;}
@@ -466,8 +514,8 @@ Build the scene and rotate on hover
 }
 //? 
 .cat-1 {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p1;
 }
 //?
 .cat-2 {
@@ -476,136 +524,136 @@ Build the scene and rotate on hover
 //? geek
 .cat-3 {
     background-image: url('../images/geek.png');
-    background-position: -1px 0;
+    background-position: $p1;
 }
 
-//? animals 1
+//? animals p1
 .cat-4 {
     background-image: url('../images/animals.png');
-    background-position: -1px -1px;
+    background-position: $p1;
 }
 //?
 .cat-6 {
     
 }
-//? biere *3
+//? biere p3
 .cat-6 {
     background-image: url('../images/food-drink.png');
-    background-position: -530px -6px;
+    background-position: $p3;
 }
 // ? code
 .cat-7 {
       background-image: url('../images/code.png');
-      background-position: -5px -6px;
+      background-position: $p1;
 }
-//? php *3
+//? php p3
 .cat-8 {
     background-image: url('../images/code.png');
-    background-position: -5px -6px;
+    background-position: $p3;
 }
-//? symfony *4
+//? symfony p4
 .cat-9 {
-    background-position: -5px -6px;
+    background-position: $p4;
     background-image: url('../images/code.png');
 }
-//? WordPress *5
+//? WordPress p5
 .cat-10 {
-    background-position: -5px -6px;
+    background-position: $p5;
     background-image: url('../images/code.png');
 }
-//? Java script *2
+//? Java script p2
 .cat-11 {
     background-image: url('../images/code.png');
-    background-position: -5px -6px; 
+    background-position: $p2; 
 }
-//? React
+//? React p6
 .cat-12 {
      background-image: url('../images/code.png');
-     background-position: -5px -6px;
+     background-position: $p6;
 }
 //? html
 .cat-13 {
      background-image: url('../images/code.png');
-     background-position: -5px -6px;
+     background-position: $p1;
 }
 //? css
 .cat-14 {
      background-image: url('../images/code.png');
-     background-position: -5px -6px;
+     background-position: $p1;
 }
 //? Scss
 .cat-15 {
      background-image: url('../images/code.png');
-     background-position: -5px -6px;
+     background-position: $p1;
 }
-//? linux *2
+//? linux p2
 .cat-17 {
     background-image: url('../images/geek.png');
-    background-position: -263px 0;
+    background-position: $p2;
 }
-//? ios *4
+//? ios p4
 .cat-18 {
     background-image: url('../images/geek.png');
-    background-position: -5px -6px;
+    background-position: $p4;
 }
-//? windows *3
+//? windows p3
 .cat-19 {
-    background-position: -5px -6px;
-    background-image: url('../images/cine.png');
+    background-image: url('../images/geek.png');
+    background-position: $p3;
 }
 //? science-fiction
 .cat-20 {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p1;
 }
-//? thriller *2
+//? thriller p2
 .cat-23 {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p2;
 }
-//? comedie *3
+//? comedie p3
 .cat-24x {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p3;
 }
-//? horreur *4
+//? horreur p4
 .cat-25x {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p4;
 }
-//? animation *5
+//? animation p5
 .cat-26 {
-    background-position: -5px -6px;
     background-image: url('../images/cine.png');
+    background-position: $p5;
 }
 //? sucree 
 .cat-24 {
     background-image: url('../images/food-drink.png');
-    background-position: -5px -6px;
+    background-position: $p1;
 }
 //? salee 
 .cat-25 {
     background-image: url('../images/food-drink.png');
-    background-position: -266px -6px;
+    background-position: $p2;
 }
-//? animation *5
+//? animation p5
 .cat-26 {
     background-image: url('../images/cine.png');
-    background-position: -5px -6px;
+    background-position: $p5;
 }
 //? chimie
 .cat-27{
 background-image: url('../images/divers.png');
-    background-position: -5px -6px;
+    background-position: $p1;
 }
-//? histoire
+//? histoire p3
 .cat-28{
 background-image: url('../images/divers.png');
-    background-position: -265px -6px;
+    background-position: $p3;
 }
-//? religion
+//? religion p2
 .cat-29{
 background-image: url('../images/divers.png');
-    background-position: -266px -6px;
+    background-position: $p2;
 }
 
